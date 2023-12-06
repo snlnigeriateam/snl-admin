@@ -1,0 +1,43 @@
+<div>
+	<div *ngIf="!verifying" class="center-text center sect">
+		<h2 class="h2">Log In</h2>
+		<br><br>
+		<mat-form-field class="m-input" appearance="fill">
+			<mat-label>Enter your Username</mat-label>
+			<input type="text" matInput [(ngModel)]="username">
+		</mat-form-field>
+		<br><br>
+		<mat-form-field class="m-input" appearance="fill">
+			<mat-label>Enter your Password</mat-label>
+			<input type="password" matInput [(ngModel)]="password">
+		</mat-form-field>
+		<br><br>
+		<button class="button p-btn hov" mat-button>Log In</button>
+	</div>
+	<div *ngIf="verifying && !firstUse" class="center-text center sect">
+		<h2 class="h2">Two-Factor Authentication</h2>
+		<br><br>
+		<mat-form-field class="m-input" appearance="fill">
+			<mat-label>Enter your 2FA Code</mat-label>
+			<input type="text" matInput [(ngModel)]="code">
+		</mat-form-field>
+		<br><br>
+		<button class="button p-btn hov" mat-button>Verify Code</button>
+	</div>
+	<div *ngIf="verifying && firstUse" class="center-text center sect">
+		<h2 class="h2">Set up Authentication</h2>
+		<br><br>
+		<h3>
+			Scan the QR code with your preferred Authenticator App then fill in the code from your App in the field provided below.
+		</h3>
+		<div class="blank">
+			<!-- <img src="{{}}" alt="QR Code"> -->
+		</div>
+		<mat-form-field class="m-input" appearance="fill">
+			<mat-label>Enter the Code provided by your App</mat-label>
+			<input type="text" matInput [(ngModel)]="code">
+		</mat-form-field>
+		<br><br>
+		<button class="button p-btn hov" mat-button>Confirm</button>
+	</div>
+</div>

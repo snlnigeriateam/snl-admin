@@ -1,0 +1,22 @@
+@import 'variables.scss';
+
+.sect {
+    width: 50%;
+}
+
+.m-input {
+    width: 65%;
+}
+
+.p-btn {
+    padding: 20px 100px;
+    border-radius: 100px;
+}
+
+.blank {
+    height: 500px;
+    width: 500px;
+    display: block;
+    margin: 0 auto;
+    background-color: $light;
+}

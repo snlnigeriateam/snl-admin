@@ -1,19 +1,8 @@
 @import 'variables.scss';
 
 .footer {
-    background-color: $dark;
+    margin-top: 100px;
     padding: 70px 20px 100px 20px;
-}
-
-.footer-div {
-    color: $light;
-    margin: 20px 0px 0px 0px;
-    padding-bottom: 10px;
-    font-size: 14pt;
-    display: flex;
-    flex-direction: column;
-    align-content: flex-start;
-    align-items: flex-start;
 }
 
 .logo-div {
@@ -39,47 +28,21 @@
 
 .logo-text-span {
     margin-left: 5px;
-    font-size: 21pt;
+    font-size: 18pt;
     font-weight: 600;
-    color: $primary;
+    // color: $primary;
 }
 
-.links-div {
+.copy-text {
+    font-size: 18pt;
+    font-weight: 500;
+    margin: 0px 5px;
+}
+
+.footer-div {
     display: flex;
-    flex-direction: column;
-    width: 45%;
-    margin-top: 50px;
-}
-
-.c-1,
-.c-2,
-.c-3 {
-    margin-bottom: 50px;
-}
-
-.link {
-    margin: 10px 0px;
-    font-size: 12pt;
-}
-
-.link>a {
-    color: $light;
-}
-
-.link>a.p-link {
-    color: $primary;
-}
-
-.s-flex {
-    display: flex;
-}
-
-.social {
-    padding: 10px 15px 10px 10px;
-}
-
-.s-icon {
-    height: 30px;
+    align-items: center;
+    justify-content: center;
 }
 
 @media only screen and (max-width: 600px) {
@@ -129,30 +92,9 @@
         display: block;
     }
 
-    .footer-div {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
     .logo-div {
         padding-left: 100px;
     }
-
-    .links-div {
-        flex-direction: row;
-        justify-content: space-between;
-        margin-top: 0px;
-    }
-
-    .c-1,
-    .c-2,
-    .c-3 {
-        margin-bottom: 0px;
-    }
-
-    .social {
-    padding: 10px 15px;
-}
 }
 
 @media only screen and (min-width: 1200px) {
@@ -166,27 +108,7 @@
         display: block;
     }
 
-    .footer-div {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
     .logo-div {
         padding-left: 100px;
     }
-
-    .links-div {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
-    .c-1,
-    .c-2,
-    .c-3 {
-        margin-bottom: 0px;
-    }
-
-    .social {
-    padding: 10px 15px;
-}
 }
