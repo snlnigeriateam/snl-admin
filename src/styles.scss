@@ -1,0 +1,297 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+@import "snl-theme.scss";
+@import "variables.scss";
+
+@include angular-material-theme($my-theme);
+
+html,
+body {
+    height: 100%;
+}
+
+// @font-face {
+//     font-family: Bahnschrift;
+//     src: url(./assets/fonts/bahnschrift/BAHNSCHRIFT.TTF);
+// }
+
+body {
+    margin: 0;
+    // font-family: Bahnschrift, "Helvetica Neue", sans-serif;
+    font-family: 'Montserrat', sans-serif;
+}
+
+*, .mat-typography {
+    font-family: 'Montserrat', sans-serif;
+    // font-family: Bahnschrift, sans-serif;
+}
+
+a,
+.link-a {
+    color: $links;
+    text-decoration: none;
+}
+
+.alt-link-a {
+    color: $light;
+    text-decoration: none;
+}
+
+.alt-link-a:hover {
+    // text-decoration: underline;
+    cursor: pointer;
+}
+
+a:hover,
+.link-a:hover {
+    // text-decoration: underline;
+    cursor: pointer;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.center {
+    margin: 0 auto;
+    display: block;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.left-text {
+    text-align: left;
+}
+
+.right-text {
+    text-align: right;
+}
+
+.fl-right {
+    float: right;
+}
+
+.fl-left {
+    float: left;
+}
+
+.hov,
+.pointer {
+    cursor: pointer;
+}
+
+.primary {
+    color: $primary;
+}
+
+.dark {
+    color: $dark;
+}
+
+.secondary {
+    color: $secondary;
+}
+
+.primary {
+    color: $primary;
+}
+
+.danger {
+    color: $danger;
+}
+
+.warn {
+    color: $warn;
+}
+
+.success {
+    color: $success;
+}
+
+.grey-text {
+    color: $grey;
+}
+
+.p-light {
+    color: $p-light;
+}
+
+.p-dark {
+    color: $p-dark;
+}
+
+.s-light {
+    color: $s-light;
+}
+
+.s-dark {
+    color: $s-dark;
+}
+
+.dark {
+    color: $dark;
+}
+
+.light {
+    color: $light;
+}
+
+.bg-primary {
+    background-color: $primary;
+}
+
+.bg-secondary {
+    background-color: $secondary;
+}
+
+.bg-p-dark {
+    background-color: $p-dark;
+}
+
+.bg-p-light {
+    background-color: $p-light;
+}
+
+.bg-s-light {
+    background-color: $s-light;
+}
+
+.bg-s-dark {
+    background-color: $s-dark;
+}
+
+.br-primary {
+    border-color: $primary;
+}
+
+.br-secondary {
+    border-color: $secondary;
+}
+
+.br-p-light {
+    border-color: $p-light;
+}
+
+.br-p-dark {
+    border-color: $p-dark;
+}
+
+.br-s-light {
+    border-color: $s-light;
+}
+
+.br-s-dark {
+    border-color: $s-dark;
+}
+
+textarea,
+textarea.mat-input-element {
+    height: 10em;
+    resize: none;
+}
+
+.button {
+    padding: 15px 35px;
+    font-size: 16pt;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 30px;
+}
+
+.p-btn {
+    border-color: $primary;
+    background-color: $primary;
+    color: $light;
+}
+
+.l-btn {
+    border-color: $light;
+    background-color: $light;
+    color: $primary;
+}
+
+@media only screen and (max-width: 600px) {
+
+    //smaller mobile devices
+    .mobile {
+        display: block;
+    }
+
+    .desktop {
+        display: none;
+    }
+
+    .form-div {
+        width: 85%;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+
+    //small mobile devices
+    .mobile {
+        display: block;
+    }
+
+    .desktop {
+        display: none;
+    }
+
+    .form-div {
+        width: 80%;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+
+    //tablets
+    .mobile {
+        display: block;
+    }
+
+    .desktop {
+        display: none;
+    }
+
+    .form-div {
+        width: 70%;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+
+    //laptops and larger
+    .mobile {
+        display: none;
+    }
+
+    .desktop {
+        display: block;
+    }
+
+    .form-div {
+        width: 50%;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+
+    //laptops and larger
+    .mobile {
+        display: none;
+    }
+
+    .desktop {
+        display: block;
+    }
+
+    .form-div {
+        width: 50%;
+    }
+}

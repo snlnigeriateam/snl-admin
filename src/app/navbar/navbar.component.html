@@ -1,0 +1,59 @@
+<mat-drawer-container class="example-container mobile" [hasBackdrop]="true">
+	<mat-drawer autofocus="true" #drawer class="sidenav" mode="over">
+		<div class="right-text">
+			<button mat-icon-button color="warn" (click)="drawer.toggle()">
+				<mat-icon>
+					<span class="icon material-symbols-outlined">close</span>
+				</mat-icon>
+			</button>
+		</div>
+		<div class="center-text side-logo">
+			SNL Nigeria
+		</div>
+		<div class="mobile-nav">
+			<span (click)="drawer.toggle()" class="mobile-nav-item"><a [routerLink]="['/team']">Our team</a></span>
+			<span (click)="drawer.toggle()" class="mobile-nav-item"><a [routerLink]="['/contact']">Contact</a></span>
+		</div>
+	</mat-drawer>
+	<mat-drawer-content>
+		<mat-toolbar color="accent" class="mobile-flex">
+			<div [routerLink]="['/']" class="pointer">
+				<div class="s1">
+					<div class="img-div">
+						<span class="img-span">
+							<img src="/assets/icon-white.png" alt="SNL Logo" [routerLink]="['/']" class="logo pointer">
+						</span>
+					</div>
+					<span class="text-span hov" [routerLink]="['/']">SNL Nigeria</span>
+				</div>
+			</div>
+			<button mat-icon-button (click)="drawer.toggle()">
+				<mat-icon>
+					<span class="icon material-symbols-outlined">menu</span>
+				</mat-icon>
+			</button>
+		</mat-toolbar>
+	</mat-drawer-content>
+</mat-drawer-container>
+<div class="navbar-div">
+	<div class="desktop">
+		<mat-toolbar color="accent" class="flex navbar">
+			<div class="s1">
+				<div class="img-div">
+					<span class="img-span">
+						<img src="/assets/icon-white.png" alt="SNL Logo" [routerLink]="['/']" class="logo pointer">
+					</span>
+				</div>
+				<span class="text-span hov" [routerLink]="['/']">SNL Nigeria</span>
+			</div>
+			<div>
+				<span class="nav-item"><a [routerLink]="['/team']">Our team</a></span>
+				<!-- <span class="nav-item"><a [routerLink]="['/']"> Careers</a></span> -->
+				<span class="nav-item">
+					<button [routerLink]="['/contact']" class="button p-btn hov">Contact</button>
+				</span>
+				<!-- <span class="nav-item"><a [routerLink]="['/contact']">Contact</a></span> -->
+			</div>
+		</mat-toolbar>
+	</div>
+</div>

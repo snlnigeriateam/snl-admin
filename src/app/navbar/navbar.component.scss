@@ -1,0 +1,179 @@
+@import "variables.scss";
+
+.nav-item {
+    padding-right: 40px;
+    font-size: 14pt;
+    // font-weight: 500;
+}
+
+.nav-item a {
+    color: $grey;
+    padding-bottom: 3px;
+    transition: border-bottom 0.25s;
+}
+
+.nav-item a:hover {
+    // animation: uline 0.5s forwards;
+    border-bottom: 2px solid black;
+}
+
+// @keyframes uline {
+//     from {
+//         border-bottom: none;
+//     }
+
+//     to {
+//         border-bottom: 2px solid black;
+//     }
+// }
+
+.mobile-nav-item{
+    margin: 40px 15px;
+    display: block;
+    font-size: 16pt;
+    font-weight: 500;
+}
+
+.mobile-nav-item > a {
+    color: $light;
+}
+
+.mat-toolbar {
+    background-color: $light;
+    height: 125px;
+}
+
+.s1 {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.img-div {
+    height: 30px;
+    width: 30px;
+    // margin-top: 20px;
+    margin-right: 5px;
+    border-radius: 50%;
+    padding: 10px;
+    background-color: $primary;
+}
+
+.text-span {
+    margin-right: 30px;
+    font-size: 18pt;
+    font-weight: 600;
+    align-self: center;
+}
+
+.logo {
+    height: 100%;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mobile-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mobile-logo {
+    height: 100%;
+}
+
+.mobile-img-span {
+    height: 80%;
+    padding-right: 5px;
+}
+
+.logo-text {
+    font-size: 26pt;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.admin-toolbar {
+    background-color: #deb887;
+    justify-content: flex-end;
+
+    a {
+        color: black;
+    }
+}
+
+.side-logo {
+    font-size: 24pt;
+    color: $primary;
+}
+
+.icon {
+    font-size: 18pt;
+}
+
+.sidenav {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: $dark;
+    color: #ffffff;
+}
+
+@media only screen and (max-width: 600px){
+    //smaller mobile devices
+    .mobile {
+        display: block;
+    }
+
+    .desktop {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 600px){
+    //small mobile devices
+    .mobile {
+        display: block;
+    }
+
+    .desktop {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 768px){
+    //tablets
+    .mobile {
+        display: block;
+    }
+
+    .desktop {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 992px){
+    //laptops and larger
+    .mobile {
+        display: none;
+    }
+
+    .desktop {
+        display: block;
+    }
+}
+
+@media only screen and (min-width: 1200px){
+    //laptops and larger
+    .mobile {
+        display: none;
+    }
+
+    .desktop {
+        display: block;
+    }
+}
