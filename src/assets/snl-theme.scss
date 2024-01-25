@@ -1,5 +1,6 @@
 // http://mcg.mbitson.com/
 // https://stackoverflow.com/questions/41440998/how-can-i-use-custom-theme-palettes-in-angular
+@use '@angular/material' as mat;
 
 $md-primary: (
     50 : #f9e8e7,
@@ -100,12 +101,16 @@ $md-warn: (
     )
 );
 
-$my-theme-primary: mat-palette($md-primary);
-$my-theme-accent: mat-palette($md-accent);
-$my-theme-warn: mat-palette($md-warn);
+$my-theme-primary: mat.define-palette($md-primary);
+$my-theme-accent: mat.define-palette($md-accent);
+$my-theme-warn: mat.define-palette($md-warn);
 
-$my-theme: mat-light-theme(
-    $my-theme-primary,
-    $my-theme-accent,
-    $my-theme-warn
-);
+$my-theme: mat.define-light-theme((
+    color: (
+        primary: $my-theme-primary,
+        accent: $my-theme-accent,
+        warn: $my-theme-warn
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+));
