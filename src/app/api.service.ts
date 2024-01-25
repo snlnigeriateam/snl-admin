@@ -21,19 +21,28 @@ export class ApiService {
         this.token = localStorage.getItem('token');
         if (this.token) {
             if (method === 'post') {
-                return this.http.post(`${this.api}/snl/snlng/${path}`, body, { headers: { Authorization: `Bearer ${this.token}` } });
+                return this.http.post(`${this.api}/snlg/${path}`, body, { headers: { Authorization: `Bearer ${this.token}` } });
             }
             else {
-                return this.http.get(`${this.api}/snl/snlng/${path}`, { headers: { Authorization: `Bearer ${this.token}` } });
+                return this.http.get(`${this.api}/snlg/${path}`, { headers: { Authorization: `Bearer ${this.token}` } });
             }
         }
         else {
             if (method === 'post') {
-                return this.http.post(`${this.api}/snl/snlng/${path}`, body);
+                return this.http.post(`${this.api}/snlg/${path}`, body);
             }
             else {
-                return this.http.get(`${this.api}/snl/snlng/${path}`);
+                return this.http.get(`${this.api}/snlg/${path}`);
             }
+        }
+    }
+
+    userRequest(path: string, method: string, body?: any): Observable<any> {
+        if (method === 'post') {
+            return this.http.post(`${this.api}/${path}`, body);
+        }
+        else {
+            return this.http.get(`${this.api}/${path}`);
         }
     }
 
@@ -41,18 +50,18 @@ export class ApiService {
         this.token = localStorage.getItem('token');
         if (this.token) {
             if (method === 'post') {
-                return this.http.post(`${this.api}/snl/snlng/${path}`, body, { headers: { Authorization: `Bearer ${this.token}` }, responseType: 'blob' as 'json' });
+                return this.http.post(`${this.api}/snlg/${path}`, body, { headers: { Authorization: `Bearer ${this.token}` }, responseType: 'blob' as 'json' });
             }
             else {
-                return this.http.get(`${this.api}/snl/snlng/${path}`, { headers: { Authorization: `Bearer ${this.token}` }, responseType: 'blob' as 'json' });
+                return this.http.get(`${this.api}/snlg/${path}`, { headers: { Authorization: `Bearer ${this.token}` }, responseType: 'blob' as 'json' });
             }
         }
         else {
             if (method === 'post') {
-                return this.http.post(`${this.api}/snl/snlng/${path}`, body);
+                return this.http.post(`${this.api}/snlg/${path}`, body);
             }
             else {
-                return this.http.get(`${this.api}/snl/snlng/${path}`);
+                return this.http.get(`${this.api}/snlg/${path}`);
             }
         }
     }

@@ -7,11 +7,11 @@ export class AddressService {
 	// SERVER_ADDRESS: string = 'https://space-park.herokuapp.com';
 	// SITE_ADDRESS: string = 'https://spacepark.com';
 
-	SERVER_ADDRESS: string = "https://space-park.herokuapp.com";
-	SITE_ADDRESS: string = "https://stirring-crepe-d2b5cf.netlify.app";
+	// SERVER_ADDRESS: string = "https://space-park.herokuapp.com";
+	// SITE_ADDRESS: string = "https://stirring-crepe-d2b5cf.netlify.app";
 
-	// SERVER_ADDRESS: string = 'http://192.168.0.125:7022';
-	// SITE_ADDRESS: string = "http://192.168.0.125:7100";
+	SERVER_ADDRESS: string = 'http://192.168.0.124:9100';
+	SITE_ADDRESS: string = "http://192.168.0.124:9700";
 	SUPPORT_EMAIL: string = "support@snlglobal.net";
 	SECURE_KEY: string = "FLWSECK-";
 

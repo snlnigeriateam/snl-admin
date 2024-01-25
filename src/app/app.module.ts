@@ -20,6 +20,9 @@ import { FooterComponent } from './footer/footer.component';
 import { TeamComponent } from './team/team.component';
 import { ContactComponent } from './contact/contact.component';
 import { LoginComponent } from './login/login.component';
+import { AlertsComponent } from './alerts/alerts.component';
+import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import { LoginComponent } from './login/login.component';
     FooterComponent,
     TeamComponent,
     ContactComponent,
-    LoginComponent
+    LoginComponent,
+    AlertsComponent,
+    AlertDialogComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
