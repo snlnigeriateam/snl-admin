@@ -14,9 +14,57 @@
 }
 
 .blank {
-    height: 500px;
-    width: 500px;
+    width: 80%;
     display: block;
-    margin: 0 auto;
+    margin: 100px auto;
     background-color: $light;
+}
+
+.h2 {
+    font-size: 32px;
+}
+
+.qrcode {
+    width: 100%;
+}
+
+
+@media only screen and (max-width: 600px) {
+
+    //smaller mobile devices
+    .blank {
+        width: 80%;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+
+    //small mobile devices
+    .blank {
+        width: 80%;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+
+    //tablets
+    .blank {
+        width: 60%;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+
+    //laptops and larger
+    .blank {
+        width: 50%;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+
+    //laptops and larger
+    .blank {
+        width: 40%;
+    }
 }

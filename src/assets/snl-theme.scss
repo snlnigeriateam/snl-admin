@@ -1,6 +1,7 @@
 // http://mcg.mbitson.com/
 // https://stackoverflow.com/questions/41440998/how-can-i-use-custom-theme-palettes-in-angular
 @use '@angular/material' as mat;
+@include mat.core();
 
 $md-primary: (
     50 : #f9e8e7,

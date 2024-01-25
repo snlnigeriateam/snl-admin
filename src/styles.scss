@@ -5,8 +5,9 @@
 @import "snl-theme.scss";
 @import "variables.scss";
 
-@include mat.core-theme($my-theme);
-@include mat.button-theme($my-theme);
+// @include mat.core-theme($my-theme);
+@include mat.all-component-themes($my-theme);
+// @include mat.button-theme($my-theme);
 
 html,
 body {

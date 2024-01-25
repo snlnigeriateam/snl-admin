@@ -10,6 +10,8 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatIconModule } from "@angular/material/icon";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +25,7 @@ import { LoginComponent } from './login/login.component';
 import { AlertsComponent } from './alerts/alerts.component';
 import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     LoginComponent,
     AlertsComponent,
     AlertDialogComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    LoadingComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,9 +53,11 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     MatSidenavModule,
     MatIconModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
   ],
-  providers: [],
+  providers: [AlertsComponent, ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
