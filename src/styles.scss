@@ -194,7 +194,7 @@ a:hover,
 }
 
 textarea,
-textarea.mat-input-element {
+textarea.mat-mdc-input-element {
     height: 10em;
     resize: none;
 }
@@ -217,6 +217,11 @@ textarea.mat-input-element {
     border-color: $light;
     background-color: $light;
     color: $primary;
+}
+
+.mat-toolbar.mat-accent {
+    --mat-toolbar-container-background-color: $light;
+    --mat-toolbar-container-text-color: $dark;
 }
 
 @media only screen and (max-width: 600px) {
