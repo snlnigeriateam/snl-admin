@@ -74,7 +74,11 @@ export class LoginComponent implements OnInit {
 
 					if (data.success) {
 						localStorage.setItem('token', data.token);
+						let full_name = `${data.f_name} ${data.l_name}`;
+						localStorage.setItem('name', full_name);
+						localStorage.setItem('tier', data.tier);
 						this.alerts.alert("Logged In!", false);
+						location.assign(`${this.address.SITE_ADDRESS}/home`);
 					}
 					else {
 						this.alerts.alert(data.reason, true);
@@ -100,7 +104,11 @@ export class LoginComponent implements OnInit {
 
 					if (data.success) {
 						localStorage.setItem('token', data.token);
+						let full_name = `${data.f_name} ${data.l_name}`;
+						localStorage.setItem('name', full_name);
+						localStorage.setItem('tier', data.tier);
 						this.alerts.alert("Logged In!", false);
+						location.assign(`${this.address.SITE_ADDRESS}/home`);
 					}
 					else {
 						this.alerts.alert(data.reason, true);

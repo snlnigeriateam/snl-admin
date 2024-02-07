@@ -26,6 +26,8 @@ import { AlertsComponent } from './alerts/alerts.component';
 import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { LoadingComponent } from './loading/loading.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { LoadingComponent } from './loading/loading.component';
     AlertDialogComponent,
     ConfirmDialogComponent,
     LoadingComponent,
+    DashboardComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,

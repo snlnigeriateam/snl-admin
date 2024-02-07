@@ -46,13 +46,14 @@
 				</div>
 				<span class="text-span hov" [routerLink]="['/']">SNL Nigeria</span>
 			</div>
-			<div>
-				<span class="nav-item"><a [routerLink]="['/team']">Our team</a></span>
-				<!-- <span class="nav-item"><a [routerLink]="['/']"> Careers</a></span> -->
+			<div *ngIf="loggedIn">
+				<span class="nav-item">{{full_name}}</span>
 				<span class="nav-item">
-					<button [routerLink]="['/contact']" class="button p-btn hov">Contact</button>
+					<button mat-icon-button>
+						<mat-icon color="primary">settings</mat-icon>
+					  </button>
 				</span>
-				<!-- <span class="nav-item"><a [routerLink]="['/contact']">Contact</a></span> -->
+				<!-- <span class="nav-item"><a [routerLink]="['/team']">Our team</a></span> -->
 			</div>
 		</mat-toolbar>
 	</div>

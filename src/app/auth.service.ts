@@ -33,4 +33,12 @@ export class AuthService {
 			mfa: true
 		});
 	}
+
+	loggedIn(): Observable<any> {
+		return this.request.request('logged-in', 'get');
+	}
+
+	loadDashboard(): Observable<any> {
+		return this.request.request('dashboard', 'get');
+	}
 }
