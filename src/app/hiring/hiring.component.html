@@ -1,7 +1,6 @@
 <div class="dash">
 	<div *ngFor="let item of items" class="dash-card" (click)="nav(item.url)">
 		<div class="card-icon-div">
-			<!-- <mat-icon class="dash-icon" fontIcon="diversity_2">diversity_2</mat-icon> -->
 			<img src="/assets/dash/{{item.icon}}" alt="Icon showing {{item.title}}" class="dash-img">
 		</div>
 		<br>
@@ -14,4 +13,3 @@
 		</div>
 	</div>
 </div>
-<!-- Queries, Staff, Hiring: groups -->

@@ -1,0 +1,32 @@
+.pad {
+    padding-right: 50px;
+}
+
+.rounds-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dash-card {
+    width: 200px;
+}
+
+.round-content {
+    padding: 10px 0px;
+}
+
+.round-head {
+    font-size: 14pt;
+    font-weight: 600;
+}
+
+.round-sub {
+    font-size: 12pt;
+}
+
+.round-foot {
+    font-size: 12pt;
+}

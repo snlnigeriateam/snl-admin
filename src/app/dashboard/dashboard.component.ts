@@ -68,4 +68,8 @@ export class DashboardComponent {
 			}
 		});
 	}
+
+	nav(url: string){
+		this.router.navigate([url]);
+	}
 }

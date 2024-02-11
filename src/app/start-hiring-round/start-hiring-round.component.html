@@ -1,0 +1,40 @@
+<div *ngIf="!pageLoading">
+	<div class="center-text center sect">
+		<h2 class="h2">Create Hiring Round</h2>
+		<br><br>
+		<mat-form-field class="m-input" appearance="fill" color="primary">
+			<mat-label>Name</mat-label>
+			<input type="text" matInput [(ngModel)]="name">
+		</mat-form-field>
+		<br><br>
+		<mat-form-field class="m-input">
+			<mat-label>Start Date</mat-label>
+			<input matInput [matDatepicker]="picker" [value]="start_date" [min]="min_date" (dateChange)="addEvent('input', $event)">
+			<mat-hint>DD/MM/YYYY</mat-hint>
+			<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+			<mat-datepicker #picker></mat-datepicker>
+		</mat-form-field>
+		<br><br>
+		<mat-form-field class="m-input" appearance="fill" color="primary">
+			<mat-label>Duration</mat-label>
+			<input type="number" matInput [(ngModel)]="duration">
+		</mat-form-field>
+		<br><br>
+		<mat-form-field class="m-input" appearance="fill" color="primary">
+			<mat-label>Open Positions</mat-label>
+			<mat-select [multiple]="true" [(value)]="sel_pos">
+				@for (position of positions; track position) {
+				<mat-option [value]="position.p_id">{{position.name}}</mat-option>
+				}
+			</mat-select>
+		</mat-form-field>
+		<br><br>
+		<button *ngIf="!createLoading" class="button p-btn hov" (click)="validate()" mat-raised-button
+			color="primary">Create Round</button>
+		<app-loading *ngIf="createLoading"></app-loading>
+	</div>
+</div>
+<div *ngIf="pageLoading">
+	<br><br>
+	<app-loading></app-loading>
+</div>

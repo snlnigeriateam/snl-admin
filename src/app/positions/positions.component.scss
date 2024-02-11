@@ -1,0 +1,25 @@
+.pad {
+    padding-right: 50px;
+}
+
+.pos-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dash-card {
+    width: 200px;
+}
+
+.pos-head {
+    font-size: 18pt;
+    font-weight: 600;
+}
+
+.pos-sub {
+    font-size: 14pt;
+    font-style: italic;
+}

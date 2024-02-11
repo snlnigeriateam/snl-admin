@@ -41,10 +41,10 @@
 			<div class="s1">
 				<div class="img-div">
 					<span class="img-span">
-						<img src="/assets/icon-white.png" alt="SNL Logo" [routerLink]="['/']" class="logo pointer">
+						<img src="/assets/icon-white.png" alt="SNL Logo" [routerLink]="loggedIn ? ['/home'] : ['/']" class="logo pointer">
 					</span>
 				</div>
-				<span class="text-span hov" [routerLink]="['/']">SNL Nigeria</span>
+				<span class="text-span hov" [routerLink]="loggedIn ? ['/home'] : ['/']">SNL Nigeria</span>
 			</div>
 			<div *ngIf="loggedIn">
 				<span class="nav-item">{{full_name}}</span>

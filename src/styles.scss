@@ -225,6 +225,29 @@ textarea.mat-mdc-input-element {
     --mat-toolbar-container-text-color: $dark;
 }
 
+
+.dash-card {
+    margin: 30px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px;
+    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+    // border: 1px solid #d3d3d3;
+}
+
+.dash-card:hover {
+    cursor: pointer;
+}
+
+.dash-card:active {
+    transform: scale(0.98);
+    border: none;
+    /* Scaling box to 0.98 to its original size */
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+    /* Lowering the shadow */
+}
+
 @media only screen and (max-width: 600px) {
 
     //smaller mobile devices

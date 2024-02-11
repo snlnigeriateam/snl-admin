@@ -1,0 +1,18 @@
+<div *ngIf="!pageLoading">
+	<h2 class="center-text">SNL Nigeria Staff Positions</h2>
+	<div class="right-text pad">
+		<button [routerLink]="['/hiring', 'create-position']" mat-fab color="primary" aria-label="Icon Button with an add icon">
+			<mat-icon>add</mat-icon>
+		</button>
+	</div>
+	<div class="pos-div">
+		<div *ngFor="let pos of positions" class="dash-card">
+			<span class="pos-head">{{pos.name}}</span>
+			<span class="pos-sub primary">{{pos.unique ? "Single" : "Multiple"}}</span>
+		</div>
+	</div>
+</div>
+<div *ngIf="pageLoading">
+	<br><br>
+	<app-loading></app-loading>
+</div>
