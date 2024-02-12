@@ -33,25 +33,29 @@ export class HiringRoundsComponent {
 		this.load();
 	}
 
-	load(){
+	load() {
 		this.pageLoading = true;
 		this.hService.loadHiringRounds().subscribe({
-			next: (data)=>{
+			next: (data) => {
 				this.pageLoading = false;
 
-				for(let i = 0; i<data.rounds.length; i++){
+				for (let i = 0; i < data.rounds.length; i++) {
 					let c_round = data.rounds[i];
 
 					c_round.start_date = new Date(c_round.start_date);
 					c_round.end_date = new Date(c_round.end_date);
 				}
-				
+
 				this.rounds = data.rounds;
 			},
-			error: ()=>{
+			error: () => {
 				this.pageLoading = false;
 				this.alerts.alert("Please check your connection", true);
 			}
 		});
+	}
+
+	nav(r_id: string) {
+		this.router.navigate(['/hiring', 'hiring-rounds', r_id]);
 	}
 }

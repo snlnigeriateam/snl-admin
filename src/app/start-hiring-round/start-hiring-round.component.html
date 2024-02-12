@@ -104,14 +104,6 @@
 					does not discriminate on any bases. Candidates who meet
 					the qualifications stated below are encouraged to fill out the Application Form.
 				</div>
-				<!-- <mat-form-field class="m-input">
-					<mat-label>Start Date</mat-label>
-					<input matInput [matDatepicker]="picker" [value]="start_date" [min]="min_date"
-						(dateChange)="addEvent('input', $event)">
-					<mat-hint>DD/MM/YYYY</mat-hint>
-					<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-					<mat-datepicker #picker></mat-datepicker>
-				</mat-form-field> -->
 				<div *ngFor="let comp of segments[c_seg].compartments" class="{{comp.format}}" innerHTML="{{comp.html}}"></div>
 			</div>
 		</div>

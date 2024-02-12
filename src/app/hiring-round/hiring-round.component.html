@@ -1,1 +1,44 @@
-<p>hiring-round works!</p>
+<div *ngIf="!pageLoading">
+	<div *ngIf="loaded">
+		<div class="center sect posting-card">
+			<h2 class="h2 center-text">{{round.name}}</h2>
+			<div *ngIf="round.open" class="right-text">
+				<button *ngIf="!closeLoading" class="button p-btn hov" (click)="confirmClose()" mat-raised-button
+					color="warn">Close Hiring Round</button>
+				<app-loading *ngIf="closeLoading"></app-loading>
+			</div>
+			<br><br>
+			<div *ngIf="round.open" class="stat">
+				Round Status: <span class="success">Open</span>
+			</div>
+			<div *ngIf="!round.open" class="stat">
+				Round Status: <span class="error">Closed</span>
+			</div>
+			<br><br>
+			<div class="italic primary">
+				<span (click)="copyUrl()" class="hov">{{round.url}}</span>
+			</div>
+			<br><br>
+			<div class="content">
+				<span class="bold">Start Date:</span> {{round.start_date}}
+			</div>
+			<br><br>
+			<div class="content">
+				<span class="bold">End Date:</span> {{round.end_date}}
+			</div>
+			<br><br>
+			<h3 class="center-text">Job Posting Content</h3>
+			<div *ngFor="let position of round.positions">
+				<div class="f2">
+					{{position.name}}
+				</div>
+				<div *ngFor="let seg of position.segments" class="{{seg.format}}" innerHTML="{{seg.text}}"></div>
+				<hr>
+			</div>
+		</div>
+	</div>
+</div>
+<div *ngIf="pageLoading">
+	<br><br>
+	<app-loading></app-loading>
+</div>

@@ -10,7 +10,7 @@
 		</button>
 	</div>
 	<div class="rounds-div">
-		<div *ngFor="let round of rounds" class="dash-card">
+		<div *ngFor="let round of rounds" class="dash-card" (click)="nav(round.r_id)">
 			<span class="round-content round-head">{{round.name}}</span>
 			<span class="round-content round-sub-head center-text italic">{{round.open ? "Available" : "Unavailable"}}</span>
 			<span class="round-content round-foot"><span class="bold">Start Date</span>: {{utilities.dateFn((round.start_date), false)}}</span>
