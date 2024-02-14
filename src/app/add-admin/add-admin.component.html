@@ -1,0 +1,73 @@
+<div *ngIf="pageLoading">
+	<br><br>
+	<app-loading></app-loading>
+	<br><br>
+</div>
+<div *ngIf="!pageLoading" class="center-text center sect">
+	<h2 class="h2">Add Personnel</h2>
+	<br><br>
+	<mat-form-field class="m-input" appearance="fill" color="primary">
+		<mat-label>Username</mat-label>
+		<input type="text" matInput [(ngModel)]="username" autocomplete="off">
+	</mat-form-field>
+	<br><br>
+	<mat-form-field class="m-input" appearance="fill" color="primary">
+		<mat-label>First Name</mat-label>
+		<input type="text" matInput [(ngModel)]="f_name" autocomplete="off">
+	</mat-form-field>
+	<br><br>
+	<mat-form-field class="m-input" appearance="fill" color="primary">
+		<mat-label>Last Name</mat-label>
+		<input type="text" matInput [(ngModel)]="l_name" autocomplete="off">
+	</mat-form-field>
+	<br><br>
+	<mat-form-field class="m-input" appearance="fill" color="primary">
+		<mat-label>Personal Email</mat-label>
+		<input type="email" matInput [(ngModel)]="p_email" autocomplete="off">
+	</mat-form-field>
+	<br><br>
+	<div class="m-input flex center">
+		<mat-form-field class="h-input" appearance="fill" color="primary">
+			<mat-label>Corporate Email</mat-label>
+			<input type="email" matInput [(ngModel)]="c_email" autocomplete="off">
+		</mat-form-field>
+		<div class="float">
+			&#64;snlnigeria.org
+		</div>
+	</div>
+	<br>
+	<mat-form-field class="m-input" appearance="fill" color="primary">
+		<mat-label>Preferred Email</mat-label>
+		<mat-select [(value)]="c_email_preferred">
+			<mat-option [value]="true">Corporate Email</mat-option>
+			<mat-option [value]="false">Personal Email</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<br><br>
+	<mat-form-field class="m-input" appearance="fill" color="primary">
+		<mat-label>Phone Number</mat-label>
+		<input type="text" matInput [(ngModel)]="phone" autocomplete="off">
+	</mat-form-field>
+	<br><br>
+	<mat-form-field class="m-input" appearance="fill" color="primary">
+		<mat-label>Position</mat-label>
+		<mat-select [(value)]="p_id">
+			@for (position of positions; track position) {
+			<mat-option [value]="position.p_id">{{position.name}}</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
+	<br><br>
+	<mat-form-field class="m-input" appearance="fill" color="primary">
+		<mat-label>Access Level</mat-label>
+		<mat-select [(value)]="tier">
+			@for (role of roles; track role) {
+			<mat-option [value]="role.tier">{{role.name}}</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
+	<br><br>
+	<button *ngIf="!createLoading" class="button p-btn hov" (click)="validate()" mat-raised-button
+		color="primary">Provision Account</button>
+	<app-loading *ngIf="createLoading"></app-loading>
+</div>

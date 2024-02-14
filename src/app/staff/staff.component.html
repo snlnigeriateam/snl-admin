@@ -1,0 +1,43 @@
+<div *ngIf="pageLoading">
+	<br><br>
+	<app-loading></app-loading>
+	<br><br>
+</div>
+<div *ngIf="loaded">
+	<h2 class="center-text">SNL Nigeria Staff</h2>
+	<div class="right-text pad">
+		<button [routerLink]="['/staff', 'add-personnel']" mat-fab color="primary"
+			aria-label="Icon Button with an add icon">
+			<mat-icon>add</mat-icon>
+		</button>
+	</div>
+	<div class="person" *ngFor="let user of users">
+		<div class="l-user">
+			<div class="avatar-div">
+				<img src="/assets/person.png" alt="Icon of a person" class="icon-img">
+			</div>
+			<div>
+				<div class="head">{{user.f_name}} {{user.l_name}}</div>
+				<div class="sub-head">{{user.role}}</div>
+			</div>
+		</div>
+		<div class="r-user">
+			<div>
+				<div class="content right-text">
+					<a href="mailto:{{user.email}}">{{user.email}}</a>
+				</div>
+				<div class="content right-text">
+					<a href="mailto:{{user.c_email}}">{{user.c_email}}</a>
+				</div>
+			</div>
+			<div class="right-text">
+				<div>
+					<mat-icon class="content hov" (click)="copy(user.email)" color="primary">content_copy</mat-icon>
+				</div>
+				<div>
+					<mat-icon class="content hov" (click)="copy(user.c_email)" color="primary">content_copy</mat-icon>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

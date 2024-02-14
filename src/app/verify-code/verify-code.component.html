@@ -1,0 +1,28 @@
+<div class="center-text center sect">
+	<h2 class="h2">SNL Nigeria | Onboarding</h2>
+	<br><br>
+	<mat-form-field class="m-input" appearance="fill" color="primary">
+		<mat-label>Enter your Username</mat-label>
+		<input type="text" matInput [(ngModel)]="username">
+	</mat-form-field>
+	<br><br>
+	<mat-form-field class="m-input" appearance="fill" color="primary">
+		<mat-label>Enter your Authorisation Code</mat-label>
+		<input type="text" matInput [(ngModel)]="code" autocomplete="one-time-code">
+		<mat-hint>This was sent to your preferred email</mat-hint>
+	</mat-form-field>
+	<br><br>
+	<mat-form-field class="m-input" appearance="fill" color="primary">
+		<mat-label>Create a Password</mat-label>
+		<input type="password" matInput [(ngModel)]="password" autocomplete="new-password">
+		<mat-hint>Your Password must be at least eight (8) characters long and must contain a mix of letters and numbers</mat-hint>
+	</mat-form-field>
+	<br><br><br>
+	<mat-form-field class="m-input" appearance="fill" color="primary">
+		<mat-label>Confirm Password</mat-label>
+		<input type="password" (keyup.enter)="validate()" matInput [(ngModel)]="c_pass" autocomplete="new-password">
+	</mat-form-field>
+	<br><br>
+	<button *ngIf="!verifyLoading" class="button p-btn hov" (click)="validate()" mat-raised-button color="primary">Set Password</button>
+	<app-loading *ngIf="verifyLoading"></app-loading>
+</div>

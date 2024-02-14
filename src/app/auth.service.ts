@@ -11,6 +11,14 @@ export class AuthService {
 		private request: ApiService
 	) { }
 
+	verifyCode(code: string, username: string, password: string): Observable<any> {
+		return this.request.request('verify-code', 'post', {
+			code: code,
+			username: username,
+			password: password
+		});
+	}
+
 	loginPre(username: string, password: string): Observable<any> {
 		return this.request.request('login', 'post', {
 			username: username,

@@ -39,6 +39,9 @@ import { StartHiringRoundComponent } from './start-hiring-round/start-hiring-rou
 import { PositionsComponent } from './positions/positions.component';
 import { CreatePositionComponent } from './create-position/create-position.component';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import { StaffComponent } from './staff/staff.component';
+import { AddAdminComponent } from './add-admin/add-admin.component';
+import { VerifyCodeComponent } from './verify-code/verify-code.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +64,9 @@ import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
     StartHiringRoundComponent,
     PositionsComponent,
     CreatePositionComponent,
+    StaffComponent,
+    AddAdminComponent,
+    VerifyCodeComponent,
   ],
   imports: [
     BrowserModule,

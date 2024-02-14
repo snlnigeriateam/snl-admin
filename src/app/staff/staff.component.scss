@@ -1,0 +1,60 @@
+.pad {
+    padding-right: 50px;
+}
+
+.content {
+    line-height: 1.5em;
+}
+
+.head {
+    font-size: 14pt;
+    font-weight: 600;
+    line-height: 1.5em;
+}
+
+.sub-head {
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 1.5em;
+}
+
+.content {
+    font-size: 12pt;
+    line-height: 1.5em;
+}
+
+.person {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 2px solid grey;
+    margin: 30px 10px;
+}
+
+.l-user {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.r-user {
+    padding-right: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.avatar-div {
+    // width: 100px;
+    // height: 100px;
+    // border-radius: 50%;
+    padding: 10px;
+}
+
+.icon-img {
+    display: block;
+    margin: 0 auto;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
