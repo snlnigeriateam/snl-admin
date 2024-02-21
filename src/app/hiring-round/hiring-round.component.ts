@@ -4,6 +4,7 @@ import { AlertsComponent } from '../alerts/alerts.component';
 import { HiringService } from '../hiring.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { UtilitiesService } from '../utilities.service';
+import { Title } from '@angular/platform-browser';
 
 interface Round {
 	name: string,
@@ -56,7 +57,8 @@ export class HiringRoundComponent {
 		private alerts: AlertsComponent,
 		private hService: HiringService,
 		private clipboard: Clipboard,
-		private utilities: UtilitiesService
+		private utilities: UtilitiesService,
+		private title: Title
 	) {
 		this.r_id = this.router.parseUrl(this.router.url).root.children['primary'].segments[2].path;
 		this.load();
@@ -89,6 +91,7 @@ export class HiringRoundComponent {
 					}
 
 					this.round = c_round;
+					this.title.setTitle(`${this.round.name} - Hiring | SNL Nigeria Insiders`);
 					this.pageLoading = false;
 					this.loaded = true;
 				}
@@ -136,5 +139,9 @@ export class HiringRoundComponent {
 				this.alerts.alert("Please check your connection", true);
 			}
 		});
+	}
+
+	view() {
+		this.router.navigate(['/hiring', 'hiring-rounds', this.r_id, 'applications']);
 	}
 }

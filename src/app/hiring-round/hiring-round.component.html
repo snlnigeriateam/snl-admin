@@ -2,10 +2,16 @@
 	<div *ngIf="loaded">
 		<div class="center sect posting-card">
 			<h2 class="h2 center-text">{{round.name}}</h2>
-			<div *ngIf="round.open" class="right-text">
+			<div *ngIf="round.open" class="flex">
+				<button class="button p-btn hov" (click)="view()" mat-raised-button
+					color="primary">View Applications</button>
 				<button *ngIf="!closeLoading" class="button p-btn hov" (click)="confirmClose()" mat-raised-button
 					color="warn">Close Hiring Round</button>
 				<app-loading *ngIf="closeLoading"></app-loading>
+			</div>
+			<div *ngIf="!round.open" class="center-text">
+				<button class="button p-btn hov" (click)="view()" mat-raised-button
+					color="primary">View Applications</button>
 			</div>
 			<br><br>
 			<div *ngIf="round.open" class="stat">

@@ -69,4 +69,10 @@ export class HiringService {
 			r_id: r_id
 		});
 	}
+
+	loadApplications(r_id: string): Observable<any> {
+		return this.request.request('hiring/load-applications', 'post', {
+			r_id: r_id
+		});
+	}
 }

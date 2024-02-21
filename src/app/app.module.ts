@@ -42,6 +42,7 @@ import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { StaffComponent } from './staff/staff.component';
 import { AddAdminComponent } from './add-admin/add-admin.component';
 import { VerifyCodeComponent } from './verify-code/verify-code.component';
+import { ApplicationsComponent } from './applications/applications.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { VerifyCodeComponent } from './verify-code/verify-code.component';
     StaffComponent,
     AddAdminComponent,
     VerifyCodeComponent,
+    ApplicationsComponent,
   ],
   imports: [
     BrowserModule,

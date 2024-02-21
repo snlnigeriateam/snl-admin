@@ -1,0 +1,41 @@
+<h2 class="h2 center-text">{{round_name}} | Applications</h2>
+<div *ngIf="pageLoading">
+	<br><br>
+	<app-loading></app-loading>
+</div>
+<div *ngIf="loaded" class="{{viewing ? 'flex' : 'block'}}">
+	<div class="{{viewing ? 'apps-div' : 'applications-div'}}">
+		<div *ngFor="let application of applications; index as i" class="dash-card" (click)="nav(i)">
+			<span class="application-content application-head">{{application.l_name}}, {{application.f_name}}
+				{{application.o_name}}</span>
+			<span class="application-content application-sub-head center-text italic">{{application.ref_id}}</span>
+			<span class="application-content application-foot"><span class="bold">Applied On</span>:
+				{{utilities.dateFn((application.applied_on), false)}}</span>
+		</div>
+	</div>
+	<div *ngIf="viewing" class="view-div">
+		<div class="right-text">
+			<button mat-icon-button aria-label="Close Icon button" (click)="viewing = false">
+				<mat-icon color="warn">close</mat-icon>
+			</button>
+		</div>
+		<div class="view-div-content">
+			<div class="btn-div center-text">
+				<button class="button p-btn hov" (click)="download()" mat-raised-button color="primary">Download Application
+					Document</button>
+			</div>
+			<br><br>
+			<div class="view-head">{{selApp.l_name}}, {{selApp.f_name}} {{selApp.o_name}}</div>
+			<div class="view-content"><span class="bold">Position</span>: {{selApp.p_id}}</div>
+			<div class="view-content"><span class="bold">Applied On</span>: {{utilities.dateFn((selApp.applied_on),
+				false)}}</div>
+			<div class="view-content"><span class="bold">Email Address</span>: <span class="primary hov"
+					(click)="copyAdd()">{{selApp.email}}</span></div>
+			<div class="view-content"><span class="bold">Phone Number</span>: <span class="primary hov"
+					(click)="copyPhone()">{{selApp.phone}}</span></div>
+			<div class="view-content"><span class="bold">Reference Number</span>: {{selApp.ref_id}}</div>
+			<div class="view-content"><span class="bold">Address</span>: {{selApp.address}}</div>
+		</div>
+
+	</div>
+</div>
