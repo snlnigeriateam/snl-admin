@@ -75,4 +75,22 @@ export class HiringService {
 			r_id: r_id
 		});
 	}
+
+	inviteToInterview(a_id: string, date: string, time: string, platform: string, link: string): Observable<any> {
+		return this.request.request('hiring/invite', 'post', {
+			a_id: a_id,
+			date: date,
+			time: time,
+			platform: platform,
+			link: link
+		});
+	}
+
+	rejectApplicant(a_id: string, position: string, reason: string): Observable<any> {
+		return this.request.request('hiring/reject-application', 'post', {
+			a_id: a_id,
+			position: position,
+			reason: reason
+		});
+	}
 }

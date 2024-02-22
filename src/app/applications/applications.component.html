@@ -21,7 +21,8 @@
 		</div>
 		<div class="view-div-content">
 			<div class="btn-div center-text">
-				<button class="button p-btn hov" (click)="download()" mat-raised-button color="primary">Download Application
+				<button class="button p-btn hov" (click)="download()" mat-raised-button color="primary">Download
+					Application
 					Document</button>
 			</div>
 			<br><br>
@@ -35,7 +36,73 @@
 					(click)="copyPhone()">{{selApp.phone}}</span></div>
 			<div class="view-content"><span class="bold">Reference Number</span>: {{selApp.ref_id}}</div>
 			<div class="view-content"><span class="bold">Address</span>: {{selApp.address}}</div>
+			<br><br>
+			<div class="flex" *ngIf="!editing && !selApp.invited && !selApp.rejected">
+				<div class="btn-div center-text">
+					<button class="button s-btn hov" (click)="invite()" mat-raised-button color="primary">Invite to
+						Interview</button>
+				</div>
+				<div class="btn-div center-text">
+					<button class="button s-btn hov" (click)="reject()" mat-raised-button color="warn">Reject
+						Application</button>
+				</div>
+			</div>
+			<div *ngIf="editing" class="center-text">
+				<br><br>
+				<div class="right-text">
+					<button mat-icon-button aria-label="Close Icon button" (click)="stopEditing()">
+						<mat-icon color="warn">close</mat-icon>
+					</button>
+				</div>
+				<div *ngIf="inviting">
+					<mat-form-field class="m-input" appearance="fill" color="primary">
+						<mat-label>Interview Date</mat-label>
+						<input type="text" matInput [(ngModel)]="date">
+					</mat-form-field>
+					<br><br>
+					<mat-form-field class="m-input" appearance="fill" color="primary">
+						<mat-label>Interview Time (WAT)</mat-label>
+						<input type="text" matInput [(ngModel)]="time">
+					</mat-form-field>
+					<br><br>
+					<mat-form-field class="m-input" appearance="fill" color="primary">
+						<mat-label>Interview Platform</mat-label>
+						<mat-select [(value)]="platform">
+							<mat-option [value]="'Google Meet'">Google Meet</mat-option>
+							<mat-option [value]="'Zoom'">Zoom</mat-option>
+						</mat-select>
+					</mat-form-field>
+					<br><br>
+					<mat-form-field class="m-input" appearance="fill" color="primary">
+						<mat-label>Meeting Link</mat-label>
+						<input type="text" matInput [(ngModel)]="link">
+					</mat-form-field>
+					<br><br>
+					<div *ngIf="!updateLoading" class="btn-div center-text">
+						<button class="button p-btn hov" (click)="validateInvite()" mat-raised-button
+							color="primary">Invite to Interview</button>
+					</div>
+					<div *ngIf="updateLoading">
+						<app-loading></app-loading>
+					</div>
+				</div>
+				<div *ngIf="!inviting">
+					<mat-form-field class="m-input" appearance="fill" color="primary">
+						<mat-label>Provide a Reason for Rejection</mat-label>
+						<textarea type="text" matInput [(ngModel)]="reason"></textarea>
+						<mat-hint>The Email body is pre-filled. Only include essential information for why the Applicant
+							was rejected</mat-hint>
+					</mat-form-field>
+					<br><br><br><br>
+					<div *ngIf="!updateLoading" class="btn-div center-text">
+						<button class="button p-btn hov" (click)="validateRejection()" mat-raised-button
+							color="warn">Reject Application</button>
+					</div>
+					<div *ngIf="updateLoading">
+						<app-loading></app-loading>
+					</div>
+				</div>
+			</div>
 		</div>
-
 	</div>
 </div>
