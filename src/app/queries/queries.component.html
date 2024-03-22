@@ -1,0 +1,41 @@
+<h2 class="h2 center-text">Support Queries</h2>
+<div *ngIf="pageLoading">
+	<br><br>
+	<app-loading></app-loading>
+</div>
+<div *ngIf="loaded" class="{{viewing ? 'flex' : 'block'}}">
+	<div class="{{viewing ? 'apps-div' : 'queries-div'}}">
+		<div *ngFor="let query of queries; index as i" class="dash-card" (click)="nav(i)">
+			<span class="query-content query-head">{{query.name}}</span>
+			<span class="query-content query-sub-head center-text italic">{{query.q_id}}</span>
+			<span class="query-content query-foot"><span class="bold">Made On</span>:
+				{{utilities.dateFn((query.on), false)}}</span>
+		</div>
+	</div>
+	<div *ngIf="viewing" class="view-div">
+		<div class="right-text">
+			<button mat-icon-button aria-label="Close Icon button" (click)="viewing = false">
+				<mat-icon color="warn">close</mat-icon>
+			</button>
+		</div>
+		<div class="view-div-content">
+			<div class="view-head">{{selQuery.name}}</div>
+			<div class="view-content"><span class="bold">Query ID</span>: {{selQuery.q_id}}</div>
+			<div class="view-content"><span class="bold">Resolved</span>: {{selQuery.resolved}}</div>
+			<div class="view-content"><span class="bold">Date of Inquiry</span>: {{utilities.dateFn((selQuery.on),
+				false)}}</div>
+			<div class="view-content"><span class="bold">Nature of Inquiry</span>: {{selQuery.nature_val}}</div>
+			<div class="view-content"><span class="bold">Email Address</span>: <span class="primary hov"
+					(click)="copyAdd()">{{selQuery.email}}</span></div>
+			<div class="view-content"><span class="bold">Phone Number</span>: <span class="primary hov"
+					(click)="copyPhone()">{{selQuery.phone}}</span></div>
+			<div class="view-content"><span class="bold">Assigned</span>: {{selQuery.assigned}}</div>
+			<div class="view-content"><span class="bold">Assigned To</span>: {{selQuery.assigned_to}}</div>
+			<div class="view-content"><span class="bold">Website</span>: {{selQuery.website}}</div>
+			<br><br>
+			<div class="left-text">
+				{{selQuery.query}}
+			</div>
+		</div>
+	</div>
+</div>

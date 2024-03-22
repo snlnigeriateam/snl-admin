@@ -12,6 +12,7 @@ import { StaffComponent } from './staff/staff.component';
 import { AddAdminComponent } from './add-admin/add-admin.component';
 import { VerifyCodeComponent } from './verify-code/verify-code.component';
 import { ApplicationsComponent } from './applications/applications.component';
+import { QueriesComponent } from './queries/queries.component';
 //TODO: Guards
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent, },
@@ -25,7 +26,8 @@ const routes: Routes = [
   { path: 'hiring/hiring-rounds/:r_id', component: HiringRoundComponent, title: "Hiring Round - Hiring | SNL Nigeria Insiders" },
   { path: 'hiring/hiring-rounds/:r_id/applications', component: ApplicationsComponent, title: "Hiring Round Applications - Hiring | SNL Nigeria Insiders" },
   { path: 'staff', component: StaffComponent, title: 'Staff | SNL Nigeria Insiders' },
-  { path: 'staff/add-personnel', component: AddAdminComponent, title: 'Add Personnel | SNL Nigeria Insiders' }
+  { path: 'staff/add-personnel', component: AddAdminComponent, title: 'Add Personnel | SNL Nigeria Insiders' },
+  { path: 'support', component: QueriesComponent, title: 'Support Queries | SNL Nigeria Insiders'},
 ];
 
 @NgModule({

@@ -43,6 +43,7 @@ import { StaffComponent } from './staff/staff.component';
 import { AddAdminComponent } from './add-admin/add-admin.component';
 import { VerifyCodeComponent } from './verify-code/verify-code.component';
 import { ApplicationsComponent } from './applications/applications.component';
+import { QueriesComponent } from './queries/queries.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { ApplicationsComponent } from './applications/applications.component';
     AddAdminComponent,
     VerifyCodeComponent,
     ApplicationsComponent,
+    QueriesComponent,
   ],
   imports: [
     BrowserModule,

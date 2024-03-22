@@ -1,0 +1,83 @@
+.pad {
+    padding-right: 50px;
+}
+
+.queries-div, .apps-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.apps-div {
+    width: 60%;
+}
+
+.p-btn {
+    padding: 20px 30px;
+    border-radius: 25px;
+}
+
+.s-btn {
+    padding: 20px 30px;
+    border-radius: 7px;
+}
+
+.dash-card {
+    width: 200px;
+}
+
+.query-content {
+    padding: 10px 0px;
+}
+
+.query-head {
+    font-size: 14pt;
+    font-weight: 600;
+}
+
+.query-sub {
+    font-size: 12pt;
+}
+
+.query-foot {
+    font-size: 12pt;
+}
+
+.flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.block {
+    display: block;
+}
+
+.view-div {
+    width: 40%;
+    border: 2px solid black;
+}
+
+.view-div-content {
+    padding: 30px;
+    margin: 20px;
+}
+
+.view-head {
+    font-size: 16pt;
+    line-height: 1.5em;
+    font-weight: 500;
+    margin: 25px 0px;
+}
+
+.view-content {
+    font-size: 14pt;
+    line-height: 1.5em;
+    margin: 20px 0px;
+}
+
+.m-input {
+    width: 95%;
+}
