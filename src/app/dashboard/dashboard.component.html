@@ -1,16 +1,21 @@
-<div class="dash">
-	<div *ngFor="let item of items" class="dash-card" (click)="nav(item.url)">
-		<div class="card-icon-div">
-			<!-- <mat-icon class="dash-icon" fontIcon="diversity_2">diversity_2</mat-icon> -->
-			<img src="/assets/dash/{{item.icon}}" alt="Icon showing {{item.title}}" class="dash-img">
-		</div>
-		<br>
-		<div class="card-heading">
-			{{item.title}}
-		</div>
-		<br>
-		<div class="card-subheading">
-			{{item.subtitle}}
+<div>
+	<div class="margin">
+		<app-loading *ngIf="pageLoading"></app-loading>
+	</div>
+	<div *ngIf="pageLoaded" class="dash">
+		<div *ngFor="let item of displayItems" class="dash-card" (click)="nav(item.url)">
+			<div class="card-icon-div">
+				<!-- <mat-icon class="dash-icon" fontIcon="diversity_2">diversity_2</mat-icon> -->
+				<img src="/assets/dash/{{item.icon}}" alt="Icon showing {{item.title}}" class="dash-img">
+			</div>
+			<br>
+			<div class="card-heading">
+				{{item.title}}
+			</div>
+			<br>
+			<div class="card-subheading">
+				{{item.subtitle}}
+			</div>
 		</div>
 	</div>
 </div>

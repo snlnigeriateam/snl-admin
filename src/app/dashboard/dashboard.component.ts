@@ -20,6 +20,8 @@ export class DashboardComponent {
 	pageLoading: boolean = false;
 	pageLoaded: boolean = false;
 
+	displayItems: Array<DashItem> = [];
+
 	items: Array<DashItem> = [
 		{
 			icon: 'icon-1.png',
@@ -53,8 +55,23 @@ export class DashboardComponent {
 		this.pageLoading = true;
 		this.auth.loadDashboard().subscribe({
 			next: (data) => {
+				this.pageLoading = false;
 				if (data.success) {
 					let a_data = data.admin_data;
+					
+					let tier = a_data.tier;
+
+					this.displayItems.push(this.items[1]);
+					
+					if(tier < 3){
+						this.displayItems.push(this.items[0]);
+					}
+
+					if(tier < 2){
+						this.displayItems.push(this.items[2]);
+					}
+					
+					this.pageLoaded = true;
 				}
 				else if (data.login) {
 					this.router.navigate(['/']);
@@ -64,12 +81,13 @@ export class DashboardComponent {
 				}
 			},
 			error: () => {
+				this.pageLoading = false;
 				this.alerts.alert("An Error occured. Please Contact Tech Support", true);
 			}
 		});
 	}
 
-	nav(url: string){
+	nav(url: string) {
 		this.router.navigate([url]);
 	}
 }
