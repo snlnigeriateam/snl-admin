@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit {
 	checkLoggedIn() {
 		let route = location.pathname;
 		
-		if(route !== '/'){
+		if(route !== '/' && route !== '/onboarding'){
 			this.authService.loggedIn().subscribe({
 				next: (data)=>{
 					if(data.login){
