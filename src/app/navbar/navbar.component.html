@@ -49,7 +49,7 @@
 			<div *ngIf="loggedIn">
 				<span class="nav-item">{{full_name}}</span>
 				<span class="nav-item">
-					<button mat-icon-button>
+					<button mat-icon-button [routerLink]="['/settings']">
 						<mat-icon color="primary">settings</mat-icon>
 					  </button>
 				</span>

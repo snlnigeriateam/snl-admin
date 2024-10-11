@@ -1,0 +1,75 @@
+@import 'variables.scss';
+
+.margin {
+    margin-top: 100px;
+}
+
+.sect {
+    width: 50%;
+}
+
+.m-input {
+    width: 65%;
+}
+
+.toggle {
+    display: flex;
+    justify-content: center;
+}
+
+.slide {
+    margin-left: 20px;
+}
+
+.p-btn {
+    padding: 20px 100px;
+    border-radius: 100px;
+}
+
+.textarea {
+    height: 15em;
+}
+
+.profile-circle {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    margin: 0 auto;
+    border: 2px solid $primary;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.profile-icon {
+    height: 150px;
+    width: 150px;
+    font-size: 150px;
+    color: $p-dark;
+}
+
+.profile-photo {
+    height: 180px;
+    width: 180px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+
+.edit-icon {
+    color: $s-dark;
+    height: 25px;
+    width: 25px;
+    font-size: 25px;
+    position: absolute;
+    bottom: 5px;
+}
+
+.edit-icon:hover {
+    color: $grey;
+}
+
+input[type="file"] {
+    display: none;
+}

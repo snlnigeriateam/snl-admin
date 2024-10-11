@@ -58,19 +58,19 @@ export class DashboardComponent {
 				this.pageLoading = false;
 				if (data.success) {
 					let a_data = data.admin_data;
-					
+
 					let tier = a_data.tier;
 
 					this.displayItems.push(this.items[1]);
-					
-					if(tier < 3){
+
+					if (tier < 3) {
 						this.displayItems.push(this.items[0]);
 					}
 
-					if(tier < 2){
+					if (tier < 2) {
 						this.displayItems.push(this.items[2]);
 					}
-					
+
 					this.pageLoaded = true;
 				}
 				else if (data.login) {

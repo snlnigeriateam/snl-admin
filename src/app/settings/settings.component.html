@@ -1,1 +1,70 @@
-<p>settings works!</p>
+<div>
+    <!-- hello -->
+    <div class="margin">
+        <app-loading *ngIf="pageLoading"></app-loading>
+    </div>
+    <div *ngIf="pageLoaded" class="center-text center sect">
+        <h2 class="h2">Settings</h2>
+        <br><br>
+        <div class="profile-circle">
+            <mat-icon *ngIf="person.uri.prop.length === 0" fontIcon="account_box" class="profile-icon"></mat-icon>
+            <img *ngIf="person.uri.prop.length !== 0" src="{{person.uri.prop}}" alt="Profile photo of {{person.f_name.prop}}" class="profile-photo">
+            <mat-icon *ngIf="!uploadLoading" fontIcon="edit" (click)="selectFile()" class="edit-icon hov"></mat-icon>
+            <mat-spinner *ngIf="uploadLoading" [diameter]="20" [strokeWidth]="3" class="edit-icon"></mat-spinner>
+            <input type="file" accept=".jpg,.jpeg,.png" id="file-upload" (change)="uploadFile($event)">
+        </div>
+        <br><br>
+        <input type="file" name="" id="">
+        <mat-form-field class="m-input" appearance="fill" color="primary">
+            <mat-label>First Name</mat-label>
+            <input type="text" matInput autocomplete="given-name" [(ngModel)]="person.f_name.prop"
+                disabled="{{!person.f_name.editable}}">
+        </mat-form-field>
+        <br><br>
+        <mat-form-field class="m-input" appearance="fill" color="primary">
+            <mat-label>Last Name</mat-label>
+            <input type="text" matInput autocomplete="family-name" [(ngModel)]="person.l_name.prop"
+                disabled="{{!person.l_name.editable}}">
+        </mat-form-field>
+        <br><br>
+        <mat-form-field class="m-input" appearance="fill" color="primary">
+            <mat-label>Username</mat-label>
+            <input type="text" matInput autocomplete="username" [(ngModel)]="person.username.prop"
+                disabled="{{!person.username.editable}}">
+        </mat-form-field>
+        <br><br>
+        <mat-form-field class="m-input" appearance="fill" color="primary">
+            <mat-label>Corporate Email</mat-label>
+            <input type="email" matInput [(ngModel)]="person.c_email.prop" disabled="{{!person.c_email.editable}}">
+        </mat-form-field>
+        <br><br>
+        <mat-form-field class="m-input" appearance="fill" color="primary">
+            <mat-label>Personal Email</mat-label>
+            <input type="email" matInput autocomplete="email" [(ngModel)]="person.p_email.prop"
+                disabled="{{!person.p_email.editable}}">
+        </mat-form-field>
+        <br><br>
+        <mat-form-field class="m-input" appearance="fill" color="primary">
+            <mat-label>Phone Number</mat-label>
+            <input type="tel" matInput autocomplete="tel" [(ngModel)]="person.phone.prop"
+                disabled="{{!person.phone.editable}}">
+        </mat-form-field>
+        <br><br>
+        <mat-form-field class="m-input" appearance="fill" color="primary">
+            <mat-label>Role</mat-label>
+            <input type="text" matInput [(ngModel)]="person.role.prop" disabled="{{!person.role.editable}}">
+        </mat-form-field>
+        <br><br>
+        <div class="toggle">
+            <label for="c_email_preferred" class="hov" (click)="c_email_preferred = !c_email_preferred">Corporate Email
+                Preferred</label>
+            <mat-slide-toggle name="c_email_preferred" id="c_email_preferred" class="slide"
+                [(ngModel)]="c_email_preferred"></mat-slide-toggle>
+        </div>
+        <!-- </mat-form-field> -->
+        <br><br>
+        <button *ngIf="!updateLoading" class="button p-btn hov" (click)="validate()" mat-raised-button
+            color="primary">Save Changes</button>
+        <app-loading *ngIf="updateLoading"></app-loading>
+    </div>
+</div>
