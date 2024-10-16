@@ -26,11 +26,11 @@ export class NavbarComponent implements OnInit {
 
 	checkLoggedIn() {
 		let route = location.pathname;
-		
-		if(route !== '/' && route !== '/onboarding'){
+
+		if (route !== '/' && route !== '/onboarding') {
 			this.authService.loggedIn().subscribe({
-				next: (data)=>{
-					if(data.login){
+				next: (data) => {
+					if (data.login) {
 						this.loggedIn = false;
 						this.router.navigate(['/']);
 					}
@@ -38,11 +38,16 @@ export class NavbarComponent implements OnInit {
 						this.loggedIn = true;
 					}
 				},
-				error: ()=>{},
+				error: () => { },
 			});
 		}
 		else {
 			this.loggedIn = false;
 		}
+	}
+
+	logout() {
+		localStorage.setItem('token', "");
+		this.router.navigate(['/']);
 	}
 }

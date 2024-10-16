@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
 	username: string = "";
 	password: string = "";
 	code: string = "";
+	obscurePassword: boolean = true;
 
 	verifying: boolean = false;
 	firstUse: boolean = false;
@@ -60,6 +61,10 @@ export class LoginComponent implements OnInit {
 				}
 			});
 		}
+	}
+
+	toggleObscurity() {
+		this.obscurePassword = !this.obscurePassword;
 	}
 
 	validate() {

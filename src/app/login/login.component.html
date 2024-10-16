@@ -9,7 +9,10 @@
 		<br><br>
 		<mat-form-field class="m-input" appearance="fill">
 			<mat-label>Enter your Password</mat-label>
-			<input type="password" (keyup.enter)="login()" matInput [(ngModel)]="password">
+			<input type="{{obscurePassword ? 'password' : 'text'}}" (keyup.enter)="login()" matInput [(ngModel)]="password">
+			<button mat-icon-button matSuffix (click)="toggleObscurity()">
+				<mat-icon>{{obscurePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+			</button>
 		</mat-form-field>
 		<br><br>
 		<button *ngIf="!loading" class="button p-btn hov" (click)="login()" mat-raised-button color="primary">Log In</button>

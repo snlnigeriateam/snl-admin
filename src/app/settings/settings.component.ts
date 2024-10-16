@@ -35,6 +35,14 @@ export class SettingsComponent {
 	person!: Person;
 	c_email_preferred: boolean = true;
 
+	c_pass: string = '';
+	n_pass: string = '';
+	confirm_pass: string = '';
+
+	obscureCurrent: boolean = true;
+	obscureNew: boolean = true;
+	obscureConf: boolean = true;
+
 	constructor(
 		private sService: SettingsService,
 		private router: Router,
@@ -111,10 +119,10 @@ export class SettingsComponent {
 	validate() {
 		let wsp = /^\s*$/;
 
-		if(!this.person.f_name.prop || !this.person.l_name.prop || !this.person.p_email.prop){
+		if (!this.person.f_name.prop || !this.person.l_name.prop || !this.person.p_email.prop) {
 			this.alerts.alert("All fields are required", true);
 		}
-		else if(wsp.test(this.person.f_name.prop) || wsp.test(this.person.l_name.prop) || wsp.test(this.person.p_email.prop)){
+		else if (wsp.test(this.person.f_name.prop) || wsp.test(this.person.l_name.prop) || wsp.test(this.person.p_email.prop)) {
 			this.alerts.alert("All fields are required", true);
 		}
 		else {
@@ -182,5 +190,100 @@ export class SettingsComponent {
 				}
 			}
 		}
+	}
+
+	toggleVisibilityCurrent() {
+		this.obscureCurrent = !this.obscureCurrent;
+	}
+
+	toggleVisibilityNew() {
+		this.obscureNew = !this.obscureNew;
+	}
+
+	toggleVisibilityConfirm() {
+		this.obscureConf = !this.obscureConf;
+	}
+
+	validatePassword() {
+		let wsp = /^\s*$/;
+
+		if (!this.c_pass || !this.n_pass || !this.confirm_pass) {
+			this.alerts.alert("All fields are required", true);
+		}
+		else if (wsp.test(this.c_pass) || wsp.test(this.n_pass) || wsp.test(this.confirm_pass)) {
+			this.alerts.alert("All fields are required", true);
+		}
+		else if (this.n_pass !== this.confirm_pass) {
+			this.alerts.alert("Your New Password and Confirmation do not match", true);
+		}
+		else if (!this.checkPassword(this.n_pass)) {
+			this.alerts.alert("Your Password must be at least eight (8) characters long and must contain a combination of letters and numbers", true);
+		}
+		else {
+			this.updateLoading = true;
+			this.sService.updatePassword(this.c_pass, this.n_pass).subscribe({
+				next: (data) => {
+					this.updateLoading = false;
+
+					if (data.success) {
+						this.alerts.alert("Password Updated. Please log in with your new password", false);
+						localStorage.setItem('token', "");
+						this.router.navigate(['/']);
+					}
+					else {
+						this.alerts.alert(data.reason, true);
+					}
+				},
+				error: () => {
+					this.updateLoading = false;
+					this.alerts.alert("Please check your connection", true);
+				}
+			});
+		}
+	}
+
+	resetMFA() {
+		this.alerts.confirm("Confirm MFA Reset").then((confirmed) => {
+			if (confirmed) {
+				this.updateLoading = true;
+				this.sService.resetMFA().subscribe({
+					next: (data) => {
+						this.updateLoading = false;
+
+						if (data.success) {
+							this.alerts.alert("MFA Reset. Please log in once more", false);
+							localStorage.setItem('token', "");
+							this.router.navigate(['/']);
+						}
+						else {
+							this.alerts.alert(data.reason, true);
+						}
+					},
+					error: () => {
+						this.updateLoading = false;
+						this.alerts.alert("Please check your connection", true);
+					}
+				});
+			}
+		}).catch(e => {
+			this.alerts.alert("An error occured", true);
+		});
+	}
+
+	checkPassword(password: string) {
+		let valid = true;
+		let l_pat = /[a-zA-Z]/;
+		let d_pat = /\d/;
+
+		if (password.length < 8) {
+			valid = false;
+		}
+		if (!l_pat.test(password)) {
+			valid = false;
+		}
+		if (!d_pat.test(password)) {
+			valid = false;
+		}
+		return valid;
 	}
 }

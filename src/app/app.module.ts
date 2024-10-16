@@ -15,6 +15,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSlideToggle } from "@angular/material/slide-toggle";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatSelectModule } from "@angular/material/select";
+import { MatTabsModule } from "@angular/material/tabs";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 
 import { AppRoutingModule } from './app-routing.module';
@@ -91,6 +92,7 @@ import { QueriesComponent } from './queries/queries.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
+    MatTabsModule,
     ClipboardModule,
   ],
   providers: [AlertsComponent, { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
