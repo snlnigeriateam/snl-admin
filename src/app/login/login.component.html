@@ -46,7 +46,7 @@
 		</div>
 		<mat-form-field class="m-input" appearance="fill">
 			<mat-label>Enter the Code provided by your App</mat-label>
-			<input type="text" (keyup.enter)="validate()" matInput [(ngModel)]="code">
+			<input type="number" (keyup.enter)="validate()" matInput [(ngModel)]="code">
 		</mat-form-field>
 		<br><br>
 		<button *ngIf="!loading" class="button p-btn hov" (click)="validate()" mat-raised-button color="primary">Confirm</button>
