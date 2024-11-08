@@ -38,6 +38,12 @@
 		<div class="blank">
 			<img src="{{qr_code}}" alt="QR Code" class="qrcode">
 		</div>
+		<div class="key-div">
+			Can't scan the code? Use this setup key:
+			<br>
+			<span (click)="copySetupKey()" class="hov primary">{{code_to_display}}</span>
+			<span class="primary">&nbsp;&nbsp;<mat-icon>content_copy</mat-icon></span>
+		</div>
 		<mat-form-field class="m-input" appearance="fill">
 			<mat-label>Enter the Code provided by your App</mat-label>
 			<input type="text" (keyup.enter)="validate()" matInput [(ngModel)]="code">

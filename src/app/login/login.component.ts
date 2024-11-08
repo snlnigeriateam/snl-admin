@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { AddressService } from '../address.service';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
 	selector: 'app-login',
@@ -16,6 +17,8 @@ export class LoginComponent implements OnInit {
 	username: string = "";
 	password: string = "";
 	code: string = "";
+	code_to_copy: string = "";
+	code_to_display: string = "";
 	obscurePassword: boolean = true;
 
 	verifying: boolean = false;
@@ -24,7 +27,8 @@ export class LoginComponent implements OnInit {
 	constructor(
 		private auth: AuthService,
 		private alerts: AlertsComponent,
-		private address: AddressService
+		private address: AddressService,
+		private clipboard: Clipboard
 	) { }
 
 	ngOnInit(): void {
@@ -47,6 +51,11 @@ export class LoginComponent implements OnInit {
 						this.verifying = true;
 						if (data.first_use) {
 							this.firstUse = true;
+							this.code_to_copy = data.code_to_copy;
+							for(let i = 0; i<this.code_to_copy.length; i += 4){
+								this.code_to_display += this.code_to_copy.slice(i, i+4);
+								this.code_to_display += " ";
+							}
 							this.qr_code = data.code;
 							localStorage.setItem('token', data.token);
 						}
@@ -65,6 +74,15 @@ export class LoginComponent implements OnInit {
 
 	toggleObscurity() {
 		this.obscurePassword = !this.obscurePassword;
+	}
+
+	copySetupKey() {
+		if (this.code_to_copy.length > 0) {
+			let copied = this.clipboard.copy(this.code_to_copy);
+			if (copied) {
+				this.alerts.alert("Setup Key Copied to Clipboard", false);
+			}
+		}
 	}
 
 	validate() {

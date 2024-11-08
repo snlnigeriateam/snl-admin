@@ -16,7 +16,7 @@
 .blank {
     width: 80%;
     display: block;
-    margin: 100px auto;
+    margin: 100px auto 50px auto;
     background-color: $light;
 }
 
@@ -26,6 +26,13 @@
 
 .qrcode {
     width: 100%;
+}
+
+.key-div {
+    margin-bottom: 30px;
+    width: 90%;
+    padding: 10px;
+    line-height: 1.5em;
 }
 
 
