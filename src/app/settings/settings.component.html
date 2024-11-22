@@ -4,7 +4,7 @@
             <div *ngIf="pageLoaded" class="center-text center sect">
                 <h2 class="h2">Settings | Personal Information</h2>
                 <br><br>
-                <div class="profile-circle">
+                <div *ngIf="!croppingImage" class="profile-circle">
                     <mat-icon *ngIf="person.uri.prop.length === 0" fontIcon="account_box"
                         class="profile-icon"></mat-icon>
                     <img *ngIf="person.uri.prop.length !== 0" src="{{person.uri.prop}}"
@@ -13,10 +13,21 @@
                         class="edit-icon hov"></mat-icon>
                     <mat-spinner *ngIf="uploadLoading" [diameter]="20" [strokeWidth]="3"
                         class="edit-icon"></mat-spinner>
-                    <input type="file" accept=".jpg,.jpeg,.png" id="file-upload" (change)="uploadFile($event)">
+                    <input type="file" accept=".jpg,.jpeg,.png" id="file-upload" (change)="fileChangeEvent($event)">
+                </div>
+                <div *ngIf="croppingImage" class="profile-crop-circle">
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                        [roundCropper]="true" format="png" (imageCropped)="imageCropped($event)"
+                        (imageLoaded)="imageLoaded($event)" (cropperReady)="cropperReady()"
+                        (loadImageFailed)="loadImageFailed()"></image-cropper>
                 </div>
                 <br><br>
-                <input type="file" name="" id="">
+                <div *ngIf="croppingImage" class="crop-actions">
+                    <mat-icon fontIcon="cancel" (click)="cropCanceled()"
+                        class="crop-icon crop-icon-left hov"></mat-icon>
+                    <mat-icon fontIcon="check_circle" (click)="cropCompleted()"
+                        class="crop-icon crop-icon-right hov"></mat-icon>
+                </div>
                 <mat-form-field class="m-input" appearance="fill" color="primary">
                     <mat-label>First Name</mat-label>
                     <input type="text" matInput autocomplete="given-name" [(ngModel)]="person.f_name.prop"
@@ -112,7 +123,8 @@
             <div *ngIf="pageLoaded" class="center-text center sect">
                 <h2 class="h2">Settings | Reset MFA</h2>
                 <br><br>
-                <h3 class="h3">Do you want to reset your Multi-Factor Authentication? This would require you to log in again</h3>
+                <h3 class="h3">Do you want to reset your Multi-Factor Authentication? This would require you to log in
+                    again</h3>
                 <button *ngIf="!updateLoading" class="button p-btn hov" (click)="resetMFA()" mat-raised-button
                     color="primary">Reset</button>
                 <app-loading *ngIf="updateLoading"></app-loading>

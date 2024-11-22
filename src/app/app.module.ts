@@ -45,6 +45,7 @@ import { AddAdminComponent } from './add-admin/add-admin.component';
 import { VerifyCodeComponent } from './verify-code/verify-code.component';
 import { ApplicationsComponent } from './applications/applications.component';
 import { QueriesComponent } from './queries/queries.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { QueriesComponent } from './queries/queries.component';
     MatSelectModule,
     MatTabsModule,
     ClipboardModule,
+    ImageCropperModule
   ],
   providers: [AlertsComponent, { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent]

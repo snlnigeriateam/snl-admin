@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { SettingsService } from '../settings.service';
+import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+import { DomSanitizer } from '@angular/platform-browser';
 
 interface Property {
 	prop: string;
@@ -23,7 +25,7 @@ interface Person {
 @Component({
 	selector: 'app-settings',
 	templateUrl: './settings.component.html',
-	styleUrl: './settings.component.scss'
+	styleUrl: './settings.component.scss',
 })
 
 export class SettingsComponent {
@@ -42,6 +44,12 @@ export class SettingsComponent {
 	obscureCurrent: boolean = true;
 	obscureNew: boolean = true;
 	obscureConf: boolean = true;
+
+	//cropping images
+	imageChangedEvent: any = '';
+	croppedImage: any = '';
+	croppedImageBlob!: Blob;
+	croppingImage: boolean = false;
 
 	constructor(
 		private sService: SettingsService,
@@ -152,44 +160,30 @@ export class SettingsComponent {
 		}
 	}
 
-	uploadFile(ev: any) {
-		if (ev.target) {
-			let fList: FileList = ev.target.files;
-			if (fList.length > 0) {
-				let size = fList[0].size;
-				if (size > 5242880) {
-					this.alerts.alert("Your file must be less than 5MB in size", true);
+	uploadFile() {
+		let fData = new FormData();
+
+		fData.append('profile_photo', this.croppedImageBlob);
+		fData.append('sect', 'i');
+
+		this.uploadLoading = true;
+		this.sService.updateProfilePhoto(fData).subscribe({
+			next: (data) => {
+				this.uploadLoading = false;
+
+				if (data.success) {
+					this.person.uri.prop = data.uri;
+					this.alerts.alert("Profile Photo Updated", false);
 				}
 				else {
-					console.log('done');
-					let photo = fList[0];
-
-					let fData = new FormData();
-
-					fData.append('profile_photo', photo);
-					fData.append('sect', 'i');
-
-					this.uploadLoading = true;
-					this.sService.updateProfilePhoto(fData).subscribe({
-						next: (data) => {
-							this.uploadLoading = false;
-
-							if (data.success) {
-								this.person.uri.prop = data.uri;
-								this.alerts.alert("Profile Photo Updated", false);
-							}
-							else {
-								this.alerts.alert(data.reason, true);
-							}
-						},
-						error: () => {
-							this.uploadLoading = false;
-							this.alerts.alert("Please check your connection", true);
-						}
-					});
+					this.alerts.alert(data.reason, true);
 				}
+			},
+			error: () => {
+				this.uploadLoading = false;
+				this.alerts.alert("Please check your connection", true);
 			}
-		}
+		});
 	}
 
 	toggleVisibilityCurrent() {
@@ -285,5 +279,49 @@ export class SettingsComponent {
 			valid = false;
 		}
 		return valid;
+	}
+
+	//cropping
+
+	fileChangeEvent(event: any): void {
+		if (event.target) {
+			let fList: FileList = event.target.files;
+			if (fList.length > 0) {
+				let size = fList[0].size;
+				if (size > 5242880) {
+					this.alerts.alert("Your file must be less than 5MB in size", true);
+				}
+				else {
+					this.croppingImage = true;
+					this.imageChangedEvent = event;
+				}
+			}
+		}
+	}
+
+	imageCropped(event: ImageCroppedEvent) {
+		this.croppedImage = event.base64;
+		if(event.blob != null){
+			this.croppedImageBlob = event.blob;
+		}
+	}
+
+	cropCompleted(){
+		this.croppingImage = false;
+		this.uploadFile();
+	}
+
+	cropCanceled(){
+		this.croppingImage = false;
+	};
+	
+	imageLoaded(image: LoadedImage) {
+		// show cropper
+	}
+	cropperReady() {
+		// cropper ready
+	}
+	loadImageFailed() {
+		// show message
 	}
 }
