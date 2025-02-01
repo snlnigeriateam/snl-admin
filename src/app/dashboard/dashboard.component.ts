@@ -40,6 +40,12 @@ export class DashboardComponent {
 			title: 'Hiring',
 			subtitle: 'Manage Hiring Rounds',
 			url: 'hiring'
+		},
+		{
+			icon: 'icon-4.png',
+			title: 'Trainings',
+			subtitle: 'Take a Training Course',
+			url: 'trainings'
 		}
 	];
 
@@ -69,6 +75,10 @@ export class DashboardComponent {
 
 					if (tier < 2) {
 						this.displayItems.push(this.items[2]);
+					}
+
+					if(tier < 1){
+						this.displayItems.push(this.items[3]);
 					}
 
 					this.pageLoaded = true;

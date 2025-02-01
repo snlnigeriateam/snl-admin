@@ -14,6 +14,8 @@ import { VerifyCodeComponent } from './verify-code/verify-code.component';
 import { ApplicationsComponent } from './applications/applications.component';
 import { QueriesComponent } from './queries/queries.component';
 import { SettingsComponent } from './settings/settings.component';
+import { TrainingsComponent } from './trainings/trainings.component';
+import { CreateTrainingComponent } from './create-training/create-training.component';
 //TODO: Guards
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent, },
@@ -30,6 +32,8 @@ const routes: Routes = [
   { path: 'staff/add-personnel', component: AddAdminComponent, title: 'Add Personnel | SNL Nigeria Insiders' },
   { path: 'support', component: QueriesComponent, title: 'Support Queries | SNL Nigeria Insiders' },
   { path: 'settings', component: SettingsComponent, title: "Account Settings | SNL Nigeria Insiders" },
+  { path: 'trainings', component: TrainingsComponent, title: "Trainings | SNL Nigeria Insiders" },
+  { path: 'trainings/create-training', component: CreateTrainingComponent, title: "Create Training - Trainings | SNL Nigeria Insiders" }
 ];
 
 @NgModule({

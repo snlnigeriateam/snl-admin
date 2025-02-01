@@ -186,6 +186,8 @@ export class SettingsComponent {
 		});
 	}
 
+//trainings: frequency, tiers applicable, title, deadline, deadline_warning_days, annual, even_years_only, link, content, tests, internal,
+//user_trainings: date_started, days_logged, date_completed
 	toggleVisibilityCurrent() {
 		this.obscureCurrent = !this.obscureCurrent;
 	}

@@ -46,6 +46,8 @@ import { VerifyCodeComponent } from './verify-code/verify-code.component';
 import { ApplicationsComponent } from './applications/applications.component';
 import { QueriesComponent } from './queries/queries.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { TrainingsComponent } from './trainings/trainings.component';
+import { CreateTrainingComponent } from './create-training/create-training.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +75,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     VerifyCodeComponent,
     ApplicationsComponent,
     QueriesComponent,
+    TrainingsComponent,
+    CreateTrainingComponent,
   ],
   imports: [
     BrowserModule,
