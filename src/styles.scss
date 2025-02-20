@@ -9,6 +9,9 @@
 @include mat.all-component-themes($my-theme);
 // @include mat.button-theme($my-theme);
 
+//quill
+@import '~quill/dist/quill.snow.css';
+
 html,
 body {
     height: 100%;
@@ -22,11 +25,11 @@ body {
 body {
     margin: 0;
     // font-family: Bahnschrift, "Helvetica Neue", sans-serif;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Trebuchet MS', sans-serif;
 }
 
 *, .mat-typography {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Trebuchet MS', sans-serif;
     // font-family: Bahnschrift, sans-serif;
 }
 

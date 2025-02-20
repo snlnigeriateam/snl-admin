@@ -25,7 +25,7 @@ export class TrainingsComponent {
 			icon: 'icon-2.png',
 			title: 'Create Trainings',
 			subtitle: 'Set Up a New Training',
-			url: 'set-up-trainings'
+			url: 'create-training'
 		},
 		{
 			icon: 'icon-3.png',

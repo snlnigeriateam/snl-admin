@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { HiringService } from '../hiring.service';
 
@@ -20,7 +19,6 @@ export class PositionsComponent {
 	positions: Array<Position> = [];
 
 	constructor(
-		private router: Router,
 		private alerts: AlertsComponent,
 		private hService: HiringService
 	) {

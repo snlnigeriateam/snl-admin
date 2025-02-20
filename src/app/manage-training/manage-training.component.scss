@@ -1,0 +1,131 @@
+.page {
+    display: flex;
+    padding: 10px;
+}
+
+.main-content {
+    width: 70%;
+}
+
+.h-input {
+    width: 50%;
+}
+
+.sidebar {
+    width: 30%;
+}
+
+.assets-div, .content-div {
+    min-height: 40vh;
+}
+
+.pad {
+    padding-right: 50px;
+}
+
+quill-editor {
+    height: 50vh;
+    width: 80%;
+}
+
+//training content
+.content-pane {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dash-card {
+    width: 250px;
+}
+
+.content-head {
+    font-size: 18pt;
+    font-weight: 600;
+}
+
+.content-sub {
+    font-size: 14pt;
+    font-style: italic;
+}
+
+.content-flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+//assets
+
+.asset {
+    padding: 20px 10px;
+    display: flex;
+    justify-content: space-between;
+}
+//new assets
+input[type="file"] {
+    display: none;
+}
+
+.upload-div {
+    border: 1px dotted grey;
+    padding: 20px;
+    border-radius: 25px;
+    width: 50%;
+}
+
+.custom-file-upload {
+    // border: 1px solid #ccc;
+    // background-color: #101010;
+    // color: white;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.filename {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+//training settings
+.m-input {
+    width: 65%;
+}
+
+.toggle {
+    display: flex;
+    justify-content: center;
+}
+
+.split-toggle {
+    display: flex;
+    justify-content: space-between;
+}
+
+.slide {
+    margin-left: 20px;
+}
+
+.p-btn {
+    padding: 20px 100px;
+    border-radius: 100px;
+}
+
+textarea {
+    height: 5em;
+}
+
+.pad-l {
+    padding: 50px 0px 10px 50px;
+}
+
+.pad-r {
+    padding: 50px 50px 10px 0px;
+}
+
+.flex-apart {
+    display: flex;
+    justify-content: space-between;
+}

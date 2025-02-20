@@ -41,7 +41,8 @@
 			<div class="s1">
 				<div class="img-div">
 					<span class="img-span">
-						<img src="/assets/icon-white.png" alt="SNL Logo" [routerLink]="loggedIn ? ['/home'] : ['/']" class="logo pointer">
+						<img src="/assets/icon-white.png" alt="SNL Logo" [routerLink]="loggedIn ? ['/home'] : ['/']"
+							class="logo pointer">
 					</span>
 				</div>
 				<span class="text-span hov" [routerLink]="loggedIn ? ['/home'] : ['/']">SNL Nigeria</span>
@@ -51,12 +52,12 @@
 				<span class="nav-item">
 					<button mat-icon-button [routerLink]="['/settings']">
 						<mat-icon color="primary">settings</mat-icon>
-					  </button>
+					</button>
 				</span>
 				<span class="nav-item">
 					<button mat-icon-button (click)="logout()">
 						<mat-icon color="primary">logout</mat-icon>
-					  </button>
+					</button>
 				</span>
 				<!-- <span class="nav-item"><a [routerLink]="['/team']">Our team</a></span> -->
 			</div>

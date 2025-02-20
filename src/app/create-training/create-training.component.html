@@ -1,1 +1,75 @@
-<p>create-training works!</p>
+<div *ngIf="!pageLoading">
+	<div class="center-text center sect">
+		<h2 class="h2">Create New Training</h2>
+		<br><br>
+		<mat-form-field class="m-input" appearance="fill" color="primary">
+			<mat-label>Title of Training</mat-label>
+			<input type="text" matInput [(ngModel)]="title">
+		</mat-form-field>
+		<br><br>
+		<div class="toggle">
+			<label for="recurring" class="hov" (click)="recurring = !recurring">This is a {{recurring ? "Recurring" : "One-Off"}} Training</label>
+			<mat-slide-toggle name="recurring" id="recurring" class="slide" [(ngModel)]="recurring"></mat-slide-toggle>
+		</div>
+		<br><br>
+		<div *ngIf="recurring" class="split-toggle m-input center">
+			<div>
+				<label for="annual" class="hov" (click)="annual = !annual">Recurs {{annual ? "Every Year" : "Every Other Year"}}</label>
+				<mat-slide-toggle name="annual" id="annual" class="slide" [(ngModel)]="annual"></mat-slide-toggle>
+			</div>
+			<div>
+				<label for="even_years" class="hov" (click)="annual ? even_years = even_years : even_years = !even_years">Recurs on {{even_years ? "Even-Numbered Years" : "Odd-Numbered Years"}}</label>
+				<mat-slide-toggle [disabled]="annual" name="even_years" id="even_years" class="slide" [(ngModel)]="even_years"></mat-slide-toggle>
+			</div>
+		</div>
+		<div *ngIf="recurring">
+			<br><br>
+		</div>
+		<mat-form-field class="m-input">
+			<mat-label>Deadline</mat-label>
+			<input matInput [matDatepicker]="picker" [value]="deadline" [min]="min_date" [max]="max_date"
+				(dateChange)="addEvent('input', $event)">
+			<mat-hint>DD/MM/YYYY</mat-hint>
+			<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+			<mat-datepicker #picker></mat-datepicker>
+		</mat-form-field>
+		<br><br>
+		<div *ngIf="recurring" class="center m-input italic">
+			This Training is due every {{annual ? "year" : even_years ? "Even-Numbered year" : "Odd-Numbered year"}} on {{months[training_month]}} {{training_date}}
+		</div>
+		<br><br>
+		<mat-form-field class="m-input" appearance="fill" color="primary">
+			<mat-label>Deadline Warning (Days)</mat-label>
+			<input type="number" matInput [(ngModel)]="deadline_warning" min="5" max="90">
+		</mat-form-field>
+		<br><br>
+		<mat-form-field class="m-input" appearance="fill" color="primary">
+			<mat-label>Required Employees</mat-label>
+			<mat-select [multiple]="true" [(value)]="tiers">
+				@for (role of roles; track role) {
+				<mat-option [value]="role.tier">{{role.name}}</mat-option>
+				}
+			</mat-select>
+		</mat-form-field>
+		<br><br>
+		<div class="toggle">
+			<label for="internal" class="hov" (click)="internal = !internal">This is an {{internal ? "Internal" : "External"}} Training</label>
+			<mat-slide-toggle name="internal" id="internal" class="slide" [(ngModel)]="internal"></mat-slide-toggle>
+		</div>
+		<br><br>
+		<div *ngIf="!internal">
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>Training Link</mat-label>
+				<input type="url" matInput [(ngModel)]="url">
+			</mat-form-field>
+			<br><br>
+		</div>
+		<button *ngIf="!actionLoading" class="button p-btn hov" (click)="validate()" mat-raised-button
+			color="primary">Next</button>
+		<app-loading *ngIf="actionLoading"></app-loading>
+	</div>
+</div>
+<div *ngIf="pageLoading">
+	<br><br>
+	<app-loading></app-loading>
+</div>
