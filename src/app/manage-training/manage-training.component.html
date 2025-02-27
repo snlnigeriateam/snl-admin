@@ -69,7 +69,10 @@
 			</div>
 			<h4 *ngIf="activeAssets.length !== 0" class="center-text">Included Assets</h4>
 			<div *ngFor="let asset of activeAssets" class="asset">
-				<mat-icon>description</mat-icon>
+				<mat-icon *ngIf="asset.type === 1">description</mat-icon>
+				<mat-icon *ngIf="asset.type === 2">image</mat-icon>
+				<mat-icon *ngIf="asset.type === 3">movie</mat-icon>
+				<mat-icon *ngIf="asset.type === 4">music_note</mat-icon>
 				<div>
 					<span>{{asset.label}}</span>
 					<br><br>

@@ -7,13 +7,13 @@ export interface Training {
   title: string;
   active: boolean;
   tiers: Array<number>;
-  deadline: Date;
+  deadline: Date;//requires date transformation
   deadline_warning: number;
   link: string;
   content: Array<TrainingContent>;
-  tests: Array<any>;
+  test_question_count: number;
   created_by: string;
-  created_on: Date;
+  created_on: Date;//requires date transformation
   years_active: Array<number>;
   trail: Array<TrailItem>;
 }
@@ -43,4 +43,17 @@ export interface TrainingContent {
   heading: string,
   content: string,
   assets: Array<TrainingAsset>
+}
+
+export interface TestQuestion {
+  t_id: string,
+  q_id: string,
+  question: string,
+  options: Array<QuestionOption>,//requires transformation before usage. Default behaviour is to come in as an array of strings
+  answer_index: number
+}
+
+export interface QuestionOption {
+  text: string,
+  index: number
 }
