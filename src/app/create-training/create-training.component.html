@@ -44,6 +44,12 @@
 		</mat-form-field>
 		<br><br>
 		<mat-form-field class="m-input" appearance="fill" color="primary">
+			<mat-label>Test Question Count</mat-label>
+			<input type="number" matInput [(ngModel)]="question_count" min="5" max="100">
+			<mat-hint>Questions are randomly selected from a pool. This value specifies the precise number to curate for every test.</mat-hint>
+		</mat-form-field>
+		<br><br>
+		<mat-form-field class="m-input" appearance="fill" color="primary">
 			<mat-label>Required Employees</mat-label>
 			<mat-select [multiple]="true" [(value)]="tiers">
 				@for (role of roles; track role) {

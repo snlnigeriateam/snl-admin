@@ -30,11 +30,11 @@ quill-editor {
 }
 
 //training content
-.content-pane {
+.content-pane, .questions-pane {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -42,7 +42,7 @@ quill-editor {
     width: 250px;
 }
 
-.content-head {
+.content-head, .question-head {
     font-size: 18pt;
     font-weight: 600;
 }
@@ -55,6 +55,26 @@ quill-editor {
 .content-flex {
     display: flex;
     justify-content: space-between;
+}
+
+//test questions
+
+.textarea {
+    height: 10em !important;
+}
+
+.o-input {
+    width: 50%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.o-q-input {
+    flex-grow: 1;
+}
+
+.btn {
+    border-radius: 20px;
 }
 
 //assets

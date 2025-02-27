@@ -27,6 +27,7 @@ export class CreateTrainingComponent {
 	training_date: number = 0;
 	training_month: number = 1;
 	deadline_warning: number = 10;
+	question_count: number = 30;
 	url: string = "";
 
 	roles: Array<Role> = [
@@ -103,10 +104,13 @@ export class CreateTrainingComponent {
 		else if(this.deadline_warning < 5 || this.deadline_warning > 90){
 			this.alerts.alert("Invalid Deadline Warning", true);
 		}
+		else if(this.question_count < 5 || this.question_count > 100){
+			this.alerts.alert("Invalid Test Question Count", true);
+		}
 		else {
 			this.actionLoading = true;
 
-			this.tService.createTraining(this.title, this.recurring, this.annual, this.even_years, this.internal, this.tiers, this.deadline.getTime(), this.deadline_warning, this.url).subscribe({
+			this.tService.createTraining(this.title, this.recurring, this.annual, this.even_years, this.internal, this.tiers, this.question_count, this.deadline.getTime(), this.deadline_warning, this.url).subscribe({
 				next: (data) => {
 					this.actionLoading = false;
 					if (data.success) {

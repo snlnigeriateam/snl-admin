@@ -12,7 +12,7 @@ export class TrainingsService {
 		private request: ApiService
 	) { }
 
-	createTraining(title: string, recurring: boolean, annual: boolean, even_years: boolean, internal: boolean, tiers: Array<number>, deadline: number, deadline_warning: number, link: string): Observable<any> {
+	createTraining(title: string, recurring: boolean, annual: boolean, even_years: boolean, internal: boolean, tiers: Array<number>, question_count: number, deadline: number, deadline_warning: number, link: string): Observable<any> {
 		return this.request.request('trainings/create-training', 'post', {
 			title,
 			recurring,
@@ -20,6 +20,7 @@ export class TrainingsService {
 			even_years,
 			internal,
 			tiers,
+			question_count,
 			deadline,
 			deadline_warning,
 			link
@@ -34,14 +35,16 @@ export class TrainingsService {
 		return this.request.request('trainings/load-training', 'post', { t_id: t_id });
 	}
 
-	updateTraining(title: string, recurring: boolean, annual: boolean, even_years: boolean, internal: boolean, tiers: Array<number>, deadline: number, deadline_warning: number, link: string): Observable<any> {
+	updateTraining(t_id: string, title: string, recurring: boolean, annual: boolean, even_years: boolean, internal: boolean, tiers: Array<number>, question_count: number, deadline: number, deadline_warning: number, link: string): Observable<any> {
 		return this.request.request('trainings/update-training', 'post', {
+			t_id,
 			title,
 			recurring,
 			annual,
 			even_years,
 			internal,
 			tiers,
+			question_count,
 			deadline,
 			deadline_warning,
 			link
@@ -76,5 +79,32 @@ export class TrainingsService {
 			t_id,
 			c_id
 		});
+	}
+
+	addTestQuestion(t_id: string, question: string, answer_index: number, options: Array<string>): Observable<any> {
+		return this.request.request('trainings/add-test-question', 'post', {
+			t_id,
+			question,
+			answer_index,
+			options
+		});
+	}
+
+	updateTestQuestion(t_id: string, q_id: string, question: string, answer_index: number, options: Array<string>): Observable<any> {
+		return this.request.request('trainings/update-test-question', 'post', {
+			t_id,
+			q_id,
+			question,
+			answer_index,
+			options
+		});
+	}
+
+	removeTestQuestion(q_id: string): Observable<any> {
+		return this.request.request('trainings/remove-test-question', 'post', { q_id: q_id });
+	}
+
+	activateTraining(t_id: string): Observable<any> {
+		return this.request.request('trainings/activate-training', 'post', { t_id: t_id });
 	}
 }

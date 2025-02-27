@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { TrainingsService } from '../trainings.service';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { Router } from '@angular/router';
-import { Role, Training, TrainingAsset, TrainingContent } from '../interfaces.service';
+import { QuestionOption, Role, TestQuestion, Training, TrainingAsset, TrainingContent } from '../interfaces.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
@@ -16,22 +16,42 @@ export class ManageTrainingComponent {
 	pageLoading: boolean = false;
 	pageLoaded: boolean = false;
 	saveLoading: boolean = false;
+	questionActionLoading: boolean = false;
 	updateLoading: boolean = false;
-	editing: boolean = false;
-	creating: boolean = false;
+	editingContent: boolean = false;
+	creatingContent: boolean = false;
 	editingSettings: boolean = false;
+	editingQuestion: boolean = false;
+	creatingQuestion: boolean = false;
 
 	t_id: string;
 
 	training?: Training;
 	training_assets: Array<TrainingAsset> = [];//all assets for the training
 	available_assets: Array<TrainingAsset> = [];//assets in the training not currently available in active content
+	questions: Array<TestQuestion> = [];
 
 	selectedContent?: TrainingContent;
 	activeContent: string = "";
 	activeHeading: string = "";
 	// tempAsset: string
 	activeAssets: Array<TrainingAsset> = [];//assets available in active content
+
+	//questions
+	defaultOptions: Array<QuestionOption> = [
+		{
+			text: "Option 1",
+			index: 0
+		},
+		{
+			text: "Option 2",
+			index: 1
+		}
+	];
+	selectedQuestion?: TestQuestion;
+	activeQuestion: string = "";
+	activeOptions: Array<QuestionOption> = [];
+	activeOptionKey: number = 0;
 
 	//assets
 	selectingFile: boolean = false;
@@ -53,6 +73,7 @@ export class ManageTrainingComponent {
 	even_years: boolean = false;
 	internal: boolean = true;
 	tiers: Array<number> = [];
+	question_count: number = 0;
 	training_date: number = 0;
 	training_month: number = 1;
 	deadline_warning: number = 10;
@@ -128,6 +149,7 @@ export class ManageTrainingComponent {
 					this.even_years = this.training!.even_years;
 					this.internal = this.training!.internal;
 					this.tiers = this.training!.tiers;
+					this.question_count = this.training!.test_question_count;
 					this.deadline_warning = this.training!.deadline_warning;
 					this.url = this.training!.link;
 					this.deadline = this.training!.deadline;
@@ -136,6 +158,8 @@ export class ManageTrainingComponent {
 
 					this.training_assets = data.training_assets;
 					this.available_assets = data.training_assets;
+
+					this.questions = data.questions;
 				}
 				else {
 					this.alerts.alert(data.reason, true);
@@ -150,12 +174,12 @@ export class ManageTrainingComponent {
 
 	editAction(create: boolean, c_id?: string, index?: number) {
 		if (create) {
-			this.editing = true;
-			this.creating = true;
+			this.editingContent = true;
+			this.creatingContent = true;
 		}
 		else {
-			this.editing = true;
-			this.creating = false;
+			this.editingContent = true;
+			this.creatingContent = false;
 
 			this.selectedContent = this.training!.content[index!];
 		}
@@ -165,9 +189,9 @@ export class ManageTrainingComponent {
 		this.activeContent = "";
 		this.activeHeading = "";
 		this.activeAssets = [];
-		this.available_assets = this.training_assets;
-		this.editing = false;
-		this.creating = false;
+		this.available_assets = JSON.parse(JSON.stringify(this.training_assets));
+		this.editingContent = false;
+		this.creatingContent = false;
 		this.selectedContent = undefined;
 	}
 
@@ -312,7 +336,7 @@ export class ManageTrainingComponent {
 		else {
 			this.saveLoading = true;
 
-			if (this.creating) {
+			if (this.creatingContent) {
 				this.saveContent();
 			}
 			else {
@@ -417,6 +441,190 @@ export class ManageTrainingComponent {
 		});
 	}
 
+	//questions
+	editQuestionAction(create: boolean, index?: number){
+		this.editingQuestion = true;
+
+		if(create){
+			this.creatingQuestion = true;
+			this.activeOptions = JSON.parse(JSON.stringify(this.defaultOptions));//necessary to ensure that defaultOptions never changes
+		}
+		else {
+			this.creatingQuestion = false;
+			this.selectedQuestion = this.questions[index!];
+		}
+	}
+
+	closeQuestionAction(){
+		this.activeQuestion = "";
+		this.activeOptions = [];
+		this.editingQuestion = false;
+		this.creatingQuestion = false;
+		this.selectedQuestion = undefined;
+	}
+
+	resetQuestion(){
+		this.activeQuestion = "";
+		this.activeOptions = JSON.parse(JSON.stringify(this.defaultOptions));
+	}
+
+	selectText(index: number){
+		let elem = <HTMLInputElement> document.getElementById(`active_option_input_${index}`);
+		// elem.setSelectionRange(0, 999);
+		setTimeout(()=>{
+			elem.select();
+		}, 100);
+	}
+
+	addOption(){
+		this.activeOptions.push({
+			text: `Option ${this.activeOptions.length + 1}`,
+			index: this.activeOptions.length
+		});
+	}
+
+	removeOption(index: number){
+		this.activeOptions.splice(index, 1);
+	}
+
+	validateQuestion() {
+		let wsp = /^\s*$/;
+		
+		if (!this.activeQuestion || wsp.test(this.activeQuestion) || this.activeOptions.length < 2) {
+			this.alerts.alert("Please provide a Question and at least two options", true);
+		}
+		else if(!this.validateOptions()){
+			this.alerts.alert("All Options must be filled out", true);
+		}
+		else {
+			if (this.creatingQuestion) {
+				this.createQuestion();
+			}
+			else {
+				this.updateQuestion();
+			}
+		}
+	}
+
+	validateOptions(){
+		let wsp = /^\s*$/;
+		let valid = true;
+
+		for(let i = 0; i<this.activeOptions.length; i++){
+			if(!this.activeOptions[i].text || wsp.test(this.activeOptions[i].text)){
+				valid = false;
+			}
+		}
+
+		return valid;
+	}
+
+	createQuestion(){
+		this.questionActionLoading = true;
+		let options = [];
+
+		for(let i = 0; i<this.activeOptions.length; i++){
+			options.push(this.activeOptions[i].text);
+		}
+
+		this.tService.addTestQuestion(this.t_id, this.activeQuestion, this.activeOptionKey, options).subscribe({
+			next: (data) => {
+				this.questionActionLoading = false;
+				if (data.success) {
+					this.alerts.alert("Question Created!", false);
+					this.questions.push(data.question);
+					this.resetQuestion();
+				}
+				else if (data.login) {
+					this.router.navigate(['/']);
+				}
+				else {
+					this.alerts.alert(data.reason, true);
+				}
+			},
+			error: () => {
+				this.saveLoading = false;
+				this.alerts.alert("An Error occured. Please Contact Tech Support", true);
+			}
+		});
+	}
+
+	updateQuestion(){
+		this.questionActionLoading = true;
+		let options = [];
+
+		for(let i = 0; i<this.activeOptions.length; i++){
+			options.push(this.activeOptions[i].text);
+		}
+
+		this.tService.updateTestQuestion(this.t_id, this.selectedQuestion!.q_id, this.activeQuestion, this.activeOptionKey, options).subscribe({
+			next: (data) => {
+				this.questionActionLoading = false;
+				if (data.success) {
+					this.alerts.alert("Question Updated!", false);
+
+					for(let i = 0; i<this.questions.length; i++){
+						if(this.questions[i].q_id === this.selectedQuestion!.q_id){
+							let question = this.questions[i];
+
+							question.question = this.activeQuestion;
+							question.options = this.activeOptions;
+							question.answer_index = this.activeOptionKey;
+						}
+					}
+
+					this.closeQuestionAction();
+				}
+				else if (data.login) {
+					this.router.navigate(['/']);
+				}
+				else {
+					this.alerts.alert(data.reason, true);
+				}
+			},
+			error: () => {
+				this.saveLoading = false;
+				this.alerts.alert("An Error occured. Please Contact Tech Support", true);
+			}
+		});
+	}
+
+	removeQuestion(index: number){
+		this.alerts.confirm("Do you want to remove this Test Question? This action cannot be undone").then((remove) => {
+			if (remove) {
+				this.tService.removeTestQuestion(this.questions[index].q_id).subscribe({
+					next: (data) => {
+						if (data.success) {
+							if (index !== -1) {
+								this.questions.splice(index, 1);
+							}
+
+							this.alerts.alert("Question Removed!", false);
+						}
+						else if (data.login) {
+							this.router.navigate(['/']);
+						}
+						else {
+							this.alerts.alert(data.reason, true);
+						}
+					},
+					error: () => {
+						this.alerts.alert("An Error occured. Please Contact Tech Support", true);
+					}
+				});
+			}
+		});
+	}
+
+	selectQuestion(index: number) {
+		let question = this.questions[index];
+
+		this.activeQuestion = question.question;
+		this.activeOptionKey = question.answer_index;
+		this.activeOptions = JSON.parse(JSON.stringify(question.options));
+		this.editQuestionAction(false, index);
+	}
+
 	//training settings
 	addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
 		this.deadline = event.value!;
@@ -436,14 +644,20 @@ export class ManageTrainingComponent {
 		else if (this.deadline_warning < 5 || this.deadline_warning > 90) {
 			this.alerts.alert("Invalid Deadline Warning", true);
 		}
+		else if(this.question_count < 5 || this.question_count > 100){
+			this.alerts.alert("Invalid Test Question Count", true);
+		}
 		else {
 			this.updateLoading = true;
 
-			this.tService.updateTraining(this.training_title, this.recurring, this.annual, this.even_years, this.internal, this.tiers, this.deadline.getTime(), this.deadline_warning, this.url).subscribe({
+			this.tService.updateTraining(this.t_id, this.training_title, this.recurring, this.annual, this.even_years, this.internal, this.tiers, this.question_count, this.deadline.getTime(), this.deadline_warning, this.url).subscribe({
 				next: (data) => {
 					this.updateLoading = false;
 					if (data.success) {
 						this.alerts.alert("Training Updated!", false);
+						setTimeout(()=>{
+							location.reload();
+						}, 2000);
 					}
 					else if (data.login) {
 						this.router.navigate(['/']);

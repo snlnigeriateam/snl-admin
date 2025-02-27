@@ -18,6 +18,7 @@ import { MatSlideToggle } from "@angular/material/slide-toggle";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatSelectModule } from "@angular/material/select";
 import { MatTabsModule } from "@angular/material/tabs";
+import { MatRadioModule } from "@angular/material/radio";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 
 import { AppRoutingModule } from './app-routing.module';
@@ -104,6 +105,7 @@ import { ManageTrainingComponent } from './manage-training/manage-training.compo
     MatNativeDateModule,
     MatSelectModule,
     MatTabsModule,
+    MatRadioModule,
     ClipboardModule,
     ImageCropperModule,
     QuillModule.forRoot({

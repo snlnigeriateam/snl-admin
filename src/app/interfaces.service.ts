@@ -49,7 +49,7 @@ export interface TestQuestion {
   t_id: string,
   q_id: string,
   question: string,
-  options: Array<QuestionOption>,//requires transformation before usage. Default behaviour is to come in as an array of strings
+  options: Array<QuestionOption>,//requires transformation before usage (typically done server-side). Default behaviour is to come in as an array of strings
   answer_index: number
 }
 

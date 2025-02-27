@@ -8,16 +8,16 @@
 		<div class="content-div">
 			<h3 class="center-text primary">Training Content</h3>
 			<div class="right-text pad">
-				<button *ngIf="editing" (click)="closeAction()" mat-mini-fab color="primary"
+				<button *ngIf="editingContent" (click)="closeAction()" mat-mini-fab color="primary"
 					aria-label="Icon Button with a close icon">
 					<mat-icon>close</mat-icon>
 				</button>
-				<button *ngIf="!editing" (click)="editAction(true)" mat-mini-fab color="primary"
+				<button *ngIf="!editingContent" (click)="editAction(true)" mat-mini-fab color="primary"
 					aria-label="Icon Button with an add icon">
 					<mat-icon>add</mat-icon>
 				</button>
 			</div>
-			<div *ngIf="editing" class="content-editor-div center-text">
+			<div *ngIf="editingContent" class="content-editor-div center-text">
 				<mat-form-field class="h-input" appearance="fill" color="primary">
 					<mat-label>Content Heading</mat-label>
 					<input type="text" matInput [(ngModel)]="activeHeading">
@@ -30,7 +30,11 @@
 					<app-loading *ngIf="saveLoading"></app-loading>
 				</div>
 			</div>
-			<div *ngIf="!editing" class="content-pane">
+			<div *ngIf="!editingContent && training!.content.length === 0" class="center-text italic">
+				<br>
+				No Training Content
+			</div>
+			<div *ngIf="!editingContent" class="content-pane">
 				<div *ngFor="let content of training!.content" class="dash-card">
 					<div class="content-flex">
 						<span class="left-text">
@@ -49,19 +53,85 @@
 			</div>
 		</div>
 		<div class="tests-div">
-			<h3 class="center-text primary">Training Tests</h3>
+			<h3 class="center-text primary">Training Test Questions</h3>
+			<div class="right-text pad">
+				<button *ngIf="editingQuestion" (click)="closeQuestionAction()" mat-mini-fab color="primary"
+					aria-label="Icon Button with a close icon">
+					<mat-icon>close</mat-icon>
+				</button>
+				<button *ngIf="!editingQuestion" (click)="editQuestionAction(true)" mat-mini-fab color="primary"
+					aria-label="Icon Button with an add icon">
+					<mat-icon>add</mat-icon>
+				</button>
+			</div>
+			<div *ngIf="editingQuestion" class="content-editor-div center-text">
+				<mat-form-field class="h-input" appearance="fill" color="primary">
+					<mat-label>Question</mat-label>
+					<textarea class="textarea" type="text" matInput [(ngModel)]="activeQuestion"></textarea>
+				</mat-form-field>
+				<br><br>
+				<h4>Options</h4>
+				<mat-radio-group [name]="'active_question_options'" [(ngModel)]="activeOptionKey">
+					<div *ngFor="let option of activeOptions; index as i">
+						<div class="o-input center">
+							<mat-radio-button [value]="i" [color]="'primary'"></mat-radio-button>
+							<mat-form-field class="o-q-input" appearance="fill" color="primary">
+								<mat-label>Option {{i + 1}}</mat-label>
+								<input type="text" matInput (focus)="selectText(i)" [(ngModel)]="option.text"
+									id="active_option_input_{{i}}">
+							</mat-form-field>
+							<button (click)="removeOption(i)" mat-icon-button
+								color="primary"><mat-icon>remove</mat-icon></button>
+						</div>
+						<br>
+					</div>
+				</mat-radio-group>
+				<div class="center-text" *ngIf="activeOptions.length < 4">
+					<button mat-stroked-button (click)="addOption()" class="btn">
+						Add Option <mat-icon>add</mat-icon>
+					</button>
+					<br><br><br>
+				</div>
+				<div>
+					<button *ngIf="!questionActionLoading" class="button" (click)="validateQuestion()"
+						mat-stroked-button color="primary">{{creatingQuestion ? "Create" : "Update"}} Question</button>
+					<app-loading *ngIf="questionActionLoading"></app-loading>
+				</div>
+			</div>
+			<div *ngIf="!editingQuestion && questions.length === 0" class="center-text italic">
+				<br>
+				No Test Questions
+			</div>
+			<div *ngIf="!editingQuestion" class="questions-pane">
+				<div *ngFor="let question of questions; index as i" class="dash-card">
+					<div class="content-flex">
+						<span class="left-text">
+							<button mat-icon-button (click)="removeQuestion(i)">
+								<mat-icon color="primary">delete</mat-icon>
+							</button>
+						</span>
+						<span class="right-text">
+							<button mat-icon-button (click)="selectQuestion(i)">
+								<mat-icon color="primary">edit</mat-icon>
+							</button>
+						</span>
+					</div>
+					<span class="question-head">{{question.question.length > 100 ? question.question.slice(0, 90)+ "..."
+						: question.question}}</span>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="sidebar">
 		<h3 class="center-text primary">Assets</h3>
 		<div class="assets-div">
-			<div *ngIf="editing">
+			<div *ngIf="editingContent">
 				{{activeAssets.length === 0 ? "No Assets for the selected Content. " : ""}} Use the button below to
 				upload Training Assets. Include Uploaded
 				Assets in selected Content using the plus (+) button beside the Uploaded Assets.
 				Included Assets are automatically saved along with Content.
 			</div>
-			<div *ngIf="!editing">
+			<div *ngIf="!editingContent">
 				{{available_assets.length === 0 ? "No Assets for this training!. " : ""}} Use the button below to upload
 				Training Assets. Include Uploaded
 				Assets in selected Content using the plus (+) button beside the Uploaded Assets.
@@ -87,7 +157,7 @@
 				<mat-icon *ngIf="asset.type === 3">movie</mat-icon>
 				<mat-icon *ngIf="asset.type === 4">music_note</mat-icon>
 				<span>{{asset.label}}</span>
-				<button *ngIf="editing" (click)="addAsset(asset.a_id)" mat-icon-button
+				<button *ngIf="editingContent" (click)="addAsset(asset.a_id)" mat-icon-button
 					color="primary"><mat-icon>add</mat-icon></button>
 			</div>
 			<div class="center-text">
@@ -195,6 +265,13 @@
 				<mat-form-field class="m-input" appearance="fill" color="primary">
 					<mat-label>Deadline Warning (Days)</mat-label>
 					<input type="number" matInput [(ngModel)]="deadline_warning" min="5" max="90">
+				</mat-form-field>
+				<br><br>
+				<mat-form-field class="m-input" appearance="fill" color="primary">
+					<mat-label>Test Question Count</mat-label>
+					<input type="number" matInput [(ngModel)]="question_count" min="5" max="100">
+					<mat-hint>Questions are randomly selected from a pool. This value specifies the precise number to
+						curate for every test.</mat-hint>
 				</mat-form-field>
 				<br><br>
 				<mat-form-field class="m-input" appearance="fill" color="primary">
