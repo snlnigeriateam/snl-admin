@@ -1,6 +1,8 @@
-<h3 class="center-text {{data.error ? 'warn' : 'c4'}}" mat-dialog-title>{{data.error ? "Error" : "Success"}}</h3>
-<div class="content" mat-dialog-content>{{data.content}}</div>
-<div class="mat-dialog-actions center-text">
-	<button (click)="close();" mat-button mat-dialog-close>Close</button>
-	<br><br>
+<div class="alert-dialog">
+	<h3 class="center-text {{data.error ? 'warn' : 'c4'}}" mat-dialog-title>{{data.error ? "Error" : "Success"}}</h3>
+	<div class="content" mat-dialog-content>{{data.content}}</div>
+	<div class="mat-dialog-actions center-text">
+		<button (click)="close();" mat-button mat-dialog-close>Close</button>
+		<br><br>
+	</div>
 </div>

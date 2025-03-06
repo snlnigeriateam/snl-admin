@@ -18,6 +18,7 @@ export class ManageTrainingComponent {
 	saveLoading: boolean = false;
 	questionActionLoading: boolean = false;
 	updateLoading: boolean = false;
+	activationLoading: boolean = false;
 	editingContent: boolean = false;
 	creatingContent: boolean = false;
 	editingSettings: boolean = false;
@@ -442,10 +443,10 @@ export class ManageTrainingComponent {
 	}
 
 	//questions
-	editQuestionAction(create: boolean, index?: number){
+	editQuestionAction(create: boolean, index?: number) {
 		this.editingQuestion = true;
 
-		if(create){
+		if (create) {
 			this.creatingQuestion = true;
 			this.activeOptions = JSON.parse(JSON.stringify(this.defaultOptions));//necessary to ensure that defaultOptions never changes
 		}
@@ -455,7 +456,7 @@ export class ManageTrainingComponent {
 		}
 	}
 
-	closeQuestionAction(){
+	closeQuestionAction() {
 		this.activeQuestion = "";
 		this.activeOptions = [];
 		this.editingQuestion = false;
@@ -463,37 +464,37 @@ export class ManageTrainingComponent {
 		this.selectedQuestion = undefined;
 	}
 
-	resetQuestion(){
+	resetQuestion() {
 		this.activeQuestion = "";
 		this.activeOptions = JSON.parse(JSON.stringify(this.defaultOptions));
 	}
 
-	selectText(index: number){
-		let elem = <HTMLInputElement> document.getElementById(`active_option_input_${index}`);
+	selectText(index: number) {
+		let elem = <HTMLInputElement>document.getElementById(`active_option_input_${index}`);
 		// elem.setSelectionRange(0, 999);
-		setTimeout(()=>{
+		setTimeout(() => {
 			elem.select();
 		}, 100);
 	}
 
-	addOption(){
+	addOption() {
 		this.activeOptions.push({
 			text: `Option ${this.activeOptions.length + 1}`,
 			index: this.activeOptions.length
 		});
 	}
 
-	removeOption(index: number){
+	removeOption(index: number) {
 		this.activeOptions.splice(index, 1);
 	}
 
 	validateQuestion() {
 		let wsp = /^\s*$/;
-		
+
 		if (!this.activeQuestion || wsp.test(this.activeQuestion) || this.activeOptions.length < 2) {
 			this.alerts.alert("Please provide a Question and at least two options", true);
 		}
-		else if(!this.validateOptions()){
+		else if (!this.validateOptions()) {
 			this.alerts.alert("All Options must be filled out", true);
 		}
 		else {
@@ -506,12 +507,12 @@ export class ManageTrainingComponent {
 		}
 	}
 
-	validateOptions(){
+	validateOptions() {
 		let wsp = /^\s*$/;
 		let valid = true;
 
-		for(let i = 0; i<this.activeOptions.length; i++){
-			if(!this.activeOptions[i].text || wsp.test(this.activeOptions[i].text)){
+		for (let i = 0; i < this.activeOptions.length; i++) {
+			if (!this.activeOptions[i].text || wsp.test(this.activeOptions[i].text)) {
 				valid = false;
 			}
 		}
@@ -519,11 +520,11 @@ export class ManageTrainingComponent {
 		return valid;
 	}
 
-	createQuestion(){
+	createQuestion() {
 		this.questionActionLoading = true;
 		let options = [];
 
-		for(let i = 0; i<this.activeOptions.length; i++){
+		for (let i = 0; i < this.activeOptions.length; i++) {
 			options.push(this.activeOptions[i].text);
 		}
 
@@ -549,11 +550,11 @@ export class ManageTrainingComponent {
 		});
 	}
 
-	updateQuestion(){
+	updateQuestion() {
 		this.questionActionLoading = true;
 		let options = [];
 
-		for(let i = 0; i<this.activeOptions.length; i++){
+		for (let i = 0; i < this.activeOptions.length; i++) {
 			options.push(this.activeOptions[i].text);
 		}
 
@@ -563,8 +564,8 @@ export class ManageTrainingComponent {
 				if (data.success) {
 					this.alerts.alert("Question Updated!", false);
 
-					for(let i = 0; i<this.questions.length; i++){
-						if(this.questions[i].q_id === this.selectedQuestion!.q_id){
+					for (let i = 0; i < this.questions.length; i++) {
+						if (this.questions[i].q_id === this.selectedQuestion!.q_id) {
 							let question = this.questions[i];
 
 							question.question = this.activeQuestion;
@@ -589,7 +590,7 @@ export class ManageTrainingComponent {
 		});
 	}
 
-	removeQuestion(index: number){
+	removeQuestion(index: number) {
 		this.alerts.confirm("Do you want to remove this Test Question? This action cannot be undone").then((remove) => {
 			if (remove) {
 				this.tService.removeTestQuestion(this.questions[index].q_id).subscribe({
@@ -644,7 +645,7 @@ export class ManageTrainingComponent {
 		else if (this.deadline_warning < 5 || this.deadline_warning > 90) {
 			this.alerts.alert("Invalid Deadline Warning", true);
 		}
-		else if(this.question_count < 5 || this.question_count > 100){
+		else if (this.question_count < 5 || this.question_count > 100) {
 			this.alerts.alert("Invalid Test Question Count", true);
 		}
 		else {
@@ -655,7 +656,7 @@ export class ManageTrainingComponent {
 					this.updateLoading = false;
 					if (data.success) {
 						this.alerts.alert("Training Updated!", false);
-						setTimeout(()=>{
+						setTimeout(() => {
 							location.reload();
 						}, 2000);
 					}
@@ -672,5 +673,63 @@ export class ManageTrainingComponent {
 				}
 			});
 		}
+	}
+
+	activateTraining() {
+		if (this.training!.content.length > 0 && this.questions.length >= this.training!.test_question_count) {
+			this.alerts.confirm("Would you like to Activate this Training? Please note that future updates to Training Content or Training Settings will be restricted").then((activate) => {
+				if (activate) {
+					this.activationLoading = true;
+					this.tService.activateTraining(this.t_id).subscribe({
+						next: (data) => {
+							this.activationLoading = false;
+							if (data.success) {
+								this.training!.active = true;
+
+								this.alerts.alert("Training Activated!", false);
+							}
+							else if (data.login) {
+								this.router.navigate(['/']);
+							}
+							else {
+								this.alerts.alert(data.reason, true);
+							}
+						},
+						error: () => {
+							this.activationLoading = false;
+							this.alerts.alert("An Error occured. Please Contact Tech Support", true);
+						}
+					});
+				}
+			});
+		}
+	}
+
+	deactivateTraining() {
+		this.alerts.confirm("Would you like to Deactivate this Training? Please note that progress on this Training will be lost for all employees taking the Training").then((deactivate) => {
+			if (deactivate) {
+				this.activationLoading = true;
+				this.tService.deactivateTraining(this.t_id).subscribe({
+					next: (data) => {
+						this.activationLoading = false;
+						if (data.success) {
+							this.training!.active = false;
+
+							this.alerts.alert("Training Deactivated!", false);
+						}
+						else if (data.login) {
+							this.router.navigate(['/']);
+						}
+						else {
+							this.alerts.alert(data.reason, true);
+						}
+					},
+					error: () => {
+						this.activationLoading = false;
+						this.alerts.alert("An Error occured. Please Contact Tech Support", true);
+					}
+				});
+			}
+		});
 	}
 }

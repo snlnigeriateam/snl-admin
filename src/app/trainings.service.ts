@@ -107,4 +107,8 @@ export class TrainingsService {
 	activateTraining(t_id: string): Observable<any> {
 		return this.request.request('trainings/activate-training', 'post', { t_id: t_id });
 	}
+
+	deactivateTraining(t_id: string): Observable<any> {
+		return this.request.request('trainings/deactivate-training', 'post', { t_id: t_id });
+	}
 }

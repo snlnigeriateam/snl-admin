@@ -48,6 +48,9 @@
 				<span class="text-span hov" [routerLink]="loggedIn ? ['/home'] : ['/']">SNL Nigeria</span>
 			</div>
 			<div *ngIf="loggedIn">
+				<span class="nav-mini-item">
+					<img class="nav-img" src="{{uri}}" alt="Profile Photo of {{full_name}}">
+				</span>
 				<span class="nav-item">{{full_name}}</span>
 				<span class="nav-item">
 					<button mat-icon-button [routerLink]="['/settings']">

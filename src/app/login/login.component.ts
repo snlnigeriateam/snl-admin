@@ -100,6 +100,7 @@ export class LoginComponent implements OnInit {
 						let full_name = `${data.f_name} ${data.l_name}`;
 						localStorage.setItem('name', full_name);
 						localStorage.setItem('tier', data.tier);
+						localStorage.setItem('uri', data.uri);
 						this.alerts.alert("Logged In!", false);
 						location.assign(`${this.address.SITE_ADDRESS}/home`);
 					}
@@ -130,6 +131,7 @@ export class LoginComponent implements OnInit {
 						let full_name = `${data.f_name} ${data.l_name}`;
 						localStorage.setItem('name', full_name);
 						localStorage.setItem('tier', data.tier);
+						localStorage.setItem('uri', data.uri);
 						this.alerts.alert("Logged In!", false);
 						location.assign(`${this.address.SITE_ADDRESS}/home`);
 					}

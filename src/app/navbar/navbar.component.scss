@@ -6,6 +6,10 @@
     // font-weight: 500;
 }
 
+.nav-mini-item {
+    margin-right: 10px;
+}
+
 .nav-item a {
     color: $grey;
     padding-bottom: 3px;
@@ -107,6 +111,11 @@
     a {
         color: black;
     }
+}
+
+.nav-img {
+    height: 50px;
+    border-radius: 50%;
 }
 
 .side-logo {
