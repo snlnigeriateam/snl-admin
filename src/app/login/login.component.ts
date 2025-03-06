@@ -91,6 +91,7 @@ export class LoginComponent implements OnInit {
 		}
 		else {
 			this.loading = true;
+			this.code = String(this.code);
 			this.auth.validateMFA(this.code).subscribe({
 				next: (data) => {
 					this.loading = false;

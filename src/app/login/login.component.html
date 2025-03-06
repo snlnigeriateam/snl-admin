@@ -23,7 +23,7 @@
 		<br><br>
 		<mat-form-field class="m-input" appearance="fill">
 			<mat-label>Enter your 2FA Code</mat-label>
-			<input type="number" matInput (keyup.enter)="verify()" [(ngModel)]="code" autofocus>
+			<input type="string" matInput (keyup.enter)="verify()" [(ngModel)]="code" autofocus>
 		</mat-form-field>
 		<br><br>
 		<button *ngIf="!loading" class="button p-btn hov" (click)="verify()" mat-raised-button color="primary">Verify Code</button>
@@ -46,7 +46,7 @@
 		</div>
 		<mat-form-field class="m-input" appearance="fill">
 			<mat-label>Enter the Code provided by your App</mat-label>
-			<input type="number" (keyup.enter)="validate()" matInput [(ngModel)]="code">
+			<input type="string" (keyup.enter)="validate()" matInput [(ngModel)]="code">
 		</mat-form-field>
 		<br><br>
 		<button *ngIf="!loading" class="button p-btn hov" (click)="validate()" mat-raised-button color="primary">Confirm</button>

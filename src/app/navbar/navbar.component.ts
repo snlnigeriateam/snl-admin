@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
 	full_name: string = '';
 	loggedIn: boolean = false;
-	uri: string = '';
+	uri: string = '/assets/icon-grey.png';
 
 	constructor(
 		private authService: AuthService,
@@ -21,8 +21,12 @@ export class NavbarComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.full_name = localStorage.getItem('name') ?? '';
-		this.uri = localStorage.getItem('uri') ?? '/assets/icon-grey.png';
+		let t_uri = localStorage.getItem('uri') ?? '';
 		this.loggedIn = localStorage.getItem('token') ? true : false;
+		if(t_uri && t_uri.length > 0 && t_uri != 'undefined'){
+			this.uri = t_uri;
+		}
+		
 		this.checkLoggedIn();
 	}
 
