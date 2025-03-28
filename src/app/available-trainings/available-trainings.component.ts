@@ -29,7 +29,6 @@ export class AvailableTrainingsComponent {
 		this.tService.loadTrainings().subscribe({
 			next: (data) => {
 				this.pageLoading = false;
-				console.log(data);
 
 				if (data.success) {
 					let pending_trainings = data.pending_trainings;
