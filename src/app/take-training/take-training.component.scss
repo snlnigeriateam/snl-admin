@@ -1,0 +1,79 @@
+.page {
+    display: flex;
+    padding: 10px;
+}
+
+.main-content {
+    width: 70%;
+}
+
+.sidebar {
+    width: 30%;
+    padding: 10px 40px;
+}
+
+.assets-div, .content-div {
+    min-height: 40vh;
+}
+
+.pad {
+    padding-right: 50px;
+    padding-top: 50px;
+}
+
+.start-div {
+    margin-top: 100px;
+}
+
+.content-div {
+    margin-top: 50px;
+    padding: 20px;
+    width: 80%;
+    border: 1px dotted black;
+}
+
+.content-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 100px;
+}
+
+.preview-img {
+    display: block;
+    margin: 20px auto;
+    max-width: 95%;
+}
+
+//test questions
+
+.textarea {
+    height: 10em !important;
+}
+
+.o-input {
+    width: 50%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.o-q-input {
+    flex-grow: 1;
+}
+
+.btn {
+    border-radius: 20px;
+}
+
+//assets
+
+.asset {
+    padding: 20px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.asset-actions {
+    display: flex;
+}

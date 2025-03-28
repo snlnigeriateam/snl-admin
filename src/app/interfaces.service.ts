@@ -57,3 +57,24 @@ export interface QuestionOption {
   text: string,
   index: number
 }
+
+export interface TrainingProgress {
+  on: Date,
+  action: string,
+  id: string
+}
+
+export interface UserTrainingProgress {
+  year: number,
+  current: string,
+  started: boolean,
+  started_on?: Date,//requires Date transformation
+  completed_on: Date,
+  score: number,
+  t_id: string,
+  progress: Array<TrainingProgress>
+}
+
+export interface UserTraining extends Training {
+  progress: UserTrainingProgress,
+}

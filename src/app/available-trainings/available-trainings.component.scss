@@ -1,0 +1,34 @@
+.pad {
+    padding-right: 50px;
+}
+
+.training-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.dash-card {
+    width: 200px;
+}
+
+.training-head {
+    font-size: 18pt;
+    font-weight: 600;
+}
+
+.training-sub {
+    font-size: 14pt;
+    font-style: italic;
+}
+
+.t-body {
+    font-size: 14pt;
+    margin-bottom: 20px;
+}
+
+.t-head {
+    font-weight: bold;
+}

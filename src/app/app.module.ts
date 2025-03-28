@@ -53,6 +53,8 @@ import { TrainingsComponent } from './trainings/trainings.component';
 import { CreateTrainingComponent } from './create-training/create-training.component';
 import { ManageTrainingsComponent } from './manage-trainings/manage-trainings.component';
 import { ManageTrainingComponent } from './manage-training/manage-training.component';
+import { AvailableTrainingsComponent } from './available-trainings/available-trainings.component';
+import { TakeTrainingComponent } from './take-training/take-training.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +86,8 @@ import { ManageTrainingComponent } from './manage-training/manage-training.compo
     CreateTrainingComponent,
     ManageTrainingsComponent,
     ManageTrainingComponent,
+    AvailableTrainingsComponent,
+    TakeTrainingComponent,
   ],
   imports: [
     BrowserModule,

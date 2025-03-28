@@ -18,6 +18,8 @@ import { TrainingsComponent } from './trainings/trainings.component';
 import { CreateTrainingComponent } from './create-training/create-training.component';
 import { ManageTrainingsComponent } from './manage-trainings/manage-trainings.component';
 import { ManageTrainingComponent } from './manage-training/manage-training.component';
+import { AvailableTrainingsComponent } from './available-trainings/available-trainings.component';
+import { TakeTrainingComponent } from './take-training/take-training.component';
 //TODO: Guards
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent, },
@@ -37,7 +39,9 @@ const routes: Routes = [
   { path: 'trainings', component: TrainingsComponent, title: "Trainings | SNL Nigeria Insiders" },
   { path: 'trainings/create-training', component: CreateTrainingComponent, title: "Create Training - Trainings | SNL Nigeria Insiders" },
   { path: 'trainings/manage-trainings', component: ManageTrainingsComponent, title: "Manage Trainings - Trainings | SNL Nigeria Insiders" },
-  { path: 'trainings/manage-training/:t_id', component: ManageTrainingComponent }
+  { path: 'trainings/manage-training/:t_id', component: ManageTrainingComponent },
+  { path: 'trainings/available-trainings', component: AvailableTrainingsComponent, title: "Available Trainings - Trainings | SNL Nigeria Insiders" },
+  { path: 'trainings/take-training/:t_id', component: TakeTrainingComponent }
 ];
 
 @NgModule({

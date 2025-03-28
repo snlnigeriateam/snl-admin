@@ -45,6 +45,12 @@ export class DashboardComponent {
 			icon: 'icon-4.png',
 			title: 'Trainings',
 			subtitle: 'Take a Training Course',
+			url: 'trainings/available-trainings'
+		},
+		{
+			icon: 'icon-4.png',
+			title: 'Trainings',
+			subtitle: 'Actions on Training Courses',
 			url: 'trainings'
 		}
 	];
@@ -75,9 +81,9 @@ export class DashboardComponent {
 
 					if (tier < 2) {
 						this.displayItems.push(this.items[2]);
+						this.displayItems.push(this.items[4]);
 					}
-
-					if(tier < 1){
+					else {
 						this.displayItems.push(this.items[3]);
 					}
 

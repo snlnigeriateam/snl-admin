@@ -92,6 +92,25 @@ export class UtilitiesService {
 		return `${fullDate}${separator} ${fullTime}`;
 	}
 
+	dateMonthFn(d: Date, con: Boolean) {
+		let month = d.getMonth();
+		let date = d.getDate();
+
+		let monthsArr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+		let conMonthsArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+		let f_month: string;
+
+		if (con) {
+			f_month = conMonthsArr[month];
+		}
+		else {
+			f_month = monthsArr[month];
+		}
+
+		let fullDate = `${f_month} ${date}`;
+		return fullDate;
+	}
 
 	dateFn(d: Date, con: Boolean) {
 		let month = d.getMonth();
