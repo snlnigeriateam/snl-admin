@@ -1,55 +1,109 @@
 <div *ngIf="pageLoading">
-	<br><br><br><br>
-	<app-loading></app-loading>
+    <br><br><br><br>
+    <app-loading></app-loading>
 </div>
-<div class="page" *ngIf="pageLoaded && !previewing">
-	<div class="main-content">
-		<h2 class="center-text">{{training!.title}} | SNL Nigeria Staff Training Course</h2>
-		
-		<div *ngIf="!training!.progress.started" class="start-div center-text">
-            <button *ngIf="!startLoading" mat-flat-button color="primary" (click)="startTraining()">Start Training
-                <mat-icon>play_circle</mat-icon></button>
-			<app-loading *ngIf="startLoading"></app-loading>
-        </div>
-        <div *ngIf="training!.progress.started" class="content-div center">
-            <h3 class="center-text primary">{{activeContent?.heading}}</h3>
-            <div class="content" [innerHTML]="activeContent?.content"></div>
-            <div class="content-actions">
-                <button [disabled]="!prevActive" mat-fab (click)="prev()">
-                    <mat-icon color="primary">arrow_back_ios</mat-icon>
-                </button>
-                <span class="progress-marker">{{content_index + 1}} / {{training!.content.length}}</span>
-                <button [disabled]="!nextActive" mat-fab (click)="next()">
-                    <mat-icon color="primary">arrow_forward_ios</mat-icon>
-                </button>
+<div *ngIf="!testInProgress">
+    <div class="page" *ngIf="pageLoaded && !previewing">
+        <div class="main-content">
+            <h2 class="center-text">{{training!.title}} | SNL Nigeria Staff Training Course</h2>
+
+            <div *ngIf="!training!.progress.started" class="start-div center-text">
+                <button *ngIf="!startLoading" mat-flat-button color="primary" (click)="startTraining()">Start Training
+                    <mat-icon>play_circle</mat-icon></button>
+                <app-loading *ngIf="startLoading"></app-loading>
+            </div>
+            <div *ngIf="training!.progress.started" class="content-div center">
+                <h3 class="center-text primary">{{activeContent?.heading}}</h3>
+                <div class="content" [innerHTML]="activeContent?.content"></div>
+                <div class="content-actions">
+                    <button [disabled]="!prevActive" mat-fab (click)="prev()">
+                        <mat-icon color="primary">arrow_back_ios</mat-icon>
+                    </button>
+                    <span class="progress-marker">{{content_index + 1}} / {{training!.content.length}}</span>
+                    <button [disabled]="!nextActive" mat-fab (click)="next()">
+                        <mat-icon color="primary">arrow_forward_ios</mat-icon>
+                    </button>
+                </div>
+                <div class="center-text">
+                    <br><br><br>
+                    <button *ngIf="!nextActive" mat-flat-button color="primary" (click)="startTest()">Start Test
+                        <mat-icon>play_circle</mat-icon></button>
+                    <app-loading *ngIf="testLoading"></app-loading>
+                </div>
             </div>
         </div>
-	</div>
-	<div class="sidebar">
-		<h3 class="center-text primary">Training Assets</h3>
-		<div class="assets-div">
-			<div *ngFor="let asset of training_assets; index as i" class="asset">
-				<mat-icon *ngIf="asset.type === 1">description</mat-icon>
-				<mat-icon *ngIf="asset.type === 2">image</mat-icon>
-				<mat-icon *ngIf="asset.type === 3">movie</mat-icon>
-				<mat-icon *ngIf="asset.type === 4">music_note</mat-icon>
-				<span>{{asset.label}}</span>
-                <span class="asset-actions">
-                    <button *ngIf="asset.type === 2" class="asset-action" (click)="previewAsset(i)" mat-icon-button
-					color="primary"><mat-icon>preview</mat-icon></button>
-                    <button class="asset-action" (click)="downloadAsset(asset.uri)" mat-icon-button
-					color="primary"><mat-icon>download</mat-icon></button>
-                </span>
-			</div>
-		</div>
-	</div>
-</div>
-<div *ngIf="pageLoaded && previewing" class="preview">
-    <div class="right-text pad">
-        <button (click)="closePreview()" mat-mini-fab color="primary"
-            aria-label="Icon Button with a close icon">
-            <mat-icon>close</mat-icon>
-        </button>
+        <div class="sidebar">
+            <h3 class="center-text primary">Training Assets</h3>
+            <div class="assets-div">
+                <div *ngFor="let asset of training_assets; index as i" class="asset">
+                    <mat-icon *ngIf="asset.type === 1">description</mat-icon>
+                    <mat-icon *ngIf="asset.type === 2">image</mat-icon>
+                    <mat-icon *ngIf="asset.type === 3">movie</mat-icon>
+                    <mat-icon *ngIf="asset.type === 4">music_note</mat-icon>
+                    <span>{{asset.label}}</span>
+                    <span class="asset-actions">
+                        <button *ngIf="asset.type === 2" class="asset-action" (click)="previewAsset(i)" mat-icon-button
+                            color="primary"><mat-icon>preview</mat-icon></button>
+                        <button class="asset-action" (click)="downloadAsset(asset.uri)" mat-icon-button
+                            color="primary"><mat-icon>download</mat-icon></button>
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
-    <img src="{{preview_uri}}" alt="Image" class="preview-img">
+    <div *ngIf="pageLoaded && previewing" class="preview">
+        <div class="right-text pad">
+            <button (click)="closePreview()" mat-mini-fab color="primary" aria-label="Icon Button with a close icon">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+        <img src="{{preview_uri}}" alt="Image" class="preview-img">
+    </div>
+</div>
+<div *ngIf="testInProgress" class="test-page center">
+    <h2 class="center-text">{{training!.title}} | SNL Nigeria Staff Training Test</h2>
+    <div *ngIf="testLoading || scoring">
+        <br><br><br><br>
+        <app-loading></app-loading>
+    </div>
+    <div class="questions-content" *ngIf="testLoaded && !scoring && !scoringCompleted">
+        <div class="center-text">
+            <span class="progress-marker">{{question_index + 1}} / {{questions.length}}</span>
+        </div>
+        <div class="question">
+            <div class="question-text">
+                {{questions[question_index].question}}
+            </div>
+            <div class="question-options">
+                <mat-radio-group [name]="'question_options'" [(ngModel)]="questions[question_index].selected_index">
+                    <div *ngFor="let option of questions[question_index].options; index as i">
+                        <div class="question-option">
+                            <label class="hov">
+                                <mat-radio-button [value]="i" [color]="'primary'"></mat-radio-button>
+                                <span class="option-text">{{option}}</span>
+                            </label>
+                        </div>
+                        <br>
+                    </div>
+                </mat-radio-group>
+            </div>
+        </div>
+        <div class="content-actions">
+            <button [disabled]="!prevQuestionActive" mat-fab (click)="prevQuestion()">
+                <mat-icon color="primary">arrow_back_ios</mat-icon>
+            </button>
+            <button [disabled]="!nextQuestionActive" mat-fab (click)="nextQuestion()">
+                <mat-icon color="primary">arrow_forward_ios</mat-icon>
+            </button>
+        </div>
+        <div class="center-text">
+            <br><br><br>
+            <button *ngIf="!nextQuestionActive" mat-flat-button color="primary" (click)="scoreTest()">Submit Responses
+                <mat-icon>play_circle</mat-icon></button>
+            <app-loading *ngIf="testLoading"></app-loading>
+        </div>
+    </div>
+    <div *ngIf="scoringCompleted">
+        <h3 class="center-text">Congratulations on successfully completing this Training! You scored: {{score}}% on the Test.</h3>
+    </div>
 </div>

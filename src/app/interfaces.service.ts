@@ -12,6 +12,7 @@ export interface Training {
   link: string;
   content: Array<TrainingContent>;
   test_question_count: number;
+  pass_percentage: number;
   created_by: string;
   created_on: Date;//requires date transformation
   years_active: Array<number>;
@@ -77,4 +78,12 @@ export interface UserTrainingProgress {
 
 export interface UserTraining extends Training {
   progress: UserTrainingProgress,
+}
+
+export interface UserTestQuestion {
+  q_id: string,
+  question: string,
+  options: Array<string>,
+  answer_index: number,
+  selected_index?: number
 }

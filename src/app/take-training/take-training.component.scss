@@ -47,24 +47,28 @@
 
 //test questions
 
-.textarea {
-    height: 10em !important;
+.test-page {
+    width: 70%;
+    margin: 30px 50px;
+    padding: 30px;
+    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
 }
 
-.o-input {
-    width: 50%;
+.question-text {
+    font-size: 18pt;
+    font-weight: 500;
+    margin-bottom: 50px;
+}
+
+.question-option {
     display: flex;
-    justify-content: flex-start;
+    align-items: center;
 }
 
-.o-q-input {
-    flex-grow: 1;
+.option-text {
+    margin-left: 20px;
+    font-size: 14pt;
 }
-
-.btn {
-    border-radius: 20px;
-}
-
 //assets
 
 .asset {

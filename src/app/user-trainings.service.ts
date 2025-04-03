@@ -26,4 +26,16 @@ export class UserTrainingsService {
 	startTraining(t_id: string): Observable<any> {
 		return this.request.request('trainings/user/start-training', 'post', { t_id: t_id });
 	}
+
+	startTest(t_id: string): Observable<any> {
+		return this.request.request('trainings/user/start-training-test', 'post', { t_id: t_id });
+	}
+
+	endTest(t_id: string, right_responses: Array<string>, wrong_responses: Array<string>): Observable<any> {
+		return this.request.request('trainings/user/end-training-test', 'post', { t_id, right_responses, wrong_responses });
+	}
+
+	resetTrainingProgress(t_id: string, right_responses: Array<string>, wrong_responses: Array<string>): Observable<any> {
+		return this.request.request('trainings/user/reset-training-progress', 'post', { t_id, right_responses, wrong_responses });
+	}
 }

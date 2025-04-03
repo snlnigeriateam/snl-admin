@@ -28,6 +28,7 @@ export class CreateTrainingComponent {
 	training_month: number = 1;
 	deadline_warning: number = 10;
 	question_count: number = 30;
+	pass_percentage: number = 60;
 	url: string = "";
 
 	roles: Array<Role> = [
@@ -101,16 +102,19 @@ export class CreateTrainingComponent {
 		else if (!this.internal && (!this.url || wsp.test(this.url))) {
 			this.alerts.alert("All fields are required", true);
 		}
-		else if(this.deadline_warning < 5 || this.deadline_warning > 90){
+		else if (this.deadline_warning < 5 || this.deadline_warning > 90) {
 			this.alerts.alert("Invalid Deadline Warning", true);
 		}
-		else if(this.question_count < 5 || this.question_count > 100){
+		else if (this.question_count < 5 || this.question_count > 100) {
 			this.alerts.alert("Invalid Test Question Count", true);
+		}
+		else if (this.pass_percentage < 50) {
+			this.alerts.alert("A passing grade for Tests must be greater than or equal to 50%", true);
 		}
 		else {
 			this.actionLoading = true;
 
-			this.tService.createTraining(this.title, this.recurring, this.annual, this.even_years, this.internal, this.tiers, this.question_count, this.deadline.getTime(), this.deadline_warning, this.url).subscribe({
+			this.tService.createTraining(this.title, this.recurring, this.annual, this.even_years, this.internal, this.tiers, this.question_count, this.pass_percentage, this.deadline.getTime(), this.deadline_warning, this.url).subscribe({
 				next: (data) => {
 					this.actionLoading = false;
 					if (data.success) {
