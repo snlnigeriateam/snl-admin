@@ -76,6 +76,7 @@ export class ManageTrainingComponent {
 	tiers: Array<number> = [];
 	question_count: number = 0;
 	pass_percentage: number = 0;
+	test_duration: number = 0;
 	training_date: number = 0;
 	training_month: number = 1;
 	deadline_warning: number = 10;
@@ -153,6 +154,7 @@ export class ManageTrainingComponent {
 					this.tiers = this.training!.tiers;
 					this.question_count = this.training!.test_question_count;
 					this.pass_percentage = this.training!.pass_percentage;
+					this.test_duration = this.training!.test_duration;
 					this.deadline_warning = this.training!.deadline_warning;
 					this.url = this.training!.link;
 					this.deadline = this.training!.deadline;
@@ -653,10 +655,13 @@ export class ManageTrainingComponent {
 		else if (this.pass_percentage < 50) {
 			this.alerts.alert("A passing grade for Tests must be greater than or equal to 50%", true);
 		}
+		else if(this.test_duration < 10 || this.test_duration > 180){
+			this.alerts.alert("Invalid Test Duration. All tests must take at least 10 minutes and at most 3 hours (180 minutes)", true);
+		}
 		else {
 			this.updateLoading = true;
 
-			this.tService.updateTraining(this.t_id, this.training_title, this.recurring, this.annual, this.even_years, this.internal, this.tiers, this.question_count, this.pass_percentage, this.deadline.getTime(), this.deadline_warning, this.url).subscribe({
+			this.tService.updateTraining(this.t_id, this.training_title, this.recurring, this.annual, this.even_years, this.internal, this.tiers, this.question_count, this.pass_percentage, this.test_duration, this.deadline.getTime(), this.deadline_warning, this.url).subscribe({
 				next: (data) => {
 					this.updateLoading = false;
 					if (data.success) {

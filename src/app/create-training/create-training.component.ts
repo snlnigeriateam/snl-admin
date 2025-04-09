@@ -28,6 +28,7 @@ export class CreateTrainingComponent {
 	training_month: number = 1;
 	deadline_warning: number = 10;
 	question_count: number = 30;
+	test_duration: number = 30;
 	pass_percentage: number = 60;
 	url: string = "";
 
@@ -108,13 +109,16 @@ export class CreateTrainingComponent {
 		else if (this.question_count < 5 || this.question_count > 100) {
 			this.alerts.alert("Invalid Test Question Count", true);
 		}
+		else if(this.test_duration < 10 || this.test_duration > 180){
+			this.alerts.alert("Invalid Test Duration. All tests must take at least 10 minutes and at most 3 hours (180 minutes)", true);
+		}
 		else if (this.pass_percentage < 50) {
 			this.alerts.alert("A passing grade for Tests must be greater than or equal to 50%", true);
 		}
 		else {
 			this.actionLoading = true;
 
-			this.tService.createTraining(this.title, this.recurring, this.annual, this.even_years, this.internal, this.tiers, this.question_count, this.pass_percentage, this.deadline.getTime(), this.deadline_warning, this.url).subscribe({
+			this.tService.createTraining(this.title, this.recurring, this.annual, this.even_years, this.internal, this.tiers, this.question_count, this.pass_percentage, this.test_duration, this.deadline.getTime(), this.deadline_warning, this.url).subscribe({
 				next: (data) => {
 					this.actionLoading = false;
 					if (data.success) {

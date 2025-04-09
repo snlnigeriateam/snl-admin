@@ -13,6 +13,7 @@ export interface Training {
   content: Array<TrainingContent>;
   test_question_count: number;
   pass_percentage: number;
+  test_duration: number;
   created_by: string;
   created_on: Date;//requires date transformation
   years_active: Array<number>;

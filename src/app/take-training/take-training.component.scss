@@ -12,7 +12,8 @@
     padding: 10px 40px;
 }
 
-.assets-div, .content-div {
+.assets-div,
+.content-div {
     min-height: 40vh;
 }
 
@@ -69,6 +70,17 @@
     margin-left: 20px;
     font-size: 14pt;
 }
+
+.flash {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
 //assets
 
 .asset {

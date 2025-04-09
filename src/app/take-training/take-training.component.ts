@@ -44,8 +44,15 @@ export class TakeTrainingComponent {
 	percentage_score: number = 0;
 	pass_percentage: number = 0.0;
 	question_index: number = 0;
+	test_duration: number = 0;
+	elapsed_duration: number = 0;
+	test_time: string = "";
+	elapsed_time: string = "00:00";
 	prevQuestionActive: boolean = false;
 	nextQuestionActive: boolean = false;
+
+	timer?: NodeJS.Timeout;
+	time_colour: string = "";
 
 	constructor(
 		private title: Title,
@@ -55,6 +62,12 @@ export class TakeTrainingComponent {
 	) {
 		this.t_id = this.router.parseUrl(this.router.url).root.children['primary'].segments[2].path;
 		this.load();
+	}
+
+	ngOnDestroy() {
+		if (this.timer != null) {
+			clearInterval(this.timer);
+		}
 	}
 
 	load() {
@@ -222,9 +235,40 @@ export class TakeTrainingComponent {
 					}
 
 					this.pass_percentage = data.pass_percentage;
+					this.test_duration = data.test_duration * 60;
+					let timing = this.computeTime(this.test_duration);
+
+					this.test_time = timing.time_string;
+					if (timing.hours > 0) {
+						this.elapsed_time = "00:00:00";
+					}
 					this.nextQuestionActive = true;
 
 					this.testLoaded = true;
+
+					// this.timer = setInterval(this.clockTick, 1000);
+					this.timer = setInterval(() => {
+						this.elapsed_duration++;
+						if (this.elapsed_duration >= this.test_duration / 2) {
+							this.time_colour = "warn";
+						}
+
+						if (this.elapsed_duration >= this.test_duration - 120) {
+							this.time_colour = "danger";
+						}
+
+						if (this.elapsed_duration >= this.test_duration - 60) {
+							this.time_colour = "danger flash";
+						}
+
+						let timing = this.computeTime(this.elapsed_duration);
+
+						this.elapsed_time = timing.time_string;
+
+						if(this.elapsed_duration === this.test_duration){
+							clearInterval(this.timer);
+						}
+					}, 1000);
 				}
 				else {
 					this.alerts.alert(data.reason, true);
@@ -347,4 +391,72 @@ export class TakeTrainingComponent {
 			}
 		});
 	}
+
+	computeTime(time_in_seconds: number) {
+		let hours = 0;
+		let minutes = 0;
+		let seconds = 0;
+
+		hours = Math.floor(time_in_seconds / 3600);
+		if (hours > 0) {
+			let remainder_in_seconds = time_in_seconds % 3600;
+			minutes = Math.floor(remainder_in_seconds / 60);
+
+			if (minutes > 0) {
+				seconds = remainder_in_seconds % 60;
+			}
+			else {
+				seconds = remainder_in_seconds;
+			}
+		}
+		else {
+			minutes = Math.floor(time_in_seconds / 60);
+
+			if (minutes > 0) {
+				seconds = time_in_seconds % 60;
+			}
+			else {
+				seconds = time_in_seconds;
+			}
+		}
+
+		let hh = hours.toString();
+		let mm = minutes.toString();
+		let ss = seconds.toString();
+		let time_string = "";
+
+		if (hours !== 0) {
+			if (hh.length === 1) {
+				hh = `0${hh}`;
+			}
+			if (mm.length === 1) {
+				mm = `0${mm}`;
+			}
+			if (ss.length === 1) {
+				ss = `0${ss}`;
+			}
+
+			time_string = `${hh}:${mm}:${ss}`;
+		}
+		else {
+			if (mm.length === 1) {
+				mm = `0${mm}`;
+			}
+			if (ss.length === 1) {
+				ss = `0${ss}`;
+			}
+
+			time_string = `${mm}:${ss}`;
+		}
+
+		return { hours: hours, minutes: minutes, seconds: seconds, time_string: time_string };
+	}
+
+	// clockTick(){
+	// 	this.elapsed_duration++;
+
+	// 	let timing = this.computeTime(this.elapsed_duration);
+
+	// 	this.elapsed_time = timing.time_string;
+	// }
 }

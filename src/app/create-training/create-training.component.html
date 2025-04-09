@@ -50,6 +50,11 @@
 		</mat-form-field>
 		<br><br>
 		<mat-form-field class="m-input" appearance="fill" color="primary">
+			<mat-label>Test Duration (minutes)</mat-label>
+			<input type="number" matInput [(ngModel)]="test_duration" min="10" max="180">
+		</mat-form-field>
+		<br><br>
+		<mat-form-field class="m-input" appearance="fill" color="primary">
 			<mat-label>Passing Grade (%)</mat-label>
 			<input type="number" matInput [(ngModel)]="pass_percentage" min="50" max="100">
 			<mat-hint>What percentage of asked questions must be answered accurately to make a passing grade?</mat-hint>

@@ -272,6 +272,11 @@
 					<mat-hint>Questions are randomly selected from a pool. This value specifies the precise number to
 						curate for every test.</mat-hint>
 				</mat-form-field>
+				<br><br><br>
+				<mat-form-field class="m-input" appearance="fill" color="primary">
+					<mat-label>Test Duration (minutes)</mat-label>
+					<input type="number" matInput [(ngModel)]="test_duration" min="10" max="180">
+				</mat-form-field>
 				<br><br>
 				<mat-form-field class="m-input" appearance="fill" color="primary">
 					<mat-label>Passing Grade (%)</mat-label>

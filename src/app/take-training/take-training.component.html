@@ -34,6 +34,10 @@
         </div>
         <div class="sidebar">
             <h3 class="center-text primary">Training Assets</h3>
+            <div *ngIf="training_assets.length === 0" class="center-text italic">
+                <br><br><br>
+                <h5>No Training Assets</h5>
+            </div>
             <div class="assets-div">
                 <div *ngFor="let asset of training_assets; index as i" class="asset">
                     <mat-icon *ngIf="asset.type === 1">description</mat-icon>
@@ -61,6 +65,9 @@
     </div>
 </div>
 <div *ngIf="testInProgress" class="test-page center">
+    <div *ngIf="testLoaded && !scoring && !scoringCompleted" class="right-text bold">
+        <span class="{{time_colour}}">{{elapsed_time}}</span> / {{test_time}}
+    </div>
     <h2 class="center-text">{{training!.title}} | SNL Nigeria Staff Training Test</h2>
     <div *ngIf="testLoading || scoring">
         <br><br><br><br>
@@ -68,7 +75,8 @@
     </div>
     <div class="questions-content" *ngIf="testLoaded && !scoring && !scoringCompleted">
         <div class="center-text">
-            <span class="progress-marker">{{question_index + 1}} / {{questions.length}}</span>
+            <span class="progress-marker grey-text">{{question_index + 1}} / {{questions.length}}</span>
+            <br><br>
         </div>
         <div class="question">
             <div class="question-text">
