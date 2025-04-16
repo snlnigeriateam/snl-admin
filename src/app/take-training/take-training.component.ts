@@ -24,7 +24,7 @@ export class TakeTrainingComponent {
 	testInProgress: boolean = false;
 	submitLoading: boolean = false;
 	scoring: boolean = false;
-	testTimeElapsed: boolean = true;
+	testTimeElapsed: boolean = false;
 	scoringCompleted: boolean = false;
 
 	training?: UserTraining;
