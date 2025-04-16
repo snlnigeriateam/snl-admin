@@ -24,6 +24,7 @@ export class TakeTrainingComponent {
 	testInProgress: boolean = false;
 	submitLoading: boolean = false;
 	scoring: boolean = false;
+	testTimeElapsed: boolean = true;
 	scoringCompleted: boolean = false;
 
 	training?: UserTraining;
@@ -265,7 +266,8 @@ export class TakeTrainingComponent {
 
 						this.elapsed_time = timing.time_string;
 
-						if(this.elapsed_duration === this.test_duration){
+						if (this.elapsed_duration === this.test_duration) {
+							this.testTimeElapsed = true;
 							clearInterval(this.timer);
 						}
 					}, 1000);
@@ -321,18 +323,16 @@ export class TakeTrainingComponent {
 	}
 
 	scoreTest() {
-		let question = this.questions[this.question_index];
+		this.scoring = true;
+		let right_responses: Array<string> = [];
+		let wrong_responses: Array<string> = [];
+		let score = 0;
+		let total = this.questions.length;
 
-		if (question.selected_index != null) {
-			this.scoring = true;
-			let right_responses: Array<string> = [];
-			let wrong_responses: Array<string> = [];
-			let score = 0;
-			let total = this.questions.length;
+		for (let i = 0; i < this.questions.length; i++) {
+			let question = this.questions[i];
 
-			for (let i = 0; i < this.questions.length; i++) {
-				let question = this.questions[i];
-
+			if (question.selected_index != null) {
 				if (question.selected_index! == question.answer_index) {
 					right_responses.push(question.q_id);
 					score++;
@@ -341,11 +341,25 @@ export class TakeTrainingComponent {
 					wrong_responses.push(question.q_id);
 				}
 			}
+		}
 
-			this.percentage_score = (score / total) * 100;
+		this.percentage_score = (score / total) * 100;
+
+		return {
+			right_responses: right_responses,
+			wrong_responses: wrong_responses,
+			percentage_score: this.percentage_score
+		}
+	}
+
+	completeTest(skipCurrent: boolean) {
+		let question = this.questions[this.question_index];
+
+		if (question.selected_index != null || skipCurrent) {
+			let results = this.scoreTest();
 
 			if (this.percentage_score >= this.pass_percentage) {
-				this.tService.endTest(this.t_id, right_responses, wrong_responses).subscribe({
+				this.tService.endTest(this.t_id, results.right_responses, results.wrong_responses).subscribe({
 					next: (data) => {
 						this.scoring = false;
 						if (data.success) {
@@ -362,7 +376,7 @@ export class TakeTrainingComponent {
 				});
 			}
 			else {
-				this.resetTrainingProgress(right_responses, wrong_responses);
+				this.resetTrainingProgress(results.right_responses, results.wrong_responses);
 				this.alerts.confirm(`You scored ${this.percentage_score.toFixed(2)}% on this test, less than the ${this.pass_percentage}% required for a passing grade. You may retake the Training and return to this test later. Would you like to begin now?`).then((retake) => {
 					if (retake) {
 						this.alerts.alert("Saving Progress...", false);
@@ -450,6 +464,21 @@ export class TakeTrainingComponent {
 		}
 
 		return { hours: hours, minutes: minutes, seconds: seconds, time_string: time_string };
+	}
+
+	retakeTraining() {
+		let results = this.scoreTest();
+		this.resetTrainingProgress(results.right_responses, results.wrong_responses);
+
+		this.alerts.confirm(`You scored ${this.percentage_score.toFixed(2)}% on this test. You may retake the Training and return to this test later. Would you like to begin now?`).then((retake) => {
+			if (retake) {
+				this.alerts.alert("Saving Progress...", false);
+
+				setTimeout(() => {
+					location.reload();
+				}, 1500);
+			}
+		});
 	}
 
 	// clockTick(){

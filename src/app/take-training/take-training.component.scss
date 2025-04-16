@@ -75,6 +75,10 @@
     animation: blinker 1s linear infinite;
 }
 
+.test-button {
+    margin: 0px 30px;
+}
+
 @keyframes blinker {
     50% {
         opacity: 0;

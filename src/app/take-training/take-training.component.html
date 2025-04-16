@@ -73,7 +73,7 @@
         <br><br><br><br>
         <app-loading></app-loading>
     </div>
-    <div class="questions-content" *ngIf="testLoaded && !scoring && !scoringCompleted">
+    <div class="questions-content" *ngIf="testLoaded && !testTimeElapsed && !scoring && !scoringCompleted">
         <div class="center-text">
             <span class="progress-marker grey-text">{{question_index + 1}} / {{questions.length}}</span>
             <br><br>
@@ -106,9 +106,25 @@
         </div>
         <div class="center-text">
             <br><br><br>
-            <button *ngIf="!nextQuestionActive" mat-flat-button color="primary" (click)="scoreTest()">Submit Responses
+            <button *ngIf="!nextQuestionActive" mat-flat-button color="primary" (click)="completeTest(false)">Submit Responses
                 <mat-icon>play_circle</mat-icon></button>
             <app-loading *ngIf="testLoading"></app-loading>
+        </div>
+    </div>
+    <div *ngIf="testTimeElapsed">
+        <h3 class="center-text">Test Time Elapsed</h3>
+        <div class="elapsed-content">
+            The time allotted for this Test has elapsed. You may submit your completed responses now and forfeit the rest of the test. If your grade reaches the passing grade for the test,
+            this Training will be marked as completed. If it doesn't, you will be required to take the training again.
+            <br><br>
+            Alternatively, you may choose to take the training again.
+            <br><br><br>
+            <div class="center-text test-buttons-div">
+                <button mat-flat-button color="primary" class="test-button" (click)="completeTest(true)">Submit Responses
+                    <mat-icon>play_circle</mat-icon></button>
+                <button mat-flat-button color="primary" class="test-button" (click)="retakeTraining()">Retake Training
+                    <mat-icon>refresh</mat-icon></button>
+            </div>
         </div>
     </div>
     <div *ngIf="scoringCompleted">
