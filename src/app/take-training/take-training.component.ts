@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { UserTrainingsService } from '../user-trainings.service';
 import { TrainingAsset, TrainingContent, UserTestQuestion, UserTraining } from '../interfaces.service';
-
+//bug fix: score, duplicated trainings on trainings page
 @Component({
 	selector: 'app-take-training',
 	templateUrl: './take-training.component.html',
