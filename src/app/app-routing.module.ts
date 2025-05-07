@@ -20,6 +20,9 @@ import { ManageTrainingsComponent } from './manage-trainings/manage-trainings.co
 import { ManageTrainingComponent } from './manage-training/manage-training.component';
 import { AvailableTrainingsComponent } from './available-trainings/available-trainings.component';
 import { TakeTrainingComponent } from './take-training/take-training.component';
+import { DepartmentsComponent } from './departments/departments.component';
+import { CreateDepartmentComponent } from './create-department/create-department.component';
+import { ManageDepartmentComponent } from './manage-department/manage-department.component';
 //TODO: Guards
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent, },
@@ -41,7 +44,10 @@ const routes: Routes = [
   { path: 'trainings/manage-trainings', component: ManageTrainingsComponent, title: "Manage Trainings - Trainings | SNL Nigeria Insiders" },
   { path: 'trainings/manage-training/:t_id', component: ManageTrainingComponent },
   { path: 'trainings/available-trainings', component: AvailableTrainingsComponent, title: "Available Trainings - Trainings | SNL Nigeria Insiders" },
-  { path: 'trainings/take-training/:t_id', component: TakeTrainingComponent }
+  { path: 'trainings/take-training/:t_id', component: TakeTrainingComponent },
+  { path: 'departments', component: DepartmentsComponent, title: "Departments | SNL Nigeria Insiders" },
+  { path: 'departments/create-department', component: CreateDepartmentComponent, title: "Create Department - Departments | SNL Nigeria Insiders" },
+  { path: 'departments/manage-department/:d_id', component: ManageDepartmentComponent, title: "Manage Department - Departments | SNL Nigeria Insiders" }
 ];
 
 @NgModule({

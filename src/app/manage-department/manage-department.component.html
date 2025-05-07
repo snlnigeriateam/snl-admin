@@ -1,0 +1,32 @@
+<div *ngIf="!pageLoading">
+    <div *ngIf="pageLoaded" class="center-text center sect">
+        <h2 class="h2">Manage Department - {{name}}</h2>
+        <br><br>
+        <div class="right-text center m-input">
+            <button mat-icon-button color="primary" (click)="remove()"><mat-icon>delete</mat-icon></button>
+        </div>
+        <br><br><br>
+        <mat-form-field class="m-input" appearance="fill" color="primary">
+            <mat-label>Name of Department</mat-label>
+            <input type="text" matInput [(ngModel)]="name">
+        </mat-form-field>
+        <br><br>
+        <mat-form-field class="m-input" appearance="fill" color="primary">
+            <mat-label>Department Head</mat-label>
+            <mat-select [(value)]="head">
+                @for (person of people; track person) {
+                <mat-option [value]="person.a_id">{{person.f_name}} {{person.l_name}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <br><br>
+        <button *ngIf="!actionLoading" class="button p-btn hov" (click)="validate()" mat-raised-button
+            color="primary">Update Department</button>
+        <app-loading *ngIf="actionLoading"></app-loading>
+        <br><br>
+    </div>
+</div>
+<div *ngIf="pageLoading">
+    <br><br>
+    <app-loading></app-loading>
+</div>

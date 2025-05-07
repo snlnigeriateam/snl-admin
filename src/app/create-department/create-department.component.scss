@@ -1,0 +1,39 @@
+.m-input {
+    width: 65%;
+}
+
+.toggle {
+    display: flex;
+    justify-content: center;
+}
+
+.split-toggle {
+    display: flex;
+    justify-content: space-between;
+}
+
+.slide {
+    margin-left: 20px;
+}
+
+.p-btn {
+    padding: 20px 100px;
+    border-radius: 100px;
+}
+
+textarea {
+    height: 5em;
+}
+
+.pad-l {
+    padding: 50px 0px 10px 50px;
+}
+
+.pad-r {
+    padding: 50px 50px 10px 0px;
+}
+
+.flex-apart {
+    display: flex;
+    justify-content: space-between;
+}

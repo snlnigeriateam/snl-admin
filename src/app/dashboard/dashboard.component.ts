@@ -19,7 +19,7 @@ interface DashItem {
 export class DashboardComponent {
 	pageLoading: boolean = false;
 	pageLoaded: boolean = false;
-
+	
 	displayItems: Array<DashItem> = [];
 
 	items: Array<DashItem> = [
@@ -52,6 +52,12 @@ export class DashboardComponent {
 			title: 'Trainings',
 			subtitle: 'Actions on Training Courses',
 			url: 'trainings'
+		},
+		{
+			icon: 'icon-5.png',
+			title: 'Departments',
+			subtitle: "Manage Company Departments",
+			url: 'departments'
 		}
 	];
 
@@ -82,9 +88,10 @@ export class DashboardComponent {
 					if (tier < 2) {
 						this.displayItems.push(this.items[2]);
 						this.displayItems.push(this.items[4]);
+						this.displayItems.push(this.items[5]);
 					}
 					else {
-						this.displayItems.push(this.items[3]);
+						// this.displayItems.push(this.items[5]);
 					}
 
 					this.pageLoaded = true;

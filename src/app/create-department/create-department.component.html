@@ -1,0 +1,15 @@
+<div>
+	<div class="center-text center sect">
+		<h2 class="h2">Create New Department</h2>
+		<br><br>
+		<mat-form-field class="m-input" appearance="fill" color="primary">
+			<mat-label>Name of Department</mat-label>
+			<input type="text" matInput [(ngModel)]="name">
+		</mat-form-field>
+		<br><br>
+		
+		<button *ngIf="!actionLoading" class="button p-btn hov" (click)="validate()" mat-raised-button
+			color="primary">Create Department</button>
+		<app-loading *ngIf="actionLoading"></app-loading>
+	</div>
+</div>

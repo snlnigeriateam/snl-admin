@@ -31,7 +31,7 @@ export interface Role {
   tier: number
 }
 
-export interface TrainingAsset{
+export interface TrainingAsset {
   a_id: string,
   type: number,
   t_id: string,
@@ -87,4 +87,10 @@ export interface UserTestQuestion {
   options: Array<string>,
   answer_index: number,
   selected_index?: number
+}
+
+export interface Department {
+  d_id: string,
+  name: string,
+  head: string,
 }

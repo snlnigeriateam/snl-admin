@@ -55,6 +55,9 @@ import { ManageTrainingsComponent } from './manage-trainings/manage-trainings.co
 import { ManageTrainingComponent } from './manage-training/manage-training.component';
 import { AvailableTrainingsComponent } from './available-trainings/available-trainings.component';
 import { TakeTrainingComponent } from './take-training/take-training.component';
+import { DepartmentsComponent } from './departments/departments.component';
+import { CreateDepartmentComponent } from './create-department/create-department.component';
+import { ManageDepartmentComponent } from './manage-department/manage-department.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +91,9 @@ import { TakeTrainingComponent } from './take-training/take-training.component';
     ManageTrainingComponent,
     AvailableTrainingsComponent,
     TakeTrainingComponent,
+    DepartmentsComponent,
+    CreateDepartmentComponent,
+    ManageDepartmentComponent,
   ],
   imports: [
     BrowserModule,

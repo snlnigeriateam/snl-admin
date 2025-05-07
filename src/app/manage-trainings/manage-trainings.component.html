@@ -1,5 +1,8 @@
 <div *ngIf="!pageLoading">
 	<h2 class="center-text">SNL Nigeria Staff Trainings</h2>
+	<div *ngIf="trainings.length === 0" class="center-text empty-div italic">
+		No Available Trainings
+	</div>
 	<div class="training-div">
 		<div *ngFor="let training of trainings" class="dash-card">
 			<span class="right-text">
