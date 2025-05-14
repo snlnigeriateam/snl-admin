@@ -50,6 +50,15 @@
 	</mat-form-field>
 	<br><br>
 	<mat-form-field class="m-input" appearance="fill" color="primary">
+		<mat-label>Department</mat-label>
+		<mat-select [(value)]="d_id">
+			@for (department of departments; track department) {
+			<mat-option [value]="department.d_id">{{department.name}}</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
+	<br><br>
+	<mat-form-field class="m-input" appearance="fill" color="primary">
 		<mat-label>Position</mat-label>
 		<mat-select [(value)]="p_id">
 			@for (position of positions; track position) {
