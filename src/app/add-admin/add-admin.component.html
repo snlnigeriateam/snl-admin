@@ -59,6 +59,15 @@
 	</mat-form-field>
 	<br><br>
 	<mat-form-field class="m-input" appearance="fill" color="primary">
+		<mat-label>Direct Supervisor</mat-label>
+		<mat-select [(value)]="s_id">
+			@for (supervisor of administrators; track supervisor) {
+			<mat-option [value]="supervisor.a_id">{{supervisor.f_name}} {{supervisor.l_name}} - {{supervisor.position.name}} | {{supervisor.role.name}} Level</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
+	<br><br>
+	<mat-form-field class="m-input" appearance="fill" color="primary">
 		<mat-label>Position</mat-label>
 		<mat-select [(value)]="p_id">
 			@for (position of positions; track position) {

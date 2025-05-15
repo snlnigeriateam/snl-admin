@@ -58,6 +58,12 @@ export class DashboardComponent {
 			title: 'Departments',
 			subtitle: "Manage Company Departments",
 			url: 'departments'
+		},
+		{
+			icon: 'icon-6.png',
+			title: 'Staff Management',
+			subtitle: "Manage your Direct Reports",
+			url: 'management'
 		}
 	];
 
@@ -83,15 +89,13 @@ export class DashboardComponent {
 
 					if (tier < 3) {
 						this.displayItems.push(this.items[0]);
-					}
-
-					if (tier < 2) {
 						this.displayItems.push(this.items[2]);
 						this.displayItems.push(this.items[4]);
 						this.displayItems.push(this.items[5]);
 					}
-					else {
-						// this.displayItems.push(this.items[5]);
+
+					if(tier < 4){
+						this.displayItems.push(this.items[6]);
 					}
 
 					this.pageLoaded = true;
