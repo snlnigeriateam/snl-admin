@@ -115,4 +115,16 @@ export class TrainingsService {
 	deactivateTraining(t_id: string): Observable<any> {
 		return this.request.request('trainings/deactivate-training', 'post', { t_id: t_id });
 	}
+
+	assignTrainingInstantly(t_id: string, a_id: string, is_dept: boolean, is_tier: boolean, deadline_days: number, dept: string, tiers: Array<number>): Observable<any> {
+		return this.request.request('trainings/assign-training-instantly', 'post', {
+			t_id,
+			a_id,
+			is_dept,
+			is_tier,
+			deadline_days,
+			dept,
+			tiers
+		});
+	}
 }

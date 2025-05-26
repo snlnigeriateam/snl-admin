@@ -58,4 +58,14 @@ export class StaffService {
 			a_id: a_id
 		});
 	}
+
+	updateAdministrator(a_id: string, username: string, c_email: string, p_id: string, tier: number): Observable<any> {
+		return this.request.request('administrators/update-admin', 'post', {
+			a_id: a_id,
+			username: username,
+			c_email: c_email,
+			p_id: p_id,
+			tier: tier
+		});
+	}
 }

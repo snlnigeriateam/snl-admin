@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { StaffService } from '../staff.service';
 import { Position, Property, Role, Training, User, UserTraining } from '../interfaces.service';
+import { TrainingsService } from '../trainings.service';
 
 interface UserTrail {
 	action: string,
@@ -17,7 +18,7 @@ interface DirectReport extends User {
 	completedTrainings: Array<UserTraining>,
 }
 
-interface Person{
+interface Person {
 	f_name: Property;
 	l_name: Property;
 	username: Property;
@@ -87,6 +88,7 @@ export class ManageDirectReportComponent {
 	constructor(
 		private alerts: AlertsComponent,
 		private sService: StaffService,
+		private tService: TrainingsService,
 		private router: Router,
 	) {
 		this.r_id = this.router.parseUrl(this.router.url).root.children['primary'].segments[2].path;
@@ -217,6 +219,33 @@ export class ManageDirectReportComponent {
 	}
 
 	validate() {
+		let wsp = /^\s*$/;
+		if (!this.person!.username.prop || !this.person!.c_email.prop || !this.person!.p_id.prop) {
+			this.alerts.alert("All fields are required", true);
+		}
+		else if (wsp.test(this.person!.username.prop) || wsp.test(this.person!.c_email.prop) || wsp.test(this.person!.p_id.prop)) {
+			this.alerts.alert("All fields are required", true);
+		}
+		else {
+			this.saveLoading = true;
+			this.sService.updateAdministrator(this.r_id, this.person!.username.prop, this.person!.c_email.prop, this.person!.p_id.prop, this.person!.tier.prop).subscribe({
+				next: (data) => {
+					this.saveLoading = false;
+					if (data.success) {
+						this.alerts.alert("User Account Updated", false);
+						setTimeout(() => {
+							location.reload();
+						}, 1000);
+					} else {
+						this.alerts.alert(data.reason, true);
+					}
+				},
+				error: () => {
+					this.saveLoading = false;
+					this.alerts.alert("Please check your connection", true);
+				}
+			});
+		}
 	}
 
 	loadAvailableTrainings() {
@@ -238,5 +267,24 @@ export class ManageDirectReportComponent {
 		});
 	}
 
-	assignTraining(t_id: string){}
+	assignTraining(t_id: string) {
+		this.availableTrainingsLoading = true;
+		this.tService.assignTrainingInstantly(t_id, this.r_id, false, false, 0, '', []).subscribe({
+			next: (data) => {
+				this.availableTrainingsLoading = false;
+				if (data.success) {
+					this.alerts.alert("Training Assigned", false);
+					setTimeout(() => {
+						location.reload();
+					}, 1000);
+				} else {
+					this.alerts.alert(data.reason, true);
+				}
+			},
+			error: () => {
+				this.availableTrainingsLoading = false;
+				this.alerts.alert("Please check your connection", true);
+			}
+		});
+	}
 }

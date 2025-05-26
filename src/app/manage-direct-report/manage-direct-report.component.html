@@ -26,7 +26,7 @@
 					(click)="loadAvailableTrainings()" mat-raised-button color="primary">Load Available
 					Trainings</button>
 				<app-loading *ngIf="availableTrainingsLoading"></app-loading>
-				<div *ngIf="availableTrainingsLoaded">
+				<div *ngIf="availableTrainingsLoaded && !availableTrainingsLoading">
 					<div *ngIf="availableTrainings.length == 0" class="empty-div italic">
 						No Available Trainings
 					</div>
@@ -69,8 +69,17 @@
 						<div class="training-info">
 							<div class="training-info-item">
 								<span class="training-info-label primary">Due Date:</span>
-								<span class="training-info-value"> {{training.deadline | date}}</span>
+								<span class="training-info-value"> {{training.progress.deadline | date}}</span>
 							</div>
+							<div class="training-info-item">
+								<span class="training-info-label primary">Assigned By:</span>
+								<span class="training-info-value"> {{training.progress.assigned_by}}</span>
+							</div>
+							<div class="training-info-item">
+								<span class="training-info-label primary">Assigned On:</span>
+								<span class="training-info-value"> {{training.progress.assigned_on | date}}</span>
+							</div>
+
 							<div class="training-info-item">
 								<span class="training-info-label primary">Status:</span>
 								<span class="training-info-value {{training.progress.started ? 'success' : 'warn'}}">

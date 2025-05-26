@@ -92,6 +92,9 @@ export interface UserTrainingProgress {
   score: number,
   t_id: string,
   progress: number,
+  assigned_on: Date,//requires Date transformation
+  assigned_by: string,
+  deadline: Date,//requires Date transformation
   activity: Array<TrainingActivity>
 }
 
