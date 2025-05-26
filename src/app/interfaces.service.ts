@@ -1,3 +1,20 @@
+export interface Property {
+	prop: any;
+	editable: boolean;
+}
+
+export interface Position {
+  name: string,
+  description: string,
+  p_id: string,
+  unique: boolean
+}
+
+export interface Role {//about to be deprecated
+	name: string,
+	tier: number
+}
+
 export interface Training {
   t_id: string;
   annual: boolean;
@@ -60,7 +77,7 @@ export interface QuestionOption {
   index: number
 }
 
-export interface TrainingProgress {
+export interface TrainingActivity {
   on: Date,
   action: string,
   id: string
@@ -74,7 +91,8 @@ export interface UserTrainingProgress {
   completed_on: Date,
   score: number,
   t_id: string,
-  progress: Array<TrainingProgress>
+  progress: number,
+  activity: Array<TrainingActivity>
 }
 
 export interface UserTraining extends Training {
@@ -93,4 +111,19 @@ export interface Department {
   d_id: string,
   name: string,
   head: string,
+}
+
+export interface User {
+  a_id: string,
+  f_name: string,
+  l_name: string,
+  email: string,
+  c_email: string,
+  phone: string,
+  active: boolean,
+  revoked: boolean,
+  role: string,
+  p_id: string,
+  uri: string,
+  tier: number
 }

@@ -1,13 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { HiringService } from '../hiring.service';
-
-interface Position {
-	name: string,
-	description: string,
-	p_id: string,
-	unique: boolean
-}
+import { Position } from '../interfaces.service';
 
 @Component({
 	selector: 'app-positions',

@@ -1,0 +1,85 @@
+.banner {
+    text-align: center;
+    margin: 30px 0px 0px 0px;
+}
+
+.avatar-img {
+    width: 200px;
+}
+
+.sections {
+    display: flex;
+    justify-content: space-between;
+}
+
+.section {
+    width: 30%;
+    padding: 30px 20px;
+    min-height: 60vh;
+}
+
+.s1 {
+    border-right: 1px solid #e0e0e0;
+}
+
+.s3 {
+    border-left: 1px solid #e0e0e0;
+}
+
+.empty-div {
+    margin: 50px 0px;
+}
+
+.training-card {
+    width: 100%;
+    padding: 20px;
+    margin: 20px 0px;
+    border-radius: 10px;
+}
+
+.training-head {
+    font-size: 18pt;
+    font-weight: 600;
+}
+
+.training-info-item, .activity-info-item {
+    margin: 20px 0px;
+    line-height: 1.5em;
+}
+
+.training-info-label, .activity-info-label {
+    font-size: 14pt;
+    font-weight: 600;
+}
+
+.training-info-value {
+    font-size: 14pt;
+    font-style: italic;
+}
+
+.activity-info-value {
+    font-size: 14pt;
+}
+
+.m-input {
+    width: 65%;
+}
+
+.p-btn {
+    padding: 20px 100px;
+    border-radius: 100px;
+}
+
+.av-training-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border: 1px solid #d3d3d3;
+}
+
+.av-training-head {
+    font-size: 16pt;
+    font-weight: 600;
+}

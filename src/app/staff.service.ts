@@ -34,4 +34,28 @@ export class StaffService {
 			s_id: s_id
 		});
 	}
+
+	//management
+	loadDirectReports(): Observable<any> {
+		return this.request.request('administrators/direct-reports', 'get');
+	}
+
+	loadDirectReport(r_id: string): Observable<any> {
+		return this.request.request('administrators/direct-report', 'post', {
+			r_id: r_id
+		});
+	}
+
+	loadTrainingsData(t_id: string, status: string): Observable<any> {
+		return this.request.request('administrators/load-trainings-data', 'post', {
+			a_id: t_id,
+			status: status
+		});
+	}
+
+	loadAvailableTrainings(a_id: string): Observable<any> {
+		return this.request.request('administrators/available-trainings', 'post', {
+			a_id: a_id
+		});
+	}
 }

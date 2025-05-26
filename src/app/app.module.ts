@@ -19,6 +19,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatSelectModule } from "@angular/material/select";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatRadioModule } from "@angular/material/radio";
+import { MatExpansionModule } from "@angular/material/expansion";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 
 import { AppRoutingModule } from './app-routing.module';
@@ -58,6 +59,8 @@ import { TakeTrainingComponent } from './take-training/take-training.component';
 import { DepartmentsComponent } from './departments/departments.component';
 import { CreateDepartmentComponent } from './create-department/create-department.component';
 import { ManageDepartmentComponent } from './manage-department/manage-department.component';
+import { ManagementComponent } from './management/management.component';
+import { ManageDirectReportComponent } from './manage-direct-report/manage-direct-report.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +97,8 @@ import { ManageDepartmentComponent } from './manage-department/manage-department
     DepartmentsComponent,
     CreateDepartmentComponent,
     ManageDepartmentComponent,
+    ManagementComponent,
+    ManageDirectReportComponent,
   ],
   imports: [
     BrowserModule,
@@ -116,6 +121,7 @@ import { ManageDepartmentComponent } from './manage-department/manage-department
     MatSelectModule,
     MatTabsModule,
     MatRadioModule,
+    MatExpansionModule,
     ClipboardModule,
     ImageCropperModule,
     QuillModule.forRoot({

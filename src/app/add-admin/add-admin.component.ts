@@ -2,19 +2,7 @@ import { Component } from '@angular/core';
 import { StaffService } from '../staff.service';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { Router } from '@angular/router';
-import { Department } from '../interfaces.service';
-
-interface Position {
-	name: string,
-	description: string,
-	p_id: string,
-	unique: boolean
-}
-
-interface Role {
-	name: string,
-	tier: number
-}
+import { Department, Position, Role } from '../interfaces.service';
 
 interface Admin {
 	a_id: string,

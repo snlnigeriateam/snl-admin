@@ -11,7 +11,26 @@
 			<mat-icon>add</mat-icon>
 		</button>
 	</div>
-	<div class="person" *ngFor="let user of users">
+	<div *ngIf="users.length === 0" class="center-text empty-div italic">
+		No Staff Available
+	</div>
+	<div class="staff-div">
+		<div *ngFor="let user of users" class="dash-card">
+			<span class="right-text">
+				<a mat-icon-button [routerLink]="['/staff', 'manage-personnel', user.a_id]">
+					<mat-icon color="primary">settings</mat-icon>
+				</a>
+			</span>
+			<div class="avatar-div">
+				<img src="{{user.uri}}" alt="Profile Photo of {{user.f_name}} {{user.l_name}}" class="icon-img">
+			</div>
+			<br><br>
+			<span class="staff-head">{{user.f_name}} {{user.l_name}}</span>
+			<br><br>
+			<span class="staff-sub">{{user.role}}</span>
+		</div>
+	</div>
+	<!-- <div class="person" *ngFor="let user of users">
 		<div class="l-user">
 			<div class="avatar-div">
 				<img src="/assets/person.png" alt="Icon of a person" class="icon-img">
@@ -39,5 +58,5 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 </div>

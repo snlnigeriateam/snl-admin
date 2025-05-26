@@ -3,12 +3,7 @@ import { Router } from '@angular/router';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { SettingsService } from '../settings.service';
 import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
-import { DomSanitizer } from '@angular/platform-browser';
-
-interface Property {
-	prop: string;
-	editable: boolean;
-}
+import { Property } from '../interfaces.service';
 
 interface Person {
 	f_name: Property;
@@ -186,8 +181,6 @@ export class SettingsComponent {
 		});
 	}
 
-//trainings: frequency, tiers applicable, title, deadline, deadline_warning_days, annual, even_years_only, link, content, tests, internal,
-//user_trainings: date_started, days_logged, date_completed
 	toggleVisibilityCurrent() {
 		this.obscureCurrent = !this.obscureCurrent;
 	}

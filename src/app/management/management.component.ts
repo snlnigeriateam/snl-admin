@@ -1,35 +1,32 @@
 import { Component } from '@angular/core';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { StaffService } from '../staff.service';
-import { Clipboard } from '@angular/cdk/clipboard';
 import { User } from '../interfaces.service';
 
 @Component({
-	selector: 'app-staff',
-	templateUrl: './staff.component.html',
-	styleUrl: './staff.component.scss'
+	selector: 'app-management',
+	templateUrl: './management.component.html',
+	styleUrl: './management.component.scss'
 })
-export class StaffComponent {
+export class ManagementComponent {
 	pageLoading: boolean = false;
 	loaded: boolean = false;
-
 	users: Array<User> = [];
-
+	
 	constructor(
 		private alerts: AlertsComponent,
-		private sService: StaffService,
-		private clipboard: Clipboard
+		private sService: StaffService
 	) {
 		this.load();
 	}
-
+	
 	load() {
 		this.pageLoading = true;
-		this.sService.loadAdministrators().subscribe({
+		this.sService.loadDirectReports().subscribe({
 			next: (data) => {
 				this.pageLoading = false;
 				if (data.success) {
-					let users = data.admins;
+					let users = data.reports;
 					let positions = data.positions;
 
 					for (let i = 0; i < users.length; i++) {
@@ -46,22 +43,14 @@ export class StaffComponent {
 
 					this.users = users;
 					this.loaded = true;
-				}
-				else {
+				} else {
 					this.alerts.alert(data.reason, true);
 				}
 			},
-			error: () => {
+			error: (err) => {
 				this.pageLoading = false;
 				this.alerts.alert("Please check your connection", true);
 			}
 		});
-	}
-
-	copy(text: string){
-		let copied = this.clipboard.copy(text);
-		if(copied){
-			this.alerts.alert("Email Address Copied to Clipboard", false);
-		}
 	}
 }
