@@ -4,6 +4,7 @@ import { AlertsComponent } from '../alerts/alerts.component';
 import { StaffService } from '../staff.service';
 import { Position, Property, Role, Training, User, UserTraining } from '../interfaces.service';
 import { TrainingsService } from '../trainings.service';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 interface UserTrail {
 	action: string,
@@ -29,6 +30,9 @@ interface Person {
 	uri: Property;
 	tier: Property;
 	p_id: Property;
+	active: boolean;
+	revoked: boolean;
+	suspension_deadline: Date | null;
 }
 
 @Component({
@@ -51,6 +55,15 @@ export class ManageDirectReportComponent {
 	r_id: string;
 	user?: DirectReport;
 	person?: Person;
+	suspending: boolean = false;
+	revoking: boolean = false;
+	reinstating: boolean = false;
+	suspendActionLoading: boolean = false;
+	reason: string = "";
+	authCode: string = "";
+	suspensionDeadline: Date = new Date(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate());
+	min_date: Date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 3);
+	max_date: Date = new Date(new Date().getFullYear() + 1, new Date().getMonth(), new Date().getDate());
 
 	selectedTrainingCategory: string = "";
 	trainingCategories: Array<{ name: string, value: string }> = [
@@ -150,6 +163,9 @@ export class ManageDirectReportComponent {
 							prop: this.user!.uri,
 							editable: false,
 						},
+						active: this.user!.active,
+						revoked: this.user!.revoked,
+						suspension_deadline: this.user!.suspension_deadline ? new Date(this.user!.suspension_deadline) : null,
 					}
 					this.positions = data.positions;
 
@@ -286,5 +302,130 @@ export class ManageDirectReportComponent {
 				this.alerts.alert("Please check your connection", true);
 			}
 		});
+	}
+
+	initialiseSuspend() {
+		this.suspending = true;
+		this.reinstating = false;
+		this.revoking = false;
+		this.reason = "";
+	}
+
+	initialiseRevoke() {
+		this.revoking = true;
+		this.reinstating = false;
+		this.suspending = false;
+		this.reason = "";
+	}
+
+	initialiseUnsuspend() {
+		this.reinstating = true;
+		this.revoking = false;
+		this.suspending = false;
+		this.reason = "";
+	}
+
+	cancelSuspendAction() {
+		this.suspending = false;
+		this.revoking = false;
+		this.reinstating = false;
+		this.reason = "";
+	}
+
+	setSuspensionDeadline(type: string, event: MatDatepickerInputEvent<Date>) {
+		this.suspensionDeadline = event.value!;
+	}
+
+	suspend() {
+		if (!this.reason || this.reason.trim() === "") {
+			this.alerts.alert("Reason is required", true);
+		}
+		else if (this.suspensionDeadline.getTime() < new Date().getTime()) {
+			this.alerts.alert("Suspension deadline must be in the future", true);
+		}
+		else {
+			this.suspendActionLoading = true;
+			this.sService.suspendAdministrator(this.r_id, this.reason, this.suspensionDeadline.getTime()).subscribe({
+				next: (data) => {
+					this.suspendActionLoading = false;
+					if (data.success) {
+						this.alerts.alert("User Suspended", false);
+						setTimeout(() => {
+							location.reload();
+						}, 1000);
+					} else {
+						this.alerts.alert(data.reason, true);
+					}
+				},
+				error: () => {
+					this.suspendActionLoading = false;
+					this.alerts.alert("Please check your connection", true);
+				}
+			});
+		}
+	}
+
+	reinstate() {
+		if (!this.reason || this.reason.trim() === "") {
+			this.alerts.alert("Reason is required", true);
+		}
+		else if (!this.authCode || this.authCode.trim() === "") {
+			this.alerts.alert("Authentication Code is required", true);
+		}
+		else if (this.authCode.length < 6) {
+			this.alerts.alert("Authentication Code must be at least 6 characters", true);
+		}
+		else {
+			this.suspendActionLoading = true;
+			this.sService.reinstateAdministrator(this.r_id, this.reason, this.authCode).subscribe({
+				next: (data) => {
+					this.suspendActionLoading = false;
+					if (data.success) {
+						this.alerts.alert("User Unsuspended", false);
+						setTimeout(() => {
+							location.reload();
+						}, 1000);
+					} else {
+						this.alerts.alert(data.reason, true);
+					}
+				},
+				error: () => {
+					this.suspendActionLoading = false;
+					this.alerts.alert("Please check your connection", true);
+				}
+			});
+		}
+	}
+
+	revoke() {
+		if (!this.reason || this.reason.trim() === "") {
+			this.alerts.alert("Reason is required", true);
+		}
+		else if (!this.authCode || this.authCode.trim() === "") {
+			this.alerts.alert("Authentication Code is required", true);
+		}
+		else if (this.authCode.length < 6) {
+			this.alerts.alert("Authentication Code must be at least 6 characters", true);
+		}
+		else {
+			this.suspendActionLoading = true;
+			this.sService.revokeAdministrator(this.r_id, this.reason, this.authCode).subscribe({
+				next: (data) => {
+					this.suspendActionLoading = false;
+					if (data.success) {
+						this.alerts.alert("User Revoked", false);
+						setTimeout(() => {
+							location.reload();
+						}, 1000);
+					} else {
+						this.alerts.alert(data.reason, true);
+					}
+				},
+				error: () => {
+					this.suspendActionLoading = false;
+					this.alerts.alert("Please check your connection", true);
+				}
+			});
+		}
 	}
 }

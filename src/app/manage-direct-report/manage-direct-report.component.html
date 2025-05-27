@@ -12,10 +12,23 @@
 		<div class="section s1">
 			<h3 class="center-text primary">Account Activity</h3>
 			<div *ngFor="let activity of user!.trail" class="activity-info-item">
-				<span class="activity-info-label">{{activity.on | date}}:</span>
-				<span class="activity-info-value"> {{activity.action}}</span>
-				<span *ngIf="activity.by.length > 0" class="activity-info-value"> | Action Taken By: <span
-						class="italic">{{activity.by}}</span></span>
+				<span class="activity-info-label">{{activity.on | date}}</span>
+				<br>
+				<div class="margin-left">
+					<span class="activity-info-value"> {{activity.action}}</span>
+					<div *ngIf="activity.by.length > 0">
+						<span class="activity-info-value activity-subhead">
+							Activity Taken By:
+						</span>
+						<span class=" activity-info-value italic">{{activity.by}}</span>
+					</div>
+					<div *ngIf="activity.reason && activity.reason.length > 0">
+						<span class="activity-info-value activity-subhead">
+							Reason:
+						</span>
+						<span class=" activity-info-value italic">{{activity.reason}}</span>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="section s2">
@@ -203,6 +216,66 @@
 			<button *ngIf="!saveLoading" class="button p-btn hov" (click)="validate()" mat-raised-button
 				color="primary">Save Changes to Account</button>
 			<app-loading *ngIf="saveLoading"></app-loading>
+			<br><br>
+			<hr>
+			<h4>Employee Access</h4>
+			<h5>Account Status: <span class="{{user!.active ? 'success' : 'warn'}}">{{user!.active ? "Account Active" :
+					"Account Suspended"}}</span></h5>
+			<div *ngIf="!user!.revoked && !suspending && !reinstating && !revoking">
+				<button *ngIf="user!.active" mat-stroked-button color="warn" (click)="initialiseSuspend()">Suspend Account</button>
+				<br><br>
+				<button *ngIf="!user!.active" mat-stroked-button color="warn" (click)="initialiseUnsuspend()">Reinstate Account</button>
+				<br><br>
+				<button *ngIf="user!.active" mat-stroked-button color="warn" (click)="initialiseRevoke()">Permanently Suspend
+					Account</button>
+			</div>
+			<div *ngIf="suspending || reinstating || revoking">
+				<div class="right-text">
+					<button mat-icon-button color="warn" (click)="cancelSuspendAction()">
+						<mat-icon>close</mat-icon>
+					</button>
+				</div>
+				<mat-form-field class="m-input" appearance="fill" color="primary">
+					<mat-label>Reason for Account {{suspending || revoking ? 'Suspension' :
+						'Reinstatement'}}</mat-label>
+					<textarea type="text" matInput [(ngModel)]="reason"></textarea>
+				</mat-form-field>
+				<br><br>
+				<div *ngIf="suspending">
+					<mat-form-field *ngIf="suspending" class="m-input" appearance="fill" color="primary">
+						<mat-label>Suspension Deadline</mat-label>
+						<input matInput [matDatepicker]="picker" [value]="suspensionDeadline" [min]="min_date"
+							[max]="max_date" (dateChange)="setSuspensionDeadline('input', $event)">
+						<mat-hint>DD/MM/YYYY</mat-hint>
+						<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+						<mat-datepicker #picker></mat-datepicker>
+					</mat-form-field>
+					<br><br>
+				</div>
+				<div *ngIf="reinstating || revoking">
+					<mat-form-field class="m-input" appearance="fill" color="primary">
+						<mat-label>Authorisation Code (Two-Factor Authentication Code)</mat-label>
+						<input type="text" matInput autocomplete="off" [(ngModel)]="authCode"
+							placeholder="Enter the code from your Authentication Method" minlength="6" maxlength="6">
+					</mat-form-field>
+					<br><br>
+				</div>
+				<div *ngIf="suspending" class="center-text">
+					<button *ngIf="!suspendActionLoading" class="button p-btn hov" (click)="suspend()" mat-raised-button
+						color="warn">Suspend Account</button>
+					<app-loading *ngIf="suspendActionLoading"></app-loading>
+				</div>
+				<div *ngIf="reinstating" class="center-text">
+					<button *ngIf="!suspendActionLoading" class="button p-btn hov" (click)="reinstate()"
+						mat-raised-button color="warn">Reinstate Account</button>
+					<app-loading *ngIf="suspendActionLoading"></app-loading>
+				</div>
+				<div *ngIf="revoking" class="center-text">
+					<button *ngIf="!suspendActionLoading" class="button p-btn hov" (click)="revoke()" mat-raised-button
+						color="warn">Permanently Suspend Account</button>
+					<app-loading *ngIf="suspendActionLoading"></app-loading>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

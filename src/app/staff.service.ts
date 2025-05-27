@@ -68,4 +68,28 @@ export class StaffService {
 			tier: tier
 		});
 	}
+
+	suspendAdministrator(a_id: string, reason: string, deadline: number): Observable<any> {
+		return this.request.request('administrators/suspend-admin', 'post', {
+			username: a_id,
+			reason: reason,
+			deadline: deadline
+		});
+	}
+
+	reinstateAdministrator(a_id: string, reason: string, code: string): Observable<any> {
+		return this.request.request('administrators/reinstate-admin', 'post', {
+			username: a_id,
+			reason: reason,
+			code: code
+		});
+	}
+
+	revokeAdministrator(a_id: string, reason: string, code: string): Observable<any> {
+		return this.request.request('administrators/revoke-admin', 'post', {
+			username: a_id,
+			reason: reason,
+			code: code
+		});
+	}
 }

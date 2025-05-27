@@ -125,6 +125,7 @@ export interface User {
   phone: string,
   active: boolean,
   revoked: boolean,
+  suspension_deadline: Date | null,
   role: string,
   p_id: string,
   uri: string,
