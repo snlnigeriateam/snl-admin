@@ -25,6 +25,7 @@ import { CreateDepartmentComponent } from './create-department/create-department
 import { ManageDepartmentComponent } from './manage-department/manage-department.component';
 import { ManagementComponent } from './management/management.component';
 import { ManageDirectReportComponent } from './manage-direct-report/manage-direct-report.component';
+import { ManagePersonnelComponent } from './manage-personnel/manage-personnel.component';
 //TODO: Guards
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent, },
@@ -51,7 +52,8 @@ const routes: Routes = [
   { path: 'departments/create-department', component: CreateDepartmentComponent, title: "Create Department - Departments | SNL Nigeria Insiders" },
   { path: 'departments/manage-department/:d_id', component: ManageDepartmentComponent, title: "Manage Department - Departments | SNL Nigeria Insiders" },
   { path: 'management', component: ManagementComponent, title: "Manage Direct Reports | SNL Nigeria Insiders" },
-  { path: 'management/manage-direct-report/:r_id', component: ManageDirectReportComponent, title: "Manage Direct Report | SNL Nigeria Insiders" }
+  { path: 'management/manage-direct-report/:r_id', component: ManageDirectReportComponent, title: "Manage Direct Report | SNL Nigeria Insiders" },
+  { path: 'staff/manage-personnel/:a_id', component: ManagePersonnelComponent, title: "Manage Personnel | SNL Nigeria Insiders" }
 ];
 
 @NgModule({

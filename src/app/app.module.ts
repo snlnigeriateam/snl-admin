@@ -61,6 +61,7 @@ import { CreateDepartmentComponent } from './create-department/create-department
 import { ManageDepartmentComponent } from './manage-department/manage-department.component';
 import { ManagementComponent } from './management/management.component';
 import { ManageDirectReportComponent } from './manage-direct-report/manage-direct-report.component';
+import { ManagePersonnelComponent } from './manage-personnel/manage-personnel.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { ManageDirectReportComponent } from './manage-direct-report/manage-direc
     ManageDepartmentComponent,
     ManagementComponent,
     ManageDirectReportComponent,
+    ManagePersonnelComponent,
   ],
   imports: [
     BrowserModule,

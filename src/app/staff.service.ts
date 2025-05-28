@@ -15,6 +15,10 @@ export class StaffService {
 		return this.request.request('administrators/load-administrators', 'get');
 	}
 
+	loadAdministrator(a_id: string): Observable<any> {
+		return this.request.request('administrators/load-administrator', 'post', { a_id: a_id });
+	}
+
 	loadCreateAdmin(): Observable<any> {
 		return this.request.request('administrators/create-admin', 'get');
 	}
@@ -90,6 +94,16 @@ export class StaffService {
 			username: a_id,
 			reason: reason,
 			code: code
+		});
+	}
+
+	updateStaff(a_id: string, s_id: string, tier: number, p_id: string, dept: string): Observable<any> {
+		return this.request.request('administrators/update-staff', 'post', {
+			a_id: a_id,
+			s_id: s_id,
+			tier: tier,
+			p_id: p_id,
+			dept: dept
 		});
 	}
 }

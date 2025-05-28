@@ -16,11 +16,14 @@
 	</div>
 	<div class="staff-div">
 		<div *ngFor="let user of users" class="dash-card">
-			<span class="right-text">
+			<span *ngIf="editAccess" class="right-text">
 				<a mat-icon-button [routerLink]="['/staff', 'manage-personnel', user.a_id]">
 					<mat-icon color="primary">settings</mat-icon>
 				</a>
 			</span>
+			<div *ngIf="!editAccess">
+				<br><br>
+			</div>
 			<div class="avatar-div">
 				<img src="{{user.uri}}" alt="Profile Photo of {{user.f_name}} {{user.l_name}}" class="icon-img">
 			</div>

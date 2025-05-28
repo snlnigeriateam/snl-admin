@@ -1,0 +1,48 @@
+<div *ngIf="pageLoading">
+	<br><br>
+	<app-loading></app-loading>
+	<br><br>
+</div>
+<div *ngIf="!pageLoading" class="center-text center sect">
+	<h2 class="h2">Update Staff Details | {{admin!.f_name}} {{admin!.l_name}}</h2>
+	<br><br>
+	<mat-form-field class="m-input" appearance="fill" color="primary">
+		<mat-label>Department</mat-label>
+		<mat-select [(value)]="d_id">
+			@for (department of departments; track department) {
+			<mat-option [value]="department.d_id">{{department.name}}</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
+	<br><br>
+	<mat-form-field class="m-input" appearance="fill" color="primary">
+		<mat-label>Direct Supervisor</mat-label>
+		<mat-select [(value)]="s_id">
+			@for (supervisor of administrators; track supervisor) {
+			<mat-option [value]="supervisor.a_id">{{supervisor.f_name}} {{supervisor.l_name}} - {{supervisor.position.name}} | {{supervisor.role.name}} Level</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
+	<br><br>
+	<mat-form-field class="m-input" appearance="fill" color="primary">
+		<mat-label>Position</mat-label>
+		<mat-select [(value)]="p_id">
+			@for (position of positions; track position) {
+			<mat-option [value]="position.p_id">{{position.name}}</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
+	<br><br>
+	<mat-form-field class="m-input" appearance="fill" color="primary">
+		<mat-label>Access Level</mat-label>
+		<mat-select [(value)]="tier">
+			@for (role of roles; track role) {
+			<mat-option [value]="role.tier">{{role.name}}</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
+	<br><br>
+	<button *ngIf="!updateLoading" class="button p-btn hov" (click)="updateAdmin()" mat-raised-button
+		color="primary">Update Account</button>
+	<app-loading *ngIf="updateLoading"></app-loading>
+</div>

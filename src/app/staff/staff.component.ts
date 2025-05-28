@@ -12,6 +12,7 @@ import { User } from '../interfaces.service';
 export class StaffComponent {
 	pageLoading: boolean = false;
 	loaded: boolean = false;
+	editAccess: boolean = false;
 
 	users: Array<User> = [];
 
@@ -31,6 +32,10 @@ export class StaffComponent {
 				if (data.success) {
 					let users = data.admins;
 					let positions = data.positions;
+					let tier = data.tier;
+					if(tier < 3){
+						this.editAccess = true;
+					}
 
 					for (let i = 0; i < users.length; i++) {
 						let c_user = users[i];
