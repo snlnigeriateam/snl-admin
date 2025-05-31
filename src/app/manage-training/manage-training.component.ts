@@ -69,8 +69,10 @@ export class ManageTrainingComponent {
 	max_date: Date = new Date();
 
 	training_title: string = "";
+	general: boolean = true;
 	recurring: boolean = true;
 	annual: boolean = true;
+	duration: number = 0;
 	even_years: boolean = false;
 	internal: boolean = true;
 	tiers: Array<number> = [];
@@ -148,6 +150,8 @@ export class ManageTrainingComponent {
 
 					this.training_title = this.training!.title;
 					this.recurring = this.training!.recurring;
+					this.duration = this.training!.duration;
+					this.general = this.training!.general;
 					this.annual = this.training!.annual;
 					this.even_years = this.training!.even_years;
 					this.internal = this.training!.internal;
@@ -160,6 +164,12 @@ export class ManageTrainingComponent {
 					this.deadline = this.training!.deadline;
 					this.training_date = this.training!.deadline.getDate();
 					this.training_month = this.training!.deadline.getMonth();
+
+
+					this.min_date.setMonth(this.min_date.getMonth() + 1);
+					this.max_date.setMonth(11);
+					this.max_date.setDate(31);
+					this.max_date.setFullYear(this.min_date.getFullYear() + 1);
 
 					this.training_assets = data.training_assets;
 					this.available_assets = data.training_assets;
@@ -255,6 +265,7 @@ export class ManageTrainingComponent {
 						this.fileName = "No File Selected";
 						this.label = "";
 						this.training_assets.push(data.asset);
+						this.available_assets = JSON.parse(JSON.stringify(this.training_assets));
 						this.selectingFile = false;
 						this.alerts.alert("Asset Uploaded", false);
 					}
@@ -337,6 +348,9 @@ export class ManageTrainingComponent {
 		}
 		else if ((!this.activeContent || wsp.test(this.activeContent)) && this.activeAssets.length > 0) {
 			this.alerts.alert(`No Training Content Provided. Please include instructions for the asset${this.activeAssets.length === 1 ? '' : 's'} provided`, true);
+		}
+		else if(!this.activeHeading || wsp.test(this.activeHeading)){
+			this.alerts.alert("No Heading for Training Content Provided", true);
 		}
 		else {
 			this.saveLoading = true;
@@ -655,13 +669,22 @@ export class ManageTrainingComponent {
 		else if (this.pass_percentage < 50) {
 			this.alerts.alert("A passing grade for Tests must be greater than or equal to 50%", true);
 		}
-		else if(this.test_duration < 10 || this.test_duration > 180){
+		else if (this.test_duration < 10 || this.test_duration > 180) {
 			this.alerts.alert("Invalid Test Duration. All tests must take at least 10 minutes and at most 3 hours (180 minutes)", true);
+		}
+		else if (!this.recurring && !this.duration) {
+			this.alerts.alert("Non-Recurring Trainings must provide a duration", true);
+		}
+		else if (!this.recurring && this.duration < 5 || this.duration > 360) {
+			this.alerts.alert("Training Duration must be a value greater than 4 days and ideally less than 100 days", true);
+		}
+		else if (!this.recurring && this.deadline_warning >= this.duration) {
+			this.alerts.alert("A Deadline Warning must be for a period of time less than the time required for the Training", true);
 		}
 		else {
 			this.updateLoading = true;
 
-			this.tService.updateTraining(this.t_id, this.training_title, this.recurring, this.annual, this.even_years, this.internal, this.tiers, this.question_count, this.pass_percentage, this.test_duration, this.deadline.getTime(), this.deadline_warning, this.url).subscribe({
+			this.tService.updateTraining(this.t_id, this.training_title, this.recurring, this.annual, this.even_years, this.internal, this.tiers, this.question_count, this.pass_percentage, this.test_duration, this.deadline.getTime(), this.deadline_warning, this.url, this.duration, this.general).subscribe({
 				next: (data) => {
 					this.updateLoading = false;
 					if (data.success) {

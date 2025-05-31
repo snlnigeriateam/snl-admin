@@ -20,6 +20,8 @@ export class CreateTrainingComponent {
 
 	title: string = "";
 	recurring: boolean = true;
+	general: boolean = true;
+	duration: number = 20;
 	annual: boolean = true;
 	even_years: boolean = false;
 	internal: boolean = true;
@@ -112,13 +114,22 @@ export class CreateTrainingComponent {
 		else if(this.test_duration < 10 || this.test_duration > 180){
 			this.alerts.alert("Invalid Test Duration. All tests must take at least 10 minutes and at most 3 hours (180 minutes)", true);
 		}
+		else if(!this.recurring && !this.duration){
+			this.alerts.alert("Non-Recurring Trainings must provide a duration", true);
+		}
+		else if(!this.recurring && this.duration < 5 || this.duration > 360){
+			this.alerts.alert("Training Duration must be a value greater than 4 days and ideally less than 100 days", true);
+		}
+		else if(!this.recurring && this.deadline_warning >= this.duration){
+			this.alerts.alert("A Deadline Warning must be for a period of time less than the time required for the Training", true);
+		}
 		else if (this.pass_percentage < 50) {
 			this.alerts.alert("A passing grade for Tests must be greater than or equal to 50%", true);
 		}
 		else {
 			this.actionLoading = true;
 
-			this.tService.createTraining(this.title, this.recurring, this.annual, this.even_years, this.internal, this.tiers, this.question_count, this.pass_percentage, this.test_duration, this.deadline.getTime(), this.deadline_warning, this.url).subscribe({
+			this.tService.createTraining(this.title, this.recurring, this.annual, this.even_years, this.internal, this.tiers, this.question_count, this.pass_percentage, this.test_duration, this.deadline.getTime(), this.deadline_warning, this.url, this.duration, this.general).subscribe({
 				next: (data) => {
 					this.actionLoading = false;
 					if (data.success) {

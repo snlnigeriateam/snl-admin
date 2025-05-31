@@ -4,7 +4,9 @@
 </div>
 <div class="page" *ngIf="pageLoaded">
 	<div class="main-content">
-		<h2 class="center-text">Manage Training - {{training!.title}} | <span class="{{training!.active ? 'primary' : 'grey'}}">Training {{training!.active ? "Active" : "Inactive"}}</span></h2>
+		<h2 class="center-text">Manage Training - {{training!.title}} | <span
+				class="{{training!.active ? 'primary' : 'grey'}}">Training {{training!.active ? "Active" :
+				"Inactive"}}</span></h2>
 		<div class="content-div">
 			<h3 class="center-text primary">Training Content</h3>
 			<div class="right-text pad">
@@ -12,8 +14,8 @@
 					aria-label="Icon Button with a close icon">
 					<mat-icon>close</mat-icon>
 				</button>
-				<button *ngIf="!editingContent" [disabled]="training!.active" (click)="editAction(true)" mat-mini-fab color="primary"
-					aria-label="Icon Button with an add icon">
+				<button *ngIf="!editingContent" [disabled]="training!.active" (click)="editAction(true)" mat-mini-fab
+					color="primary" aria-label="Icon Button with an add icon">
 					<mat-icon>add</mat-icon>
 				</button>
 			</div>
@@ -223,6 +225,13 @@
 				</mat-form-field>
 				<br><br>
 				<div class="toggle">
+					<label for="general" class="hov" (click)="general = !general">This is a {{general ? "General" :
+						"Department-specific"}} Training</label>
+					<mat-slide-toggle [disabled]="general" name="general" id="general" class="slide"
+						[(ngModel)]="general"></mat-slide-toggle>
+				</div>
+				<br><br>
+				<div class="toggle">
 					<label for="recurring" class="hov" (click)="recurring = !recurring">This is a {{recurring ?
 						"Recurring" : "One-Off"}} Training</label>
 					<mat-slide-toggle name="recurring" id="recurring" class="slide"
@@ -247,6 +256,11 @@
 				<div *ngIf="recurring">
 					<br><br>
 				</div>
+				<mat-form-field *ngIf="!recurring" class="m-input" appearance="fill" color="primary">
+					<mat-label>Training Duration (days)</mat-label>
+					<input type="number" matInput [(ngModel)]="duration" min="5" max="360">
+					<br><br>
+				</mat-form-field>
 				<mat-form-field class="m-input">
 					<mat-label>Deadline</mat-label>
 					<input matInput [matDatepicker]="picker" [value]="deadline" [min]="min_date" [max]="max_date"
@@ -259,8 +273,8 @@
 				<div *ngIf="recurring" class="center m-input italic">
 					This Training is due every {{annual ? "year" : even_years ? "Even-Numbered year" : "Odd-Numbered year"}} on
 					{{months[training_month]}} {{training_date}}
+					<br><br>
 				</div>
-				<br><br>
 				<mat-form-field class="m-input" appearance="fill" color="primary">
 					<mat-label>Deadline Warning (Days)</mat-label>
 					<input type="number" matInput [(ngModel)]="deadline_warning" min="5" max="90">
@@ -281,7 +295,8 @@
 				<mat-form-field class="m-input" appearance="fill" color="primary">
 					<mat-label>Passing Grade (%)</mat-label>
 					<input type="number" matInput [(ngModel)]="pass_percentage" min="50" max="100">
-					<mat-hint>What percentage of asked questions must be answered accurately to make a passing grade?</mat-hint>
+					<mat-hint>What percentage of asked questions must be answered accurately to make a passing
+						grade?</mat-hint>
 				</mat-form-field>
 				<br><br>
 				<mat-form-field class="m-input" appearance="fill" color="primary">
@@ -307,15 +322,18 @@
 					</mat-form-field>
 					<br><br>
 				</div>
-				<button *ngIf="!updateLoading" [disabled]="training!.active" class="button p-btn hov" (click)="validateSettings()" mat-raised-button
-					color="primary">Update Training</button>
+				<button *ngIf="!updateLoading" [disabled]="training!.active" class="button p-btn hov"
+					(click)="validateSettings()" mat-raised-button color="primary">Update Training</button>
 				<app-loading *ngIf="updateLoading"></app-loading>
 			</div>
 		</div>
-		<div class="center-text" *ngIf="!editingSettings && training!.content.length > 0 && questions.length >= training!.test_question_count">
+		<div class="center-text"
+			*ngIf="!editingSettings && training!.content.length > 0 && questions.length >= training!.test_question_count">
 			<app-loading *ngIf="activationLoading"></app-loading>
-			<button *ngIf="!training!.active && !activationLoading" mat-flat-button color="primary" (click)="activateTraining()">Activate Training</button>
-			<button *ngIf="training!.active && !activationLoading" mat-flat-button color="primary" (click)="deactivateTraining()">Deactivate Training</button>
+			<button *ngIf="!training!.active && !activationLoading" mat-flat-button color="primary"
+				(click)="activateTraining()">Activate Training</button>
+			<button *ngIf="training!.active && !activationLoading" mat-flat-button color="primary"
+				(click)="deactivateTraining()">Deactivate Training</button>
 		</div>
 	</div>
 </div>

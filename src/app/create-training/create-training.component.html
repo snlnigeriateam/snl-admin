@@ -8,7 +8,19 @@
 		</mat-form-field>
 		<br><br>
 		<div class="toggle">
-			<label for="recurring" class="hov" (click)="recurring = !recurring">This is a {{recurring ? "Recurring" : "One-Off"}} Training</label>
+			<label for="general" class="hov" (click)="general = !general">This is a {{general ? "General" :
+				"Department-specific"}} Training</label>
+			<mat-slide-toggle name="general" id="general" class="slide" [(ngModel)]="general"></mat-slide-toggle>
+		</div>
+		<div class="hint center">
+			If a training is Department-specific, it is automatically assigned to your department.
+			<br><br>
+			After creation, Department-specific trainings may be switched to General trainings, but NOT vice-versa.
+		</div>
+		<br><br>
+		<div class="toggle">
+			<label for="recurring" class="hov" (click)="recurring = !recurring">This is a {{recurring ? "Recurring" :
+				"One-Off"}} Training</label>
 			<mat-slide-toggle name="recurring" id="recurring" class="slide" [(ngModel)]="recurring"></mat-slide-toggle>
 		</div>
 		<br><br>
@@ -18,8 +30,11 @@
 				<mat-slide-toggle name="annual" id="annual" class="slide" [(ngModel)]="annual"></mat-slide-toggle>
 			</div>
 			<div>
-				<label for="even_years" class="hov" (click)="annual ? even_years = even_years : even_years = !even_years">Recurs on {{even_years ? "Even-Numbered Years" : "Odd-Numbered Years"}}</label>
-				<mat-slide-toggle [disabled]="annual" name="even_years" id="even_years" class="slide" [(ngModel)]="even_years"></mat-slide-toggle>
+				<label for="even_years" class="hov"
+					(click)="annual ? even_years = even_years : even_years = !even_years">Recurs on {{even_years ?
+					"Even-Numbered Years" : "Odd-Numbered Years"}}</label>
+				<mat-slide-toggle [disabled]="annual" name="even_years" id="even_years" class="slide"
+					[(ngModel)]="even_years"></mat-slide-toggle>
 			</div>
 		</div>
 		<div *ngIf="recurring">
@@ -35,8 +50,14 @@
 		</mat-form-field>
 		<br><br>
 		<div *ngIf="recurring" class="center m-input italic">
-			This Training is due every {{annual ? "year" : even_years ? "Even-Numbered year" : "Odd-Numbered year"}} on {{months[training_month]}} {{training_date}}
+			This Training is due every {{annual ? "year" : even_years ? "Even-Numbered year" : "Odd-Numbered year"}} on
+			{{months[training_month]}} {{training_date}}
+			<br><br>
 		</div>
+		<mat-form-field *ngIf="!recurring" class="m-input" appearance="fill" color="primary">
+			<mat-label>Training Duration (days)</mat-label>
+			<input type="number" matInput [(ngModel)]="duration" min="5" max="360">
+		</mat-form-field>
 		<br><br>
 		<mat-form-field class="m-input" appearance="fill" color="primary">
 			<mat-label>Deadline Warning (Days)</mat-label>
@@ -46,7 +67,8 @@
 		<mat-form-field class="m-input" appearance="fill" color="primary">
 			<mat-label>Test Question Count</mat-label>
 			<input type="number" matInput [(ngModel)]="question_count" min="5" max="100">
-			<mat-hint>Questions are randomly selected from a pool. This value specifies the precise number to curate for every test.</mat-hint>
+			<mat-hint>Questions are randomly selected from a pool. This value specifies the precise number to curate for
+				every test.</mat-hint>
 		</mat-form-field>
 		<br><br>
 		<mat-form-field class="m-input" appearance="fill" color="primary">
@@ -70,7 +92,8 @@
 		</mat-form-field>
 		<br><br>
 		<div class="toggle">
-			<label for="internal" class="hov" (click)="internal = !internal">This is an {{internal ? "Internal" : "External"}} Training</label>
+			<label for="internal" class="hov" (click)="internal = !internal">This is an {{internal ? "Internal" :
+				"External"}} Training</label>
 			<mat-slide-toggle name="internal" id="internal" class="slide" [(ngModel)]="internal"></mat-slide-toggle>
 		</div>
 		<br><br>

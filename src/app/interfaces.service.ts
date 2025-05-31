@@ -18,6 +18,8 @@ export interface Role {//about to be deprecated
 export interface Training {
   t_id: string;
   annual: boolean;
+  general: boolean;
+  duration: number;
   recurring: boolean;
   even_years: boolean;
   internal: boolean;

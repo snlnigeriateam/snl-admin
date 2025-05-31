@@ -12,7 +12,7 @@ export class TrainingsService {
 		private request: ApiService
 	) { }
 
-	createTraining(title: string, recurring: boolean, annual: boolean, even_years: boolean, internal: boolean, tiers: Array<number>, question_count: number, pass_percentage: number, test_duration: number, deadline: number, deadline_warning: number, link: string): Observable<any> {
+	createTraining(title: string, recurring: boolean, annual: boolean, even_years: boolean, internal: boolean, tiers: Array<number>, question_count: number, pass_percentage: number, test_duration: number, deadline: number, deadline_warning: number, link: string, duration: number, general: boolean): Observable<any> {
 		return this.request.request('trainings/create-training', 'post', {
 			title,
 			recurring,
@@ -25,7 +25,9 @@ export class TrainingsService {
 			test_duration,
 			deadline,
 			deadline_warning,
-			link
+			link,
+			general,
+			duration
 		});
 	}
 
@@ -37,7 +39,7 @@ export class TrainingsService {
 		return this.request.request('trainings/load-training', 'post', { t_id: t_id });
 	}
 
-	updateTraining(t_id: string, title: string, recurring: boolean, annual: boolean, even_years: boolean, internal: boolean, tiers: Array<number>, question_count: number, pass_percentage: number, test_duration: number, deadline: number, deadline_warning: number, link: string): Observable<any> {
+	updateTraining(t_id: string, title: string, recurring: boolean, annual: boolean, even_years: boolean, internal: boolean, tiers: Array<number>, question_count: number, pass_percentage: number, test_duration: number, deadline: number, deadline_warning: number, link: string, duration: number, general: boolean): Observable<any> {
 		return this.request.request('trainings/update-training', 'post', {
 			t_id,
 			title,
@@ -51,7 +53,9 @@ export class TrainingsService {
 			test_duration,
 			deadline,
 			deadline_warning,
-			link
+			link,
+			general,
+			duration
 		});
 	}
 
