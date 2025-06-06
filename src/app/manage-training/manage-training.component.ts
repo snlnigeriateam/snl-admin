@@ -35,8 +35,10 @@ export class ManageTrainingComponent {
 	selectedContent?: TrainingContent;
 	activeContent: string = "";
 	activeHeading: string = "";
-	// tempAsset: string
 	activeAssets: Array<TrainingAsset> = [];//assets available in active content
+
+	//external trainings
+	instructions: string = "";
 
 	//questions
 	defaultOptions: Array<QuestionOption> = [
@@ -165,6 +167,9 @@ export class ManageTrainingComponent {
 					this.training_date = this.training!.deadline.getDate();
 					this.training_month = this.training!.deadline.getMonth();
 
+					if (!this.training!.internal) {
+						this.instructions = this.training!.content.length > 0 ? this.training!.content[0].content : "";
+					}
 
 					this.min_date.setMonth(this.min_date.getMonth() + 1);
 					this.max_date.setMonth(11);
@@ -349,7 +354,7 @@ export class ManageTrainingComponent {
 		else if ((!this.activeContent || wsp.test(this.activeContent)) && this.activeAssets.length > 0) {
 			this.alerts.alert(`No Training Content Provided. Please include instructions for the asset${this.activeAssets.length === 1 ? '' : 's'} provided`, true);
 		}
-		else if(!this.activeHeading || wsp.test(this.activeHeading)){
+		else if (!this.activeHeading || wsp.test(this.activeHeading)) {
 			this.alerts.alert("No Heading for Training Content Provided", true);
 		}
 		else {
@@ -387,6 +392,45 @@ export class ManageTrainingComponent {
 				this.alerts.alert("An Error occured. Please Contact Tech Support", true);
 			}
 		});
+	}
+
+	saveInstructions() {
+		if (!this.instructions || this.instructions.trim().length === 0) {
+			this.alerts.alert("Please provide instructions for this Training", true);
+		}
+		else {
+			this.saveLoading = true;
+
+			this.tService.updateTrainingInstructions(this.t_id, this.instructions).subscribe({
+				next: (data) => {
+					this.saveLoading = false;
+					if (data.success) {
+						this.alerts.alert("Training Instructions Updated!", false);
+						if(this.training!.content.length === 0){
+							this.training!.content.push({
+								c_id: "",
+								content: this.instructions,
+								heading: "",
+								assets: []
+							})
+						}
+						else {
+							this.training!.content[0].content = this.instructions;
+						}
+					}
+					else if (data.login) {
+						this.router.navigate(['/']);
+					}
+					else {
+						this.alerts.alert(data.reason, true);
+					}
+				},
+				error: () => {
+					this.saveLoading = false;
+					this.alerts.alert("An Error occured. Please Contact Tech Support", true);
+				}
+			});
+		}
 	}
 
 	updateContent() {

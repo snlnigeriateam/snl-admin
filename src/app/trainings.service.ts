@@ -131,4 +131,11 @@ export class TrainingsService {
 			tiers
 		});
 	}
+
+	updateTrainingInstructions(t_id: string, content: string): Observable<any> {
+		return this.request.request('trainings/update-training-instructions', 'post', {
+			t_id,
+			content
+		});
+	}
 }

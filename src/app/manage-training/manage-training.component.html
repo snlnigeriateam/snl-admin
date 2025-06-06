@@ -7,7 +7,7 @@
 		<h2 class="center-text">Manage Training - {{training!.title}} | <span
 				class="{{training!.active ? 'primary' : 'grey'}}">Training {{training!.active ? "Active" :
 				"Inactive"}}</span></h2>
-		<div class="content-div">
+		<div class="content-div" *ngIf="training!.internal">
 			<h3 class="center-text primary">Training Content</h3>
 			<div class="right-text pad">
 				<button *ngIf="editingContent" (click)="closeAction()" mat-mini-fab color="primary"
@@ -51,6 +51,18 @@
 						</span>
 					</div>
 					<span class="content-head">{{content.heading}}</span>
+				</div>
+			</div>
+		</div>
+		<div class="content-div" *ngIf="!training!.internal">
+			<h3 class="center-text primary">Training Instructions</h3>
+			<div class="content-editor-div center-text">
+				<quill-editor [(ngModel)]="instructions"></quill-editor>
+				<br><br>
+				<div>
+					<button *ngIf="!saveLoading" class="button" (click)="saveInstructions()" mat-stroked-button
+						color="primary">Save Training Instructions</button>
+					<app-loading *ngIf="saveLoading"></app-loading>
 				</div>
 			</div>
 		</div>
@@ -125,86 +137,90 @@
 		</div>
 	</div>
 	<div class="sidebar">
-		<h3 class="center-text primary">Assets</h3>
-		<div class="assets-div">
-			<div *ngIf="editingContent">
-				{{activeAssets.length === 0 ? "No Assets for the selected Content. " : ""}} Use the button below to
-				upload Training Assets. Include Uploaded
-				Assets in selected Content using the plus (+) button beside the Uploaded Assets.
-				Included Assets are automatically saved along with Content.
-			</div>
-			<div *ngIf="!editingContent">
-				{{available_assets.length === 0 ? "No Assets for this training! " : ""}} Use the button below to upload
-				Training Assets. Include Uploaded
-				Assets in selected Content using the plus (+) button beside the Uploaded Assets.
-				Included Assets are automatically saved along with Content.
-			</div>
-			<h4 *ngIf="activeAssets.length !== 0" class="center-text">Included Assets</h4>
-			<div *ngFor="let asset of activeAssets" class="asset">
-				<mat-icon *ngIf="asset.type === 1">description</mat-icon>
-				<mat-icon *ngIf="asset.type === 2">image</mat-icon>
-				<mat-icon *ngIf="asset.type === 3">movie</mat-icon>
-				<mat-icon *ngIf="asset.type === 4">music_note</mat-icon>
-				<div>
-					<span>{{asset.label}}</span>
-					<br><br>
-					Preview
+		<div *ngIf="training!.internal">
+			<h3 class="center-text primary">Assets</h3>
+			<div class="assets-div">
+				<div *ngIf="editingContent">
+					{{activeAssets.length === 0 ? "No Assets for the selected Content. " : ""}} Use the button below to
+					upload Training Assets. Include Uploaded
+					Assets in selected Content using the plus (+) button beside the Uploaded Assets.
+					Included Assets are automatically saved along with Content.
 				</div>
-			</div>
-			<hr *ngIf="activeAssets.length !== 0 && available_assets.length !== 0">
-			<h4 *ngIf="available_assets.length !== 0" class="center-text">Uploaded Assets</h4>
-			<div *ngFor="let asset of available_assets" class="asset">
-				<mat-icon *ngIf="asset.type === 1">description</mat-icon>
-				<mat-icon *ngIf="asset.type === 2">image</mat-icon>
-				<mat-icon *ngIf="asset.type === 3">movie</mat-icon>
-				<mat-icon *ngIf="asset.type === 4">music_note</mat-icon>
-				<span>{{asset.label}}</span>
-				<button *ngIf="editingContent" (click)="addAsset(asset.a_id)" mat-icon-button
-					color="primary"><mat-icon>add</mat-icon></button>
-			</div>
-			<div class="center-text">
-				<br><br>
-				<div *ngIf="!selectingFile">
-					<button mat-flat-button color="primary" (click)="selectingFile = true">Upload New Asset
-						<mat-icon>add_box</mat-icon></button>
+				<div *ngIf="!editingContent">
+					{{available_assets.length === 0 ? "No Assets for this training! " : ""}} Use the button below to
+					upload
+					Training Assets. Include Uploaded
+					Assets in selected Content using the plus (+) button beside the Uploaded Assets.
+					Included Assets are automatically saved along with Content.
 				</div>
-				<div *ngIf="selectingFile" class="right-text">
-					<button (click)="selectingFile = false" mat-mini-fab color="primary"
-						aria-label="Icon Button with an add icon">
-						<mat-icon>close</mat-icon>
-					</button>
-				</div>
-				<div *ngIf="selectingFile">
-					<br><br>
-					<h4 class="bold">
-						Only Multimedia Files
-						<br>
-						(Document, Image, Video & Audio files). Maximum size: 20MB
-					</h4>
-					<div class="upload-div center">
-						<input type="file" id="file-input"
-							accept=".pdf,audio/*,video/*,image/*,.doc,.ppt,.xls,.docx,.pptx,.xlsx"
-							(change)="validateFile($event)">
-						<button mat-button color="primary" (click)="selectFile()">{{fileSelected ? "Change" : "Select"}}
-							Asset <mat-icon>add_box</mat-icon></button>
+				<h4 *ngIf="activeAssets.length !== 0" class="center-text">Included Assets</h4>
+				<div *ngFor="let asset of activeAssets" class="asset">
+					<mat-icon *ngIf="asset.type === 1">description</mat-icon>
+					<mat-icon *ngIf="asset.type === 2">image</mat-icon>
+					<mat-icon *ngIf="asset.type === 3">movie</mat-icon>
+					<mat-icon *ngIf="asset.type === 4">music_note</mat-icon>
+					<div>
+						<span>{{asset.label}}</span>
 						<br><br>
-						<span class="filename">{{fileName}}</span>
+						Preview
 					</div>
 				</div>
-				<br><br>
-				<mat-form-field *ngIf="fileSelected" class="m-input" appearance="fill" color="primary">
-					<mat-label>Asset Label*</mat-label>
-					<input type="text" matInput [(ngModel)]="label">
-				</mat-form-field>
-				<br><br>
-				<button (click)="uploadAsset()" *ngIf="fileSelected && !uploadLoading" mat-flat-button
-					color="primary">Upload Asset
-					<mat-icon>upload</mat-icon></button>
-				<app-loading *ngIf="uploadLoading"></app-loading>
+				<hr *ngIf="activeAssets.length !== 0 && available_assets.length !== 0">
+				<h4 *ngIf="available_assets.length !== 0" class="center-text">Uploaded Assets</h4>
+				<div *ngFor="let asset of available_assets" class="asset">
+					<mat-icon *ngIf="asset.type === 1">description</mat-icon>
+					<mat-icon *ngIf="asset.type === 2">image</mat-icon>
+					<mat-icon *ngIf="asset.type === 3">movie</mat-icon>
+					<mat-icon *ngIf="asset.type === 4">music_note</mat-icon>
+					<span>{{asset.label}}</span>
+					<button *ngIf="editingContent" (click)="addAsset(asset.a_id)" mat-icon-button
+						color="primary"><mat-icon>add</mat-icon></button>
+				</div>
+				<div class="center-text">
+					<br><br>
+					<div *ngIf="!selectingFile">
+						<button mat-flat-button color="primary" (click)="selectingFile = true">Upload New Asset
+							<mat-icon>add_box</mat-icon></button>
+					</div>
+					<div *ngIf="selectingFile" class="right-text">
+						<button (click)="selectingFile = false" mat-mini-fab color="primary"
+							aria-label="Icon Button with an add icon">
+							<mat-icon>close</mat-icon>
+						</button>
+					</div>
+					<div *ngIf="selectingFile">
+						<br><br>
+						<h4 class="bold">
+							Only Multimedia Files
+							<br>
+							(Document, Image, Video & Audio files). Maximum size: 20MB
+						</h4>
+						<div class="upload-div center">
+							<input type="file" id="file-input"
+								accept=".pdf,audio/*,video/*,image/*,.doc,.ppt,.xls,.docx,.pptx,.xlsx"
+								(change)="validateFile($event)">
+							<button mat-button color="primary" (click)="selectFile()">{{fileSelected ? "Change" :
+								"Select"}}
+								Asset <mat-icon>add_box</mat-icon></button>
+							<br><br>
+							<span class="filename">{{fileName}}</span>
+						</div>
+					</div>
+					<br><br>
+					<mat-form-field *ngIf="fileSelected" class="m-input" appearance="fill" color="primary">
+						<mat-label>Asset Label*</mat-label>
+						<input type="text" matInput [(ngModel)]="label">
+					</mat-form-field>
+					<br><br>
+					<button (click)="uploadAsset()" *ngIf="fileSelected && !uploadLoading" mat-flat-button
+						color="primary">Upload Asset
+						<mat-icon>upload</mat-icon></button>
+					<app-loading *ngIf="uploadLoading"></app-loading>
+				</div>
 			</div>
 		</div>
 		<div class="settings-div">
-			<div *ngIf="!editingSettings" class="right-text">
+			<div *ngIf="!editingSettings && training!.internal" class="right-text">
 				<h4>
 					Edit Training Settings
 					<button mat-icon-button color="primary" (click)="editingSettings = true">
@@ -212,8 +228,8 @@
 					</button>
 				</h4>
 			</div>
-			<div *ngIf="editingSettings" class="edit-settings-div center center-text">
-				<div class="right-text">
+			<div *ngIf="editingSettings || !training!.internal" class="edit-settings-div center center-text">
+				<div *ngIf="training!.internal" class="right-text">
 					<button mat-icon-button (click)="editingSettings = false">
 						<mat-icon color="primary">close</mat-icon>
 					</button>
@@ -329,6 +345,9 @@
 		</div>
 		<div class="center-text"
 			*ngIf="!editingSettings && training!.content.length > 0 && questions.length >= training!.test_question_count">
+			<div *ngIf="!training!.internal">
+				<br><br><br><br>
+			</div>
 			<app-loading *ngIf="activationLoading"></app-loading>
 			<button *ngIf="!training!.active && !activationLoading" mat-flat-button color="primary"
 				(click)="activateTraining()">Activate Training</button>

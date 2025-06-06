@@ -13,7 +13,8 @@
 }
 
 .assets-div,
-.content-div {
+.content-div,
+.progress-div {
     min-height: 40vh;
 }
 
@@ -44,6 +45,10 @@
     display: block;
     margin: 20px auto;
     max-width: 95%;
+}
+
+.m-input {
+    width: 65%;
 }
 
 //test questions
@@ -96,4 +101,12 @@
 
 .asset-actions {
     display: flex;
+}
+
+//progress
+
+.progress {
+    margin: 10px 0px;
+    font-size: 14pt;
+    line-height: 1.5em;
 }

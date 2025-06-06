@@ -19,8 +19,8 @@ export class UserTrainingsService {
 		return this.request.request('trainings/user/training', 'post', { t_id: t_id });
 	}
 
-	updateTrainingProgress(t_id: string, c_id: string): Observable<any> {
-		return this.request.request('trainings/user/update-progress', 'post', { t_id: t_id, c_id: c_id });
+	updateTrainingProgress(t_id: string, c_id: string, url: string, notes: string): Observable<any> {
+		return this.request.request('trainings/user/update-progress', 'post', { t_id: t_id, c_id: c_id, url: url, notes: notes });
 	}
 
 	startTraining(t_id: string): Observable<any> {

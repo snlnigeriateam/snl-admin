@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { UserTrainingsService } from '../user-trainings.service';
-import { TrainingAsset, TrainingContent, UserTestQuestion, UserTraining } from '../interfaces.service';
+import { TrainingActivity, TrainingAsset, TrainingContent, UserTestQuestion, UserTraining } from '../interfaces.service';
 
 @Component({
 	selector: 'app-take-training',
@@ -54,6 +54,12 @@ export class TakeTrainingComponent {
 
 	timer?: NodeJS.Timeout;
 	time_colour: string = "";
+
+	//external trainings
+	previous_progress: Array<TrainingActivity> = [];
+	url: string = "";
+	notes: string = "";
+	updateLoading: boolean = false;
 
 	constructor(
 		private title: Title,
@@ -184,23 +190,50 @@ export class TakeTrainingComponent {
 	}
 
 	updateTrainingProgress() {
-		this.nextLoading = false;
-
-		this.tService.updateTrainingProgress(this.t_id, this.training!.content[this.content_index].c_id).subscribe({
-			next: (data) => {
-				this.nextLoading = false;
-				if (data.success) {
-					this.training!.progress.current = this.training!.content[this.content_index].c_id;
+		if (this.training!.internal) {
+		this.nextLoading = true;
+			this.tService.updateTrainingProgress(this.t_id, this.training!.content[this.content_index].c_id, "", "").subscribe({
+				next: (data) => {
+					this.nextLoading = false;
+					if (data.success) {
+						this.training!.progress.current = this.training!.content[this.content_index].c_id;
+					}
+					else {
+						this.alerts.alert(data.reason, true);
+					}
+				},
+				error: () => {
+					this.nextLoading = false;
+					this.alerts.alert("Please check your connection", true);
 				}
-				else {
-					this.alerts.alert(data.reason, true);
-				}
-			},
-			error: () => {
-				this.nextLoading = false;
-				this.alerts.alert("Please check your connection", true);
+			});
+		}
+		else {
+			if (!this.url || this.url.trim().length === 0) {
+				this.alerts.alert("Please provide the URL you're about to visit", true);
 			}
-		});
+			else {
+				this.updateLoading = true;
+				this.tService.updateTrainingProgress(this.t_id, "", this.url, this.notes).subscribe({
+					next: (data) => {
+						this.updateLoading = false;
+						if (data.success) {
+							this.url = "";
+							this.notes = "";
+							this.training!.progress.activity.push(data.progress);
+							this.alerts.alert("Progress Logged!", false);
+						}
+						else {
+							this.alerts.alert(data.reason, true);
+						}
+					},
+					error: () => {
+						this.updateLoading = false;
+						this.alerts.alert("Please check your connection", true);
+					}
+				});
+			}
+		}
 	}
 
 	previewAsset(index: number) {

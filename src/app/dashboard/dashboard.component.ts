@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { Router } from '@angular/router';
-
+// external trainings - log daily/on a frequency, have the individual work outside then log start times along with the URL for that day.
 interface DashItem {
 	icon: string;
 	title: string;
@@ -86,6 +86,7 @@ export class DashboardComponent {
 					let tier = a_data.tier;
 
 					this.displayItems.push(this.items[1]);
+					this.displayItems.push(this.items[3]);
 
 					if (tier < 3) {
 						this.displayItems.push(this.items[0]);

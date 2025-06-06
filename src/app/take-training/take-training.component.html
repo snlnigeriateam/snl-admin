@@ -12,7 +12,7 @@
                     <mat-icon>play_circle</mat-icon></button>
                 <app-loading *ngIf="startLoading"></app-loading>
             </div>
-            <div *ngIf="training!.progress.started" class="content-div center">
+            <div *ngIf="training!.progress.started && training!.internal" class="content-div center">
                 <h3 class="center-text primary">{{activeContent?.heading}}</h3>
                 <div class="content" [innerHTML]="activeContent?.content"></div>
                 <div class="content-actions">
@@ -31,8 +31,39 @@
                     <app-loading *ngIf="testLoading"></app-loading>
                 </div>
             </div>
+            <div *ngIf="training!.progress.started && !training!.internal" class="content-div center">
+                <h3 class="center-text primary">{{activeContent?.heading}}</h3>
+                <div class="content" [innerHTML]="activeContent?.content"></div>
+                <br><br>
+                <hr>
+                <h4>Log your progress every time you begin a new segment. Utilise "Additional Notes" to provide more context. The URL is that of the page you're taking the current training segment on</h4>
+                <br><br>
+                <div class="progress-form center-text">
+                    <mat-form-field class="m-input" appearance="fill" color="primary">
+                        <mat-label>URL</mat-label>
+                        <input type="text" matInput [(ngModel)]="url">
+                    </mat-form-field>
+                    <br><br>
+                    <mat-form-field class="m-input" appearance="fill" color="primary">
+                        <mat-label>Additional Notes (optional)</mat-label>
+                        <textarea type="text" matInput [(ngModel)]="notes"></textarea>
+                    </mat-form-field>
+                    <br><br><br>
+                    <button *ngIf="!updateLoading" class="button p-btn hov"
+                        (click)="updateTrainingProgress()" mat-raised-button color="primary">Log Progress</button>
+                    <app-loading *ngIf="updateLoading"></app-loading>
+                </div>
+                <br><br><br>
+                <hr>
+                <div>
+                    <br><br><br>
+                    <button *ngIf="!nextActive" mat-flat-button color="primary" (click)="startTest()">Start Test
+                        <mat-icon>play_circle</mat-icon></button>
+                    <app-loading *ngIf="testLoading"></app-loading>
+                </div>
+            </div>
         </div>
-        <div class="sidebar">
+        <div *ngIf="training!.internal" class="sidebar">
             <h3 class="center-text primary">Training Assets</h3>
             <div *ngIf="training_assets.length === 0" class="center-text italic">
                 <br><br><br>
@@ -51,6 +82,27 @@
                         <button class="asset-action" (click)="downloadAsset(asset.uri)" mat-icon-button
                             color="primary"><mat-icon>download</mat-icon></button>
                     </span>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!training!.internal" class="sidebar">
+            <h3 class="center-text primary">Training Progress</h3>
+            <div *ngIf="training!.progress.activity.length === 0" class="center-text italic">
+                <br><br><br>
+                <h5>No Training Progress</h5>
+            </div>
+            <div class="progress-div">
+                <div *ngFor="let progress of training!.progress!.activity; index as i" class="progress">
+                    <div>
+                        <span class="bold">URL</span><span>: {{progress.id}}</span>
+                    </div>
+                    <div>
+                        <span class="bold">On</span><span>: {{progress.on | date}}</span>
+                    </div>
+                    <div>
+                        <span class="bold">Notes</span><span>: {{progress.action}}</span>
+                    </div>
+                    <hr>
                 </div>
             </div>
         </div>
@@ -106,7 +158,8 @@
         </div>
         <div class="center-text">
             <br><br><br>
-            <button *ngIf="!nextQuestionActive" mat-flat-button color="primary" (click)="completeTest(false)">Submit Responses
+            <button *ngIf="!nextQuestionActive" mat-flat-button color="primary" (click)="completeTest(false)">Submit
+                Responses
                 <mat-icon>play_circle</mat-icon></button>
             <app-loading *ngIf="testLoading"></app-loading>
         </div>
@@ -114,13 +167,15 @@
     <div *ngIf="testTimeElapsed">
         <h3 class="center-text">Test Time Elapsed</h3>
         <div class="elapsed-content">
-            The time allotted for this Test has elapsed. You may submit your completed responses now and forfeit the rest of the test. If your grade reaches the passing grade for the test,
+            The time allotted for this Test has elapsed. You may submit your completed responses now and forfeit the
+            rest of the test. If your grade reaches the passing grade for the test,
             this Training will be marked as completed. If it doesn't, you will be required to take the training again.
             <br><br>
             Alternatively, you may choose to take the training again.
             <br><br><br>
             <div class="center-text test-buttons-div">
-                <button mat-flat-button color="primary" class="test-button" (click)="completeTest(true)">Submit Responses
+                <button mat-flat-button color="primary" class="test-button" (click)="completeTest(true)">Submit
+                    Responses
                     <mat-icon>play_circle</mat-icon></button>
                 <button mat-flat-button color="primary" class="test-button" (click)="retakeTraining()">Retake Training
                     <mat-icon>refresh</mat-icon></button>
@@ -128,6 +183,7 @@
         </div>
     </div>
     <div *ngIf="scoringCompleted">
-        <h3 class="center-text">Congratulations on successfully completing this Training! You scored: {{percentage_score}}% on the Test.</h3>
+        <h3 class="center-text">Congratulations on successfully completing this Training! You scored:
+            {{percentage_score}}% on the Test.</h3>
     </div>
 </div>
