@@ -10,6 +10,13 @@ interface DashItem {
 	subtitle: string;
 }
 
+interface TrainingDeadlineWarning {
+	days_left: number;
+	title: string;
+	t_id: string;
+	visible: boolean;
+}
+
 @Component({
 	selector: 'app-dashboard',
 	templateUrl: './dashboard.component.html',
@@ -21,6 +28,7 @@ export class DashboardComponent {
 	pageLoaded: boolean = false;
 	
 	displayItems: Array<DashItem> = [];
+	trainingDeadlineWarnings: Array<TrainingDeadlineWarning> = [];
 
 	items: Array<DashItem> = [
 		{
@@ -82,6 +90,16 @@ export class DashboardComponent {
 				this.pageLoading = false;
 				if (data.success) {
 					let a_data = data.admin_data;
+
+					for(let i = 0; i < data.training_deadline_warnings.length; i++) {
+						let warning = data.training_deadline_warnings[i];
+						this.trainingDeadlineWarnings.push({
+							days_left: warning.days_left,
+							title: warning.title,
+							t_id: warning.t_id,
+							visible: true
+						});
+					}
 
 					let tier = a_data.tier;
 

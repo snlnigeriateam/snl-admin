@@ -6,7 +6,9 @@
     <div class="page" *ngIf="pageLoaded && !previewing">
         <div class="main-content">
             <h2 class="center-text">{{training!.title}} | SNL Nigeria Staff Training Course</h2>
-
+            <div class="center-text" *ngIf="!training!.internal">
+                <a mat-stroked-button color="primary" href="{{training!.link}}" target="_blank">Training Link</a>
+            </div>
             <div *ngIf="!training!.progress.started" class="start-div center-text">
                 <button *ngIf="!startLoading" mat-flat-button color="primary" (click)="startTraining()">Start Training
                     <mat-icon>play_circle</mat-icon></button>

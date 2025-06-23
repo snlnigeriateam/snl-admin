@@ -1,6 +1,17 @@
 <div>
-	<div class="margin">
-		<app-loading *ngIf="pageLoading"></app-loading>
+	<div *ngIf="pageLoading" class="margin">
+		<app-loading></app-loading>
+	</div>
+	<div *ngIf="pageLoaded && trainingDeadlineWarnings.length > 0" class="warnings-div">
+		<div *ngFor="let warning of trainingDeadlineWarnings" class="{{warning.visible ? 'warning-block' : 'hidden-warning'}}">
+			<mat-icon color="warn">info</mat-icon>
+			<div class="flex">
+				<div class="hov" [routerLink]="['/trainings', 'take-training', warning.t_id]">{{warning.days_left}} day{{warning.days_left === 1 ? '' : 's'}} left to complete {{warning.title}} Training</div>
+				<button mat-icon-button aria-label="Dismiss Warning" (click)="warning.visible = false">
+					<mat-icon color="warn">close</mat-icon>
+				</button>
+			</div>
+		</div>
 	</div>
 	<div *ngIf="pageLoaded" class="dash">
 		<div *ngFor="let item of displayItems" class="dash-card" (click)="nav(item.url)">

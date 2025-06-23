@@ -35,3 +35,22 @@
 .margin {
     margin-top: 100px;
 }
+
+.warning-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffcdcd;
+    color: red;
+    margin: 10px 0px;
+    padding: 0px 10px;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.hidden-warning {
+    display: none !important;
+}
