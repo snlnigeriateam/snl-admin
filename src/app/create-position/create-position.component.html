@@ -1,27 +1,28 @@
 <div>
-    <div class="center-text center sect">
-        <h2 class="h2">Create Position</h2>
-        <br><br>
-        <mat-form-field class="m-input" appearance="fill" color="primary">
-            <mat-label>Role</mat-label>
-            <input type="text" matInput [(ngModel)]="name">
-        </mat-form-field>
-        <br><br>
-        <mat-form-field class="m-input textarea" appearance="fill" color="primary">
-            <mat-label>Description</mat-label>
-            <textarea type="text" matInput [(ngModel)]="description"></textarea>
-        </mat-form-field>
-        <br><br>
-        <!-- <mat-form-field class="m-input" appearance="fill" color="primary"> -->
-        <!-- <mat-label>Description</mat-label> -->
-        <div class="toggle">
-            <label for="unique" class="hov" (click)="unique = !unique">Position has {{unique ? "One Occupant" : "Multiple Occupants"}}</label>
-            <mat-slide-toggle name="unique" id="unique" class="slide" [(ngModel)]="unique"></mat-slide-toggle>
-        </div>
-        <!-- </mat-form-field> -->
-        <br><br>
-        <button *ngIf="!createLoading" class="button p-btn hov" (click)="validate()" mat-raised-button
-            color="primary">Create Position</button>
-        <app-loading *ngIf="createLoading"></app-loading>
-    </div>
+	<div class="center-text center sect">
+		<h2 class="h2">Create Position</h2>
+		<br><br>
+		<mat-form-field class="m-input" appearance="fill" color="primary">
+			<mat-label>Role</mat-label>
+			<input type="text" matInput [(ngModel)]="name">
+		</mat-form-field>
+		<br><br>
+		<mat-form-field class="m-input textarea" appearance="fill" color="primary">
+			<mat-label>Description</mat-label>
+			<textarea class="textarea" matInput [(ngModel)]="description"></textarea>
+		</mat-form-field>
+		<br><br>
+		<!-- <mat-form-field class="m-input" appearance="fill" color="primary"> -->
+		<!-- <mat-label>Description</mat-label> -->
+		<div class="toggle">
+			<label for="unique" class="hov" (click)="unique = !unique">Position has {{unique ? "One Occupant" :
+				"Multiple Occupants"}}</label>
+			<mat-slide-toggle name="unique" id="unique" class="slide" [(ngModel)]="unique"></mat-slide-toggle>
+		</div>
+		<!-- </mat-form-field> -->
+		<br><br>
+		<button *ngIf="!createLoading" class="button p-btn hov" (click)="validate()" mat-raised-button
+			color="primary">Create Position</button>
+		<app-loading *ngIf="createLoading"></app-loading>
+	</div>
 </div>

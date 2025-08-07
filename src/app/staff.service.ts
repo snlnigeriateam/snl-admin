@@ -23,7 +23,7 @@ export class StaffService {
 		return this.request.request('administrators/create-admin', 'get');
 	}
 
-	createAdministrator(username: string, f_name: string, l_name: string, p_email: string, c_email: string, c_email_preferred: boolean, phone: string, tier: number, p_id: string, d_id: string, s_id: string): Observable<any> {
+	createAdministrator(username: string, f_name: string, l_name: string, p_email: string, c_email: string, c_email_preferred: boolean, phone: string, access_level: string, p_id: string, d_id: string, s_id: string): Observable<any> {
 		return this.request.request('administrators/create-admin', 'post', {
 			username: username,
 			f_name: f_name,
@@ -32,7 +32,7 @@ export class StaffService {
 			c_email: c_email,
 			c_email_preferred: c_email_preferred,
 			phone: phone,
-			tier: tier,
+			access_level: access_level,
 			p_id: p_id,
 			d_id: d_id,
 			s_id: s_id
@@ -97,11 +97,11 @@ export class StaffService {
 		});
 	}
 
-	updateStaff(a_id: string, s_id: string, tier: number, p_id: string, dept: string): Observable<any> {
+	updateStaff(a_id: string, s_id: string, access_level: string, p_id: string, dept: string): Observable<any> {
 		return this.request.request('administrators/update-staff', 'post', {
 			a_id: a_id,
 			s_id: s_id,
-			tier: tier,
+			access_level: access_level,
 			p_id: p_id,
 			dept: dept
 		});

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { UtilitiesService } from '../utilities.service';
+import { Event } from '../interfaces.service';
+import { CalendarService } from '../calendar.service';
 
 @Component({
 	selector: 'app-navbar',
@@ -11,12 +14,16 @@ export class NavbarComponent implements OnInit {
 	full_name: string = '';
 	loggedIn: boolean = false;
 	uri: string = '/assets/icon-grey.png';
+	today: string;
+	upcoming_events: Array<Event> = [];
 
 	constructor(
 		private authService: AuthService,
-		private router: Router
+		private router: Router,
+		private utilities: UtilitiesService,
+		private calendarService: CalendarService
 	) {
-		// this.checkLoggedIn();
+		this.today = this.utilities.dateFn(new Date(), false);
 	}
 
 	ngOnInit(): void {
@@ -26,7 +33,8 @@ export class NavbarComponent implements OnInit {
 		if(t_uri && t_uri.length > 0 && t_uri != 'undefined'){
 			this.uri = t_uri;
 		}
-		
+
+		this.loadUpcomingEvents();
 		this.checkLoggedIn();
 	}
 
@@ -52,8 +60,23 @@ export class NavbarComponent implements OnInit {
 		}
 	}
 
+	loadUpcomingEvents() {
+		this.calendarService.loadUpcomingEvents().subscribe({
+			next: (data) => {
+				if (data.success) {
+					this.upcoming_events = data.events;
+				}
+			},
+			error: () => { }
+		});
+	}
+
 	logout() {
 		localStorage.setItem('token', "");
 		this.router.navigate(['/']);
+	}
+
+	calendar() {
+		this.router.navigate(['/calendar']);
 	}
 }

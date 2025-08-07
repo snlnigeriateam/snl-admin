@@ -49,4 +49,25 @@ export class AuthService {
 	loadDashboard(): Observable<any> {
 		return this.request.request('dashboard', 'get');
 	}
+
+	loadAccessLevels(): Observable<any> {
+		return this.request.request('access-levels', 'get');
+	}
+
+	createAccessLevel(name: string, tier: number, permissions: Array<string>): Observable<any> {
+		return this.request.request('access-levels/create-access-level', 'post', {
+			access_level_name: name,
+			tier: tier,
+			access_level_permissions: permissions
+		});
+	}
+
+	updateAccessLevel(l_id: string, name: string, tier: number, permissions: Array<string>): Observable<any> {
+		return this.request.request('access-levels/update-access-level', 'post', {
+			l_id: l_id,
+			access_level_name: name,
+			tier: tier,
+			access_level_permissions: permissions
+		});
+	}
 }

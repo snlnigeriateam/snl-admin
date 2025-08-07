@@ -26,6 +26,11 @@ import { ManageDepartmentComponent } from './manage-department/manage-department
 import { ManagementComponent } from './management/management.component';
 import { ManageDirectReportComponent } from './manage-direct-report/manage-direct-report.component';
 import { ManagePersonnelComponent } from './manage-personnel/manage-personnel.component';
+import { CalendarComponent } from './calendar/calendar.component';
+import { CalendarEditComponent } from './calendar-edit/calendar-edit.component';
+import { AccessLevelsComponent } from './access-levels/access-levels.component';
+import { CreateAccessLevelComponent } from './create-access-level/create-access-level.component';
+import { EditAccessLevelComponent } from './edit-access-level/edit-access-level.component';
 //TODO: Guards
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent, },
@@ -53,7 +58,12 @@ const routes: Routes = [
   { path: 'departments/manage-department/:d_id', component: ManageDepartmentComponent, title: "Manage Department - Departments | SNL Nigeria Insiders" },
   { path: 'management', component: ManagementComponent, title: "Manage Direct Reports | SNL Nigeria Insiders" },
   { path: 'management/manage-direct-report/:r_id', component: ManageDirectReportComponent, title: "Manage Direct Report | SNL Nigeria Insiders" },
-  { path: 'staff/manage-personnel/:a_id', component: ManagePersonnelComponent, title: "Manage Personnel | SNL Nigeria Insiders" }
+  { path: 'staff/manage-personnel/:a_id', component: ManagePersonnelComponent, title: "Manage Personnel | SNL Nigeria Insiders" },
+  { path: 'access-levels', component: AccessLevelsComponent, title: "Access Levels | SNL Nigeria Insiders" },
+  { path: 'access-levels/create-access-level', component: CreateAccessLevelComponent, title: "Create Access Level - Access Levels | SNL Nigeria Insiders" },
+  { path: 'access-levels/edit-access-level/:l_id', component: EditAccessLevelComponent, title: "Edit Access Level - Access Levels | SNL Nigeria Insiders" },
+  { path: 'calendar', component: CalendarComponent, title: "Corporate Calendar | SNL Nigeria Insiders" },
+  { path: 'calendar/edit', component: CalendarEditComponent, title: "Update Corporate Calendar | SNL Nigeria Insiders" }
 ];
 
 @NgModule({

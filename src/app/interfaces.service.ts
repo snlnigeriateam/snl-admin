@@ -10,11 +10,6 @@ export interface Position {
   unique: boolean
 }
 
-export interface Role {//about to be deprecated
-	name: string,
-	tier: number
-}
-
 export interface Training {
   t_id: string;
   annual: boolean;
@@ -129,7 +124,53 @@ export interface User {
   revoked: boolean,
   suspension_deadline: Date | null,
   role: string,
+  access_level: string,
   p_id: string,
   uri: string,
   tier: number
+}
+
+export interface MiniUser {
+  a_id: string,
+  f_name: string,
+  l_name: string,
+  email: string,
+  c_email: string,
+  phone: string,
+  active: boolean,
+  revoked: boolean,
+  tier: number,
+  access_level: string,
+  p_id: string,
+  uri: string
+}
+
+export interface AccessLevel {
+  l_id: string,
+  name: string,
+  tier: number,
+  permissions: Array<string>
+}
+
+export interface Event {
+  e_id: string,
+  name: string,
+  start_date: Date,//requires date transformation
+  end_date: Date,//requires date transformation
+  type: string,
+  description: string,
+  group: string,
+  invitees: Array<string>,
+  tiers: Array<number>,
+  year: number,
+  created_by: string,
+  created_on: Date,//requires date transformation
+  trail: Array<EventActivity>
+}
+
+export interface EventActivity {
+  on: Date,
+  by: string,
+  action: string,
+  reason: string
 }

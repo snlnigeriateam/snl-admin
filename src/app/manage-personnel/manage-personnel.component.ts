@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { StaffService } from '../staff.service';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { Router } from '@angular/router';
-import { Role, Position, Department } from '../interfaces.service';
+import { Role, Position, Department, AccessLevel } from '../interfaces.service';
 
 interface Admin {
 	a_id: string,
@@ -10,6 +10,7 @@ interface Admin {
 	f_name: string,
 	l_name: string,
 	role: Role,
+	access_level: string,
 	position: Position,
 	d_id: string,
 	s_id: string,
@@ -30,36 +31,12 @@ export class ManagePersonnelComponent {
 	updateLoading: boolean = false;
 
 	positions: Array<Position> = [];
-	roles: Array<Role> = [
-		{
-			name: 'Executive',
-			tier: 1
-		},
-		{
-			name: 'Director',
-			tier: 2
-		},
-		{
-			name: 'Manager',
-			tier: 3
-		},
-		{
-			name: 'Senior Staff',
-			tier: 4
-		},
-		{
-			name: 'Junior Staff',
-			tier: 5
-		},
-		{
-			name: 'Support Staff',
-			tier: 6
-		}
-	];
+	access_levels: Array<AccessLevel> = [];
 	departments: Array<Department> = [];
 	administrators: Array<Admin> = [];
 
 	tier: number = 6;
+	access_level: string = '';
 	p_id: string = '';
 	d_id: string = '';
 	s_id: string = '';
@@ -80,6 +57,7 @@ export class ManagePersonnelComponent {
 				if (data.success) {
 					this.positions = data.positions;
 					this.departments = data.departments;
+					this.access_levels = data.access_levels;
 					let tmp_admins = data.administrators;
 
 					for (let i = 0; i < tmp_admins.length; i++) {
@@ -94,14 +72,14 @@ export class ManagePersonnelComponent {
 							}
 						}
 
-						for (let k = 0; k < this.roles.length; k++) {
-							let role = this.roles[k];
+						// for (let k = 0; k < this.roles.length; k++) {
+						// 	let role = this.roles[k];
 
-							if (role.tier === admin.tier) {
-								admin.role = role;
-								break;
-							}
-						}
+						// 	if (role.tier === admin.tier) {
+						// 		admin.role = role;
+						// 		break;
+						// 	}
+						// }
 						this.administrators.push(admin);
 					}
 
@@ -122,6 +100,7 @@ export class ManagePersonnelComponent {
 								}
 								this.admin = tmp_admin;
 								this.p_id = this.admin!.position.p_id;
+								this.access_level = this.admin!.access_level;
 								this.d_id = this.admin!.d_id;
 								this.s_id = this.admin!.s_id;
 								this.tier = this.admin!.tier;
@@ -156,7 +135,7 @@ export class ManagePersonnelComponent {
 		}
 		else {
 			this.updateLoading = true;
-			this.sService.updateStaff(this.a_id, this.s_id, this.tier, this.p_id, this.d_id).subscribe({
+			this.sService.updateStaff(this.a_id, this.s_id, this.access_level, this.p_id, this.d_id).subscribe({
 				next: (data) => {
 					this.updateLoading = false;
 

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { StaffService } from '../staff.service';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { Router } from '@angular/router';
-import { Department, Position, Role } from '../interfaces.service';
+import { AccessLevel, Department, Position, Role } from '../interfaces.service';
 
 interface Admin {
 	a_id: string,
@@ -25,32 +25,7 @@ export class AddAdminComponent {
 	createLoading: boolean = false;
 
 	positions: Array<Position> = [];
-	roles: Array<Role> = [
-		{
-			name: 'Executive',
-			tier: 1
-		},
-		{
-			name: 'Director',
-			tier: 2
-		},
-		{
-			name: 'Manager',
-			tier: 3
-		},
-		{
-			name: 'Senior Staff',
-			tier: 4
-		},
-		{
-			name: 'Junior Staff',
-			tier: 5
-		},
-		{
-			name: 'Support Staff',
-			tier: 6
-		}
-	];
+	access_levels: Array<AccessLevel> = [];
 	departments: Array<Department> = [];
 	administrators: Array<Admin> = [];
 
@@ -61,7 +36,7 @@ export class AddAdminComponent {
 	c_email: string = '';
 	c_email_preferred: boolean = true;
 	phone: string = '';
-	tier: number = 6;
+	access_level: string = '';
 	p_id: string = '';
 	d_id: string = '';
 	s_id: string = '';
@@ -81,6 +56,7 @@ export class AddAdminComponent {
 				this.pageLoading = false;
 
 				if (data.success) {
+					this.access_levels = data.access_levels;
 					this.positions = data.positions;
 					this.departments = data.departments;
 					let tmp_admins = data.administrators;
@@ -97,14 +73,14 @@ export class AddAdminComponent {
 							}
 						}
 
-						for(let k = 0; k<this.roles.length; k++){
-							let role = this.roles[k];
+						// for(let k = 0; k<this.access_levels.length; k++){
+						// 	let role = this.access_levels[k];
 
-							if(role.tier === admin.tier){
-								admin.role = role;
-								break;
-							}
-						}
+						// 	if(role.tier === admin.tier){
+						// 		admin.role = role;
+						// 		break;
+						// 	}
+						// }
 						this.administrators.push(admin);
 					}
 
@@ -123,10 +99,10 @@ export class AddAdminComponent {
 	validate() {
 		let wsp = /^\s*$/;
 
-		if (!this.username || !this.f_name || !this.l_name || !this.p_email || !this.c_email || !this.phone || !this.p_id || !this.d_id || !this.s_id) {
+		if (!this.username || !this.f_name || !this.l_name || !this.p_email || !this.c_email || !this.phone || !this.p_id || !this.d_id || !this.s_id || !this.access_level) {
 			this.alerts.alert("All fields are required", true);
 		}
-		else if (wsp.test(this.username) || wsp.test(this.f_name) || wsp.test(this.l_name) || wsp.test(this.p_email) || wsp.test(this.c_email) || wsp.test(this.phone) || wsp.test(this.p_id) || wsp.test(this.d_id) || wsp.test(this.s_id)) {
+		else if (wsp.test(this.username) || wsp.test(this.f_name) || wsp.test(this.l_name) || wsp.test(this.p_email) || wsp.test(this.c_email) || wsp.test(this.phone) || wsp.test(this.p_id) || wsp.test(this.d_id) || wsp.test(this.s_id) || wsp.test(this.access_level)) {
 			this.alerts.alert("All fields are required", true);
 		}
 		else {
@@ -140,7 +116,7 @@ export class AddAdminComponent {
 
 	create() {
 		this.createLoading = true;
-		this.sService.createAdministrator(this.username, this.f_name, this.l_name, this.p_email, this.c_email, this.c_email_preferred, this.phone, this.tier, this.p_id, this.d_id, this.s_id).subscribe({
+		this.sService.createAdministrator(this.username, this.f_name, this.l_name, this.p_email, this.c_email, this.c_email_preferred, this.phone, this.access_level, this.p_id, this.d_id, this.s_id).subscribe({
 			next: (data) => {
 				this.createLoading = false;
 				if (data.success) {

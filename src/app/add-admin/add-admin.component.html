@@ -62,7 +62,7 @@
 		<mat-label>Direct Supervisor</mat-label>
 		<mat-select [(value)]="s_id">
 			@for (supervisor of administrators; track supervisor) {
-			<mat-option [value]="supervisor.a_id">{{supervisor.f_name}} {{supervisor.l_name}} - {{supervisor.position.name}} | {{supervisor.role.name}} Level</mat-option>
+			<mat-option [value]="supervisor.a_id">{{supervisor.f_name}} {{supervisor.l_name}} - {{supervisor.position.name}}</mat-option>
 			}
 		</mat-select>
 	</mat-form-field>
@@ -78,9 +78,9 @@
 	<br><br>
 	<mat-form-field class="m-input" appearance="fill" color="primary">
 		<mat-label>Access Level</mat-label>
-		<mat-select [(value)]="tier">
-			@for (role of roles; track role) {
-			<mat-option [value]="role.tier">{{role.name}}</mat-option>
+		<mat-select [(value)]="access_level">
+			@for (level of access_levels; track level) {
+			<mat-option [value]="level.l_id">{{level.name}}</mat-option>
 			}
 		</mat-select>
 	</mat-form-field>

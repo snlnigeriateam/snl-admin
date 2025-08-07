@@ -11,8 +11,10 @@
 			SNL Nigeria
 		</div>
 		<div class="mobile-nav">
-			<span (click)="drawer.toggle()" class="mobile-nav-item"><a [routerLink]="['/team']">Our team</a></span>
-			<span (click)="drawer.toggle()" class="mobile-nav-item"><a [routerLink]="['/contact']">Contact</a></span>
+			<span (click)="drawer.toggle()" class="mobile-nav-item"><a [routerLink]="['/calendar']">Corporate
+					Calendar</a></span>
+			<span (click)="drawer.toggle()" class="mobile-nav-item"><a [routerLink]="['/settings']">Settings</a></span>
+			<span (click)="drawer.toggle()" class="mobile-nav-item"><a (click)="logout()">Log Out</a></span>
 		</div>
 	</mat-drawer>
 	<mat-drawer-content>
@@ -53,16 +55,33 @@
 				</span>
 				<span class="nav-item">{{full_name}}</span>
 				<span class="nav-item">
-					<button mat-icon-button [routerLink]="['/settings']">
+					<button mat-icon-button [routerLink]="['/settings']" title="Settings">
 						<mat-icon color="primary">settings</mat-icon>
 					</button>
 				</span>
 				<span class="nav-item">
-					<button mat-icon-button (click)="logout()">
+					<button mat-icon-button (click)="logout()" title="Log Out">
 						<mat-icon color="primary">logout</mat-icon>
 					</button>
 				</span>
 				<!-- <span class="nav-item"><a [routerLink]="['/team']">Our team</a></span> -->
+			</div>
+		</mat-toolbar>
+		<mat-toolbar class="flex navbar mini-navbar">
+			<div class="s1">
+				<span *ngFor="let event of upcoming_events" class="nav-item">
+					{{event.name}}: 
+					<span *ngIf="event.start_date === event.end_date">{{event.start_date | date: 'dd-MMM'}}</span>
+					<span *ngIf="event.start_date !== event.end_date">{{event.start_date | date: 'dd-MMM'}} - {{event.end_date | date: 'dd-MMM'}}</span>
+				</span>
+			</div>
+			<div class="s2">
+				<span class="nav-item">
+					<button mat-icon-button (click)="calendar()" title="Corporate Calendar">
+						<mat-icon color="primary">calendar_month</mat-icon>
+					</button>
+				</span>
+				<span class="nav-item">{{today}}</span>
 			</div>
 		</mat-toolbar>
 	</div>

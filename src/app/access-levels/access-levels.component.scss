@@ -1,0 +1,25 @@
+.pad {
+    padding-right: 50px;
+}
+
+.level-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dash-card {
+    width: 200px;
+}
+
+.level-head {
+    font-size: 18pt;
+    font-weight: 600;
+}
+
+.level-sub {
+    font-size: 14pt;
+    font-style: italic;
+}

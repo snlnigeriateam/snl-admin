@@ -72,6 +72,18 @@ export class DashboardComponent {
 			title: 'Staff Management',
 			subtitle: "Manage your Direct Reports",
 			url: 'management'
+		},
+		{
+			icon: 'icon-7.png',
+			title: 'Corporate Calendar',
+			subtitle: "View and Update Corporate Calendar",
+			url: 'calendar/edit'
+		},
+		{
+			icon: 'icon-8.png',
+			title: 'Access Levels',
+			subtitle: "Manage Access Levels",
+			url: 'access-levels'
 		}
 	];
 
@@ -111,6 +123,8 @@ export class DashboardComponent {
 						this.displayItems.push(this.items[2]);
 						this.displayItems.push(this.items[4]);
 						this.displayItems.push(this.items[5]);
+						this.displayItems.push(this.items[7]);
+						this.displayItems.push(this.items[8]);
 					}
 
 					if(tier < 4){

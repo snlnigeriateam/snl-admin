@@ -25,6 +25,10 @@
     border-bottom: 1px solid #9b9b9b;
 }
 
+mat-toolbar.mini-navbar {
+    height: 50px;
+}
+
 // @keyframes uline {
 //     from {
 //         border-bottom: none;
@@ -54,6 +58,7 @@
 .s1 {
     display: flex;
     justify-content: flex-start;
+    align-items: center;
 }
 
 .img-div {

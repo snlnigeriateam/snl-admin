@@ -62,6 +62,11 @@ import { ManageDepartmentComponent } from './manage-department/manage-department
 import { ManagementComponent } from './management/management.component';
 import { ManageDirectReportComponent } from './manage-direct-report/manage-direct-report.component';
 import { ManagePersonnelComponent } from './manage-personnel/manage-personnel.component';
+import { CalendarEditComponent } from './calendar-edit/calendar-edit.component';
+import { CalendarComponent } from './calendar/calendar.component';
+import { EditAccessLevelComponent } from './edit-access-level/edit-access-level.component';
+import { AccessLevelsComponent } from './access-levels/access-levels.component';
+import { CreateAccessLevelComponent } from './create-access-level/create-access-level.component';
 
 @NgModule({
   declarations: [
@@ -101,6 +106,11 @@ import { ManagePersonnelComponent } from './manage-personnel/manage-personnel.co
     ManagementComponent,
     ManageDirectReportComponent,
     ManagePersonnelComponent,
+    CalendarEditComponent,
+    CalendarComponent,
+    EditAccessLevelComponent,
+    AccessLevelsComponent,
+    CreateAccessLevelComponent,
   ],
   imports: [
     BrowserModule,
