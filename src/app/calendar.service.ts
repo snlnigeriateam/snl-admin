@@ -35,4 +35,12 @@ export class CalendarService {
 	loadUpcomingEvents(): Observable<any> {
 		return this.request.request('events/upcoming-events', 'get');
 	}
+
+	loadPreviousEvents(year: number): Observable<any> {
+		return this.request.request('events/previous-events', 'post', { year: year});
+	}
+
+	loadAllPreviousEvents(year: number): Observable<any> {
+		return this.request.request('events/all-previous-events', 'post', { year: year });
+	}
 }

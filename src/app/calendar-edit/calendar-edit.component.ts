@@ -15,6 +15,13 @@ interface ViewEvent extends Event {
 	group_invitee_names: Array<string>;
 }
 
+interface EventYear {
+	year: number;
+	events: Array<ViewEvent>;
+	loaded: boolean;
+	loading: boolean;
+}
+
 @Component({
 	selector: 'app-calendar-edit',
 	templateUrl: './calendar-edit.component.html',
@@ -26,7 +33,9 @@ export class CalendarEditComponent {
 	saveLoading: boolean = false;
 
 	upcoming_events: Array<ViewEvent> = [];
-	previous_events: Array<ViewEvent> = [];
+	previous_events: Array<EventYear> = [];
+	previous_years: Array<number> = [];
+	start_year: number = 2023;
 
 	invite_groups: Array<InviteGroup> = [
 		{ name: 'General', value: 'g' },
@@ -66,6 +75,17 @@ export class CalendarEditComponent {
 	) {
 		this.event_invite_group = this.invite_groups[0];
 		this.load();
+
+		let currentYear = new Date().getFullYear();
+		for (let i = currentYear; i >= this.start_year; i--) {
+			this.previous_years.push(i);
+			this.previous_events.push({
+				year: i,
+				events: [],
+				loaded: false,
+				loading: false
+			});
+		}
 	}
 
 	load() {
@@ -90,6 +110,36 @@ export class CalendarEditComponent {
 				this.alerts.alert("Please check your connection", true);
 			}
 		});
+	}
+
+	loadPreviousEvents(index: number) {
+		let eventYear = this.previous_events[index];
+		let year = eventYear.year;
+
+		if (eventYear.loaded || eventYear.loading) {
+			return; // Already loaded/loading
+		}
+		else {
+			eventYear.loading = true;
+			this.calendarService.loadAllPreviousEvents(year).subscribe({
+				next: (response) => {
+					eventYear.loading = false;
+					if (response.success) {
+						let events = this.transformEvents(response.events);
+						eventYear.events = events;
+						eventYear.loaded = true;
+					} else if (response.login) {
+						this.alerts.alert("Session expired, please log in again", true);
+					} else {
+						this.alerts.alert(response.reason, true);
+					}
+				},
+				error: () => {
+					eventYear.loading = false;
+					this.alerts.alert("Please check your connection", true);
+				}
+			});
+		}
 	}
 
 	transformEvents(events: Array<Event>): Array<ViewEvent> {
@@ -168,7 +218,7 @@ export class CalendarEditComponent {
 						this.event_invite_group = this.invite_groups[0];
 						this.group_value = [];
 						let newEvent: ViewEvent = this.transformEvents([response.event_data])[0];
-						
+
 						this.upcoming_events.push(newEvent);
 
 						this.upcoming_events.sort((a, b) => new Date(a.start_date).getTime() - new Date(b.start_date).getTime());

@@ -1,0 +1,95 @@
+.sections {
+    display: flex;
+    justify-content: space-between;
+}
+
+.section {
+    padding: 30px 20px;
+    min-height: 60vh;
+}
+
+.s1 {
+    border-right: 1px solid #e0e0e0;
+    width: 60%;
+
+    .event-card {
+        width: 70%;
+        margin: 20px auto;
+    }
+}
+
+.s2 {
+    width: 35%;
+
+    .year-card {
+        width: 90%;
+        margin: 20px auto;
+    }
+    .event-card {
+        margin: 20px auto;
+    }
+}
+
+.empty-div {
+    margin: 50px 0px;
+}
+
+.margin-left {
+    margin-left: 20px;
+}
+
+.m-input {
+    width: 65%;
+}
+
+.p-btn {
+    padding: 20px 100px;
+    border-radius: 100px;
+}
+
+.event-card {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.event-card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-content {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.r-div,
+.l-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.c-div {
+    padding: 5px 10px;
+}
+
+.cal-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #e6adb6;
+    color: white;
+    font-size: 24pt;
+    padding: 20px;
+    line-height: 1.5em;
+}
+
+.small {
+    font-size: 14pt;
+}
+
+.year-card {
+    margin: 20px 0;
+}
