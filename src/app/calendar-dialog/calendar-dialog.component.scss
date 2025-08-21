@@ -1,0 +1,49 @@
+.calendar-dialog {
+    border-radius: 20px;
+}
+
+.event-card {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.event-card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-content {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    color: black;
+}
+
+.r-div,
+.l-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.c-div {
+    padding: 5px 20px;
+}
+
+.cal-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #e6adb6;
+    color: white;
+    font-size: 24pt;
+    padding: 20px;
+    line-height: 1.5em;
+}
+
+.mat-dialog-actions {
+    width: 100%;
+}
+

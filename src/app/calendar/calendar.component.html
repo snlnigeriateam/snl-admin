@@ -8,7 +8,7 @@
 		<div class="section s1">
 			<h3 class="center-text primary">Upcoming Events</h3>
 			<h5 *ngIf="upcoming_events.length === 0" class="center-text italic">No Upcoming Events</h5>
-			<mat-card *ngFor="let event of upcoming_events" class="event-card">
+			<mat-card *ngFor="let event of upcoming_events" class="event-card hov" (click)="spotlightEvent(event)">
 				<mat-card-content class="card-content">
 					<div class="r-div">
 						<span>Starts</span>
@@ -67,7 +67,7 @@
 						<br><br>
 					</div>
 					<h5 *ngIf="event_year.events.length === 0 && event_year.loaded" class="center-text italic">No Events for {{event_year.year}}</h5>
-					<mat-card *ngFor="let event of event_year.events" class="event-card">
+					<mat-card *ngFor="let event of event_year.events" class="event-card" (click)="spotlightEvent(event)">
 						<mat-card-content class="card-content">
 							<div class="r-div">
 								<span>Started</span>

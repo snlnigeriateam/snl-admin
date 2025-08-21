@@ -168,6 +168,12 @@ export interface Event {
   trail: Array<EventActivity>
 }
 
+export interface ViewEvent extends Event {
+  access_levels: Array<string>;
+  group_name: string;
+  group_invitee_names: Array<string>;
+}
+
 export interface EventActivity {
   on: Date,
   by: string,

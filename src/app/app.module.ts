@@ -67,6 +67,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { EditAccessLevelComponent } from './edit-access-level/edit-access-level.component';
 import { AccessLevelsComponent } from './access-levels/access-levels.component';
 import { CreateAccessLevelComponent } from './create-access-level/create-access-level.component';
+import { CalendarDialogComponent } from './calendar-dialog/calendar-dialog.component';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { CreateAccessLevelComponent } from './create-access-level/create-access-
     EditAccessLevelComponent,
     AccessLevelsComponent,
     CreateAccessLevelComponent,
+    CalendarDialogComponent,
   ],
   imports: [
     BrowserModule,

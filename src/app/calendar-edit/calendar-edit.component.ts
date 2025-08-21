@@ -1,18 +1,12 @@
 import { Component } from '@angular/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { AccessLevel, Department, User, Event } from '../interfaces.service';
+import { AccessLevel, Department, User, Event, ViewEvent } from '../interfaces.service';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { CalendarService } from '../calendar.service';
 
 interface InviteGroup {
 	name: string;
 	value: string;
-}
-
-interface ViewEvent extends Event {
-	access_levels: Array<string>;
-	group_name: string;
-	group_invitee_names: Array<string>;
 }
 
 interface EventYear {
@@ -69,6 +63,7 @@ export class CalendarEditComponent {
 		'Webinar',
 		'Other'
 	];
+
 	constructor(
 		private alerts: AlertsComponent,
 		private calendarService: CalendarService

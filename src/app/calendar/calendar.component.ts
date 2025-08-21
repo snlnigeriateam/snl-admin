@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { CalendarService } from '../calendar.service';
 import { AccessLevel, Department, User, Event } from '../interfaces.service';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { CalendarDialogComponent } from '../calendar-dialog/calendar-dialog.component';
 
 interface ViewEvent extends Event {
 	access_levels: Array<string>;
@@ -44,11 +47,20 @@ export class CalendarComponent {
 		'Webinar',
 		'Other'
 	];
+
+	spotlight_event_id: string = '';
 	
 	constructor(
 		private alerts: AlertsComponent,
-		private calendarService: CalendarService
+		private calendarService: CalendarService,
+		private dialog: MatDialog,
+		private router: Router
 	) {
+		let route_params = this.router.parseUrl(this.router.url).queryParams;
+		let event_id = route_params['eid'];
+		if (event_id) {
+			this.spotlight_event_id = event_id;
+		}
 		this.load();
 
 		let currentYear = new Date().getFullYear();
@@ -72,6 +84,12 @@ export class CalendarComponent {
 					let upcoming_events = response.events;
 					this.upcoming_events = this.transformEvents(upcoming_events);
 					this.pageLoaded = true;
+					if(this.spotlight_event_id.length > 0) {
+						let event = this.upcoming_events.find(e => e.e_id === this.spotlight_event_id);
+						if (event) {
+							this.spotlightEvent(event);
+						}
+					}
 				} else {
 					this.alerts.alert(response.reason, true);
 				}
@@ -129,5 +147,18 @@ export class CalendarComponent {
 				return 'General';
 			})
 		} as ViewEvent));
+	}
+
+	spotlightEvent(event: ViewEvent) {
+		this.spotlight_event_id = event.e_id;
+		this.dialog.open(CalendarDialogComponent, {
+			data: {
+				event: event,
+				access_levels: this.access_levels
+			},
+			autoFocus: false,
+		}).afterClosed().subscribe(() => {
+			this.spotlight_event_id = '';
+		});
 	}
 }

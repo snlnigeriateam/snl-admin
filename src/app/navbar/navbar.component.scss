@@ -39,14 +39,14 @@ mat-toolbar.mini-navbar {
 //     }
 // }
 
-.mobile-nav-item{
+.mobile-nav-item {
     margin: 40px 15px;
     display: block;
     font-size: 16pt;
     font-weight: 500;
 }
 
-.mobile-nav-item > a {
+.mobile-nav-item>a {
     color: $light;
 }
 
@@ -91,6 +91,12 @@ mat-toolbar.mini-navbar {
 .mobile-flex {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.right-flex {
+    display: flex;
+    justify-content: flex-end;
     align-items: center;
 }
 
@@ -141,7 +147,33 @@ mat-toolbar.mini-navbar {
     color: #ffffff;
 }
 
-@media only screen and (max-width: 600px){
+.calendar-nav {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 90%;
+    background-color: #fff;
+}
+
+.event-card {
+    width: 90%;
+    margin: 20px auto;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.event-card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-content {
+    font-size: 16pt;
+    font-weight: 500;
+}
+
+@media only screen and (max-width: 600px) {
+
     //smaller mobile devices
     .mobile {
         display: block;
@@ -150,9 +182,18 @@ mat-toolbar.mini-navbar {
     .desktop {
         display: none;
     }
+
+    .calendar-nav {
+        width: 100%;
+    }
+
+    .event-card {
+        width: 90%;
+    }
 }
 
-@media only screen and (min-width: 600px){
+@media only screen and (min-width: 600px) {
+
     //small mobile devices
     .mobile {
         display: block;
@@ -161,9 +202,18 @@ mat-toolbar.mini-navbar {
     .desktop {
         display: none;
     }
+
+    .calendar-nav {
+        width: 80%;
+    }
+
+    .event-card {
+        width: 80%;
+    }
 }
 
-@media only screen and (min-width: 768px){
+@media only screen and (min-width: 768px) {
+
     //tablets
     .mobile {
         display: block;
@@ -172,9 +222,18 @@ mat-toolbar.mini-navbar {
     .desktop {
         display: none;
     }
+
+    .calendar-nav {
+        width: 60%;
+    }
+
+    .event-card {
+        width: 70%;
+    }
 }
 
-@media only screen and (min-width: 992px){
+@media only screen and (min-width: 992px) {
+
     //laptops and larger
     .mobile {
         display: none;
@@ -183,9 +242,18 @@ mat-toolbar.mini-navbar {
     .desktop {
         display: block;
     }
+
+    .calendar-nav {
+        width: 40%;
+    }
+
+    .event-card {
+        width: 70%;
+    }
 }
 
-@media only screen and (min-width: 1200px){
+@media only screen and (min-width: 1200px) {
+
     //laptops and larger
     .mobile {
         display: none;
@@ -193,5 +261,13 @@ mat-toolbar.mini-navbar {
 
     .desktop {
         display: block;
+    }
+
+    .calendar-nav {
+        width: 40%;
+    }
+
+    .event-card {
+        width: 70%;
     }
 }
