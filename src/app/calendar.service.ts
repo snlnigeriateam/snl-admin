@@ -43,4 +43,18 @@ export class CalendarService {
 	loadAllPreviousEvents(year: number): Observable<any> {
 		return this.request.request('events/all-previous-events', 'post', { year: year });
 	}
+
+	updateEvent(e_id: string, event_name: string, event_start_date: number, event_end_date: number, event_tiers: Array<number>, event_type: string, event_description: string, event_group: string, invitees: Array<string>): Observable<any> {
+		return this.request.request('events/update-event', 'post', {
+			e_id,
+			event_name,
+			event_start_date,
+			event_end_date,
+			event_tiers,
+			event_type,
+			event_description,
+			event_group,
+			invitees
+		});
+	}
 }

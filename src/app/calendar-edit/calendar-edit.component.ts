@@ -3,6 +3,8 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { AccessLevel, Department, User, Event, ViewEvent } from '../interfaces.service';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { CalendarService } from '../calendar.service';
+import { MatDialog } from '@angular/material/dialog';
+import { EditEventComponent } from "../edit-event/edit-event.component";
 
 interface InviteGroup {
 	name: string;
@@ -66,7 +68,8 @@ export class CalendarEditComponent {
 
 	constructor(
 		private alerts: AlertsComponent,
-		private calendarService: CalendarService
+		private calendarService: CalendarService,
+		private dialog: MatDialog
 	) {
 		this.event_invite_group = this.invite_groups[0];
 		this.load();
@@ -187,10 +190,10 @@ export class CalendarEditComponent {
 		else if (!this.event_type || wsp.test(this.event_type)) {
 			this.alerts.alert("Please select a valid event type", true);
 		}
-		else if (this.event_invite_group.value === 'd' && this.departments.length === 0) {
+		else if (this.event_invite_group.value === 'd' && this.group_value.length === 0) {
 			this.alerts.alert("Please select at least one department to invite", true);
 		}
-		else if (this.event_invite_group.value === 'i' && this.staff.length === 0) {
+		else if (this.event_invite_group.value === 'i' && this.group_value.length === 0) {
 			this.alerts.alert("Please select at least one staff member to invite", true);
 		}
 		else if (this.event_access_levels.length === 0 && this.event_invite_group.value !== 'i') {
@@ -229,5 +232,23 @@ export class CalendarEditComponent {
 				}
 			});
 		}
+	}
+
+	editEvent(event: ViewEvent){
+		this.dialog.open(EditEventComponent, {
+			data: {
+				event: event,
+				departments: this.departments,
+				access_levels: this.access_levels,
+				event_types: this.event_types,
+				staff: this.staff
+			},
+			hasBackdrop: true,
+			width: `${window.innerWidth * 0.6}px`
+		}).afterClosed().subscribe((reload)=>{
+			if(reload){
+				location.reload();
+			}
+		});
 	}
 }

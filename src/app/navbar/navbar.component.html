@@ -59,10 +59,15 @@
 			<div class="center-text side-logo">
 				Corporate Calendar
 			</div>
+			<div class="left-text margin-left">
+				<button mat-stroked-button (click)="openCalendar(); calendar.toggle()">
+					View Calendar
+				</button>
+			</div>
 			<div class="cal-nav">
 				<h3 class="center-text primary">Upcoming Events</h3>
 				<h5 *ngIf="upcoming_events.length === 0" class="center-text italic">No Upcoming Events</h5>
-				<mat-card *ngFor="let event of upcoming_events" class="event-card hov" (click)="openCalendar(event.e_id)">
+				<mat-card *ngFor="let event of upcoming_events" class="event-card hov" (click)="openCalendarEvent(event.e_id)">
 					<mat-card-content class="card-content">
 						<div class="center-text bold primary">
 							{{event.start_date | date:'MMM'}} {{event.start_date | date:'dd'}} - {{event.end_date | date:'MMM'}} {{event.end_date | date:'dd'}}

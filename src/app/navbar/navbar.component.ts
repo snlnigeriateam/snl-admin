@@ -117,7 +117,11 @@ export class NavbarComponent implements OnInit {
 		location.assign('/');
 	}
 
-	openCalendar(e_id: string) {
+	openCalendar() {
+		this.router.navigate(['/calendar']);
+	}
+
+	openCalendarEvent(e_id: string){
 		this.router.navigate(['/calendar'], { queryParams: { eid: e_id } });
 	}
 }
