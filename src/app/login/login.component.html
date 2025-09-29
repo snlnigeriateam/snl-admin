@@ -16,6 +16,7 @@
 		</mat-form-field>
 		<br><br>
 		<button *ngIf="!loading" class="button p-btn hov" (click)="login()" mat-raised-button color="primary">Log In</button>
+		<button *ngIf="!loading" class="button p-btn hov" (click)="login(true)" mat-raised-button color="primary">Register a Passkey</button>
 		<app-loading *ngIf="loading"></app-loading>
 	</div>
 	<div *ngIf="verifying && !firstUse" class="center-text center sect">

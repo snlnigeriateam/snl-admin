@@ -70,4 +70,26 @@ export class AuthService {
 			access_level_permissions: permissions
 		});
 	}
+
+	retrievePasskeyRegistrationOptions(): Observable<any> {
+		return this.request.request('passkeys/registration-options', 'get');
+	}
+
+	verifyPasskeyRegistrationResponse(response: any): Observable<any> {
+		return this.request.request('auth/verify-registration', 'post', {
+			response: response
+		});
+	}
+
+	retrievePasskeyAuthenticationOptions(a_id: string): Observable<any> {
+		return this.request.request('passkeys/authentication-options', 'post', {
+			a_id: a_id
+		});
+	}
+
+	verifyPasskeyAuthenticationResponse(response: any): Observable<any> {
+		return this.request.request('auth/verify-authentication', 'post', {
+			response: response
+		});
+	}
 }

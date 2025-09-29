@@ -42,7 +42,6 @@ export class NavbarComponent implements OnInit {
 			this.uri = t_uri;
 		}
 
-		this.loadUpcomingEvents();
 		this.checkLoggedIn();
 	}
 
@@ -58,6 +57,7 @@ export class NavbarComponent implements OnInit {
 					}
 					else {
 						this.loggedIn = true;
+						this.loadUpcomingEvents();
 					}
 				},
 				error: () => { },
@@ -121,7 +121,7 @@ export class NavbarComponent implements OnInit {
 		this.router.navigate(['/calendar']);
 	}
 
-	openCalendarEvent(e_id: string){
+	openCalendarEvent(e_id: string) {
 		this.router.navigate(['/calendar'], { queryParams: { eid: e_id } });
 	}
 }
