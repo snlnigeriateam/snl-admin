@@ -76,7 +76,7 @@ export class AuthService {
 	}
 
 	verifyPasskeyRegistrationResponse(response: any): Observable<any> {
-		return this.request.request('auth/verify-registration', 'post', {
+		return this.request.request('passkeys/verify-registration', 'post', {
 			response: response
 		});
 	}
@@ -88,7 +88,7 @@ export class AuthService {
 	}
 
 	verifyPasskeyAuthenticationResponse(response: any): Observable<any> {
-		return this.request.request('auth/verify-authentication', 'post', {
+		return this.request.request('passkeys/verify-authentication', 'post', {
 			response: response
 		});
 	}
