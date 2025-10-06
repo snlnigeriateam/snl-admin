@@ -87,9 +87,16 @@ export class AuthService {
 		});
 	}
 
-	verifyPasskeyAuthenticationResponse(response: any): Observable<any> {
+	verifyPasskeyAuthenticationResponse(response: any, a_id: string): Observable<any> {
 		return this.request.request('passkeys/verify-authentication', 'post', {
-			response: response
+			response: response,
+			a_id: a_id
+		});
+	}
+
+	searchForPasskeys(a_id: string): Observable<any> {
+		return this.request.request('passkeys/search', 'post', {
+			a_id: a_id
 		});
 	}
 }

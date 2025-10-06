@@ -3,15 +3,28 @@ import { AuthService } from '../auth.service';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { AddressService } from '../address.service';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { startRegistration } from '@simplewebauthn/browser';
+import { startAuthentication, startRegistration } from '@simplewebauthn/browser';
+
+interface LoginResponse {
+	success: boolean;
+	token: string;
+	f_name: string;
+	l_name: string;
+	tier: string;
+	uri: string;
+	reason?: string;
+}
 
 @Component({
 	selector: 'app-login',
 	templateUrl: './login.component.html',
 	styleUrls: ['./login.component.scss'],
 })
+
 export class LoginComponent implements OnInit {
 	loading: boolean = false;
+	usernameProvided: boolean = false;
+	hasPasskeys: boolean = false;
 	passkeyLoading: boolean = false;
 	qr_code: string = "";
 	wsp: RegExp = /^\s*$/;
@@ -35,6 +48,35 @@ export class LoginComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
+	}
+
+	searchForPasskeys() {
+		if (!this.username || this.wsp.test(this.username)) {
+			this.alerts.alert("Please provide your Username", true);
+		}
+		else {
+			this.passkeyLoading = true;
+			this.auth.searchForPasskeys(this.username).subscribe({
+				next: (data) => {
+					this.passkeyLoading = false;
+
+					if (data.success) {
+						this.usernameProvided = true;
+						if (data.found) {
+							this.authenticateWithPasskey();
+							this.hasPasskeys = true;
+						}
+					}
+					else {
+						this.alerts.alert(data.reason, true);
+					}
+				},
+				error: () => {
+					this.passkeyLoading = false;
+					this.alerts.alert("Please check your connection", true);
+				}
+			});
+		}
 	}
 
 	login(registerPasskey: boolean = false) {
@@ -105,16 +147,11 @@ export class LoginComponent implements OnInit {
 
 					if (data.success) {
 						localStorage.setItem('token', data.token);
-						let full_name = `${data.f_name} ${data.l_name}`;
-						localStorage.setItem('name', full_name);
-						localStorage.setItem('tier', data.tier);
-						localStorage.setItem('uri', data.uri);
 						if (this.createPasskey) {
 							this.registerPasskey();
 						}
 						else {
-							this.alerts.alert("Logged In!", false);
-							location.assign(`${this.address.SITE_ADDRESS}/home`);
+							this.postLogin(data);
 						}
 					}
 					else {
@@ -141,16 +178,11 @@ export class LoginComponent implements OnInit {
 
 					if (data.success) {
 						localStorage.setItem('token', data.token);
-						let full_name = `${data.f_name} ${data.l_name}`;
-						localStorage.setItem('name', full_name);
-						localStorage.setItem('tier', data.tier);
-						localStorage.setItem('uri', data.uri);
 						if (this.createPasskey) {
 							this.registerPasskey();
 						}
 						else {
-							this.alerts.alert("Logged In!", false);
-							location.assign(`${this.address.SITE_ADDRESS}/home`);
+							this.postLogin(data);
 						}
 					}
 					else {
@@ -171,7 +203,7 @@ export class LoginComponent implements OnInit {
 			next: async (resp) => {
 				if (resp.success) {
 					try {
-						const attResp = await startRegistration({optionsJSON: resp.options});
+						const attResp = await startRegistration({ optionsJSON: resp.options });
 						this.auth.verifyPasskeyRegistrationResponse(attResp).subscribe({
 							next: (data) => {
 								this.passkeyLoading = false;
@@ -204,5 +236,54 @@ export class LoginComponent implements OnInit {
 				this.alerts.alert("Please check your connection", true);
 			}
 		});
+	}
+
+	authenticateWithPasskey() {
+		this.passkeyLoading = true;
+		this.auth.retrievePasskeyAuthenticationOptions(this.username).subscribe({
+			next: async (resp) => {
+				if (resp.success) {
+					try {
+						const authResponse = await startAuthentication({ optionsJSON: resp.options });
+						this.auth.verifyPasskeyAuthenticationResponse(authResponse, this.username).subscribe({
+							next: (data) => {
+								this.passkeyLoading = false;
+								if (data.success) {
+									this.postLogin(data);
+								}
+								else {
+									this.alerts.alert(data.reason, true);
+								}
+							},
+							error: () => {
+								this.passkeyLoading = false;
+								this.alerts.alert("Please check your connection", true);
+							}
+						});
+					} catch (error) {
+						this.passkeyLoading = false;
+						this.alerts.alert("Passkey authentication interrupted. Please log in with your Password", true);
+					}
+				}
+				else {
+					this.passkeyLoading = false;
+					this.alerts.alert(resp.reason, true);
+				}
+			},
+			error: () => {
+				this.passkeyLoading = false;
+				this.alerts.alert("Please check your connection", true);
+			}
+		});
+	}
+
+	postLogin(data: LoginResponse) {
+		localStorage.setItem('token', data.token);
+		let full_name = `${data.f_name} ${data.l_name}`;
+		localStorage.setItem('name', full_name);
+		localStorage.setItem('tier', data.tier);
+		localStorage.setItem('uri', data.uri);
+		this.alerts.alert("Logged In!", false);
+		location.assign(`${this.address.SITE_ADDRESS}/home`);
 	}
 }
