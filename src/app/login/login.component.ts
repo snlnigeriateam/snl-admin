@@ -3,7 +3,7 @@ import { AuthService } from '../auth.service';
 import { AlertsComponent } from '../alerts/alerts.component';
 import { AddressService } from '../address.service';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { startAuthentication, startRegistration } from '@simplewebauthn/browser';
+import { startAuthentication, startRegistration, platformAuthenticatorIsAvailable } from '@simplewebauthn/browser';
 
 interface LoginResponse {
 	success: boolean;
@@ -24,10 +24,12 @@ interface LoginResponse {
 export class LoginComponent implements OnInit {
 	loading: boolean = false;
 	usernameProvided: boolean = false;
-	hasPasskeys: boolean = false;
-	passkeyLoading: boolean = false;
 	qr_code: string = "";
 	wsp: RegExp = /^\s*$/;
+
+	supportsPasskeys: boolean = false;
+	hasPasskeys: boolean = false;
+	passkeyLoading: boolean = false;
 
 	username: string = "";
 	password: string = "";
@@ -48,6 +50,13 @@ export class LoginComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
+		platformAuthenticatorIsAvailable().then((available) => {
+			if (available) {
+				this.supportsPasskeys = true;
+			} else {
+				this.supportsPasskeys = false;
+			}
+		});
 	}
 
 	searchForPasskeys() {

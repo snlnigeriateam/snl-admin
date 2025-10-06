@@ -4,14 +4,14 @@
 		<br><br>
 		<mat-form-field class="m-input" appearance="fill" color="primary">
 			<mat-label>Enter your Username</mat-label>
-			<input type="text" matInput [(ngModel)]="username" (keyup.enter)="searchForPasskeys()" autofocus>
+			<input type="text" matInput [(ngModel)]="username" (keyup.enter)="searchForPasskeys()">
 		</mat-form-field>
 		<br><br>
-		<div *ngIf="!usernameProvided">
+		<div *ngIf="!usernameProvided && supportsPasskeys">
 			<button *ngIf="!passkeyLoading" class="button p-btn hov" (click)="searchForPasskeys()" mat-raised-button color="primary">Next</button>
 			<app-loading *ngIf="passkeyLoading"></app-loading>
 		</div>
-		<div *ngIf="usernameProvided">
+		<div *ngIf="usernameProvided || !supportsPasskeys">
 			<mat-form-field class="m-input" appearance="fill">
 				<mat-label>Enter your Password</mat-label>
 				<input type="{{obscurePassword ? 'password' : 'text'}}" (keyup.enter)="login()" matInput [(ngModel)]="password">
@@ -22,7 +22,7 @@
 			<br><br>
 			<button *ngIf="!loading" class="button p-btn hov" (click)="login()" mat-raised-button color="primary">Log In</button>
 			<br><br>
-			<button *ngIf="!loading && !hasPasskeys" class="button mini-button hov" (click)="login(true)" mat-stroked-button color="primary">
+			<button *ngIf="!loading && !hasPasskeys && supportsPasskeys" class="button mini-button hov" (click)="login(true)" mat-stroked-button color="primary">
 				<mat-icon class="material-symbols-outlined">passkey</mat-icon>
 				Register a Passkey
 			</button>
