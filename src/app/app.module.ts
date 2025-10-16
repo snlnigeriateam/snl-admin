@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
 // import { QuillConfigModule } from 'ngx-quill/config';
@@ -116,12 +116,11 @@ import { EditEventComponent } from './edit-event/edit-event.component';
     CalendarDialogComponent,
     EditEventComponent,
   ],
-  imports: [
+  bootstrap: [AppComponent], imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     MatButtonModule,
     MatToolbarModule,
     MatCardModule,
@@ -143,31 +142,23 @@ import { EditEventComponent } from './edit-event/edit-event.component';
     QuillModule.forRoot({
       modules: {
         toolbar: [
-          ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+          ['bold', 'italic', 'underline', 'strike'], // toggled buttons
           ['blockquote', 'code-block'],
-
-          [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+          [{ 'header': 1 }, { 'header': 2 }], // custom button values
           [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-          [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-          [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+          [{ 'script': 'sub' }, { 'script': 'super' }], // superscript/subscript
+          [{ 'indent': '-1' }, { 'indent': '+1' }], // outdent/indent
           // [{ 'direction': 'rtl' }],                         // text direction
-
-          [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+          [{ 'size': ['small', false, 'large', 'huge'] }], // custom dropdown
           [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-          [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+          [{ 'color': [] }, { 'background': [] }], // dropdown with defaults from theme
           // [{ 'font': [] }],
           [{ 'align': [] }],
-
-          ['clean'],                                         // remove formatting button
-
+          ['clean'], // remove formatting button
           ['link', 'video']
           // ['link', 'image', 'video']
         ],
       }
-    })
-  ],
-  providers: [AlertsComponent, { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
-  bootstrap: [AppComponent]
+    })], providers: [AlertsComponent, { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, provideHttpClient(withInterceptorsFromDi())]
 })
 export class AppModule { }
