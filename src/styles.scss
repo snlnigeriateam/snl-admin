@@ -1,20 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
+// @use "snl-theme.scss";
+@use './assets/_theme-colors.scss' as snl-theme;
+@use "_variables.scss";
 @include mat.core();
 
-@import "snl-theme.scss";
-@import "variables.scss";
-
 // @include mat.core-theme($my-theme);
-@include mat.all-component-themes($my-theme);
+// @include mat.all-component-themes($my-theme);
 // @include mat.button-theme($my-theme);
 
 //quill
-@import '~quill/dist/quill.snow.css';
+// @use '~quill/dist/quill.snow.css';
+
+html {
+	color-scheme: light dark;
+	@include mat.theme((
+		color: (
+			primary: snl-theme.$primary-palette,
+			tertiary: snl-theme.$tertiary-palette,
+		)
+	));
+}
 
 html,
 body {
-    height: 100%;
+	height: 100%;
 }
 
 // @font-face {
@@ -23,310 +33,329 @@ body {
 // }
 
 body {
-    margin: 0;
-    // font-family: Bahnschrift, "Helvetica Neue", sans-serif;
-    font-family: 'Trebuchet MS', sans-serif;
+	margin: 0;
+	// font-family: Bahnschrift, "Helvetica Neue", sans-serif;
+	font-family: 'Trebuchet MS', sans-serif;
 }
 
-*, .mat-typography {
-    font-family: 'Trebuchet MS', sans-serif;
-    // font-family: Bahnschrift, sans-serif;
+*,
+.mat-typography {
+	font-family: 'Trebuchet MS', sans-serif;
+	// font-family: Bahnschrift, sans-serif;
+}
+
+$primary: #ce423a;
+$secondary: #d8d8d8;
+$danger: #ff0000;
+$links: #ce423a;
+
+:root {
+	@include mat.icon-overrides((
+		color: $primary,
+		));
+	@include mat.form-field-overrides((filled-container-color: #e9e9e9,
+		));
 }
 
 a,
 .link-a {
-    color: $links;
-    text-decoration: none;
+	color: variables.$links;
+	text-decoration: none;
 }
 
 .alt-link-a {
-    color: $light;
-    text-decoration: none;
+	color: variables.$light;
+	text-decoration: none;
 }
 
 .alt-link-a:hover {
-    // text-decoration: underline;
-    cursor: pointer;
+	// text-decoration: underline;
+	cursor: pointer;
 }
 
 a:hover,
 .link-a:hover {
-    // text-decoration: underline;
-    cursor: pointer;
+	// text-decoration: underline;
+	cursor: pointer;
 }
 
 .bold {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 .italic {
-    font-style: italic;
+	font-style: italic;
 }
 
 .center {
-    margin: 0 auto;
-    display: block;
+	margin: 0 auto;
+	display: block;
 }
 
 .center-text {
-    text-align: center;
+	text-align: center;
 }
 
 .left-text {
-    text-align: left;
+	text-align: left;
 }
 
 .right-text {
-    text-align: right;
+	text-align: right;
 }
 
 .fl-right {
-    float: right;
+	float: right;
 }
 
 .fl-left {
-    float: left;
+	float: left;
 }
 
 .hov,
 .pointer {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .primary {
-    color: $primary;
+	color: variables.$primary;
 }
 
 .dark {
-    color: $dark;
+	color: variables.$dark;
 }
 
 .secondary {
-    color: $secondary;
+	color: variables.$secondary;
 }
 
 .primary {
-    color: $primary;
+	color: variables.$primary;
 }
 
 .danger {
-    color: $danger;
+	color: variables.$danger;
 }
 
 .warn {
-    color: $warn;
+	color: variables.$warn;
 }
 
 .success {
-    color: $success;
+	color: variables.$success;
 }
 
 .grey-text {
-    color: $grey;
+	color: variables.$grey;
 }
 
 .p-light {
-    color: $p-light;
+	color: variables.$p-light;
 }
 
 .p-dark {
-    color: $p-dark;
+	color: variables.$p-dark;
 }
 
 .s-light {
-    color: $s-light;
+	color: variables.$s-light;
 }
 
 .s-dark {
-    color: $s-dark;
+	color: variables.$s-dark;
 }
 
 .dark {
-    color: $dark;
+	color: variables.$dark;
 }
 
 .light {
-    color: $light;
+	color: variables.$light;
 }
 
 .bg-primary {
-    background-color: $primary;
+	background-color: variables.$primary;
 }
 
 .bg-secondary {
-    background-color: $secondary;
+	background-color: variables.$secondary;
 }
 
 .bg-p-dark {
-    background-color: $p-dark;
+	background-color: variables.$p-dark;
 }
 
 .bg-p-light {
-    background-color: $p-light;
+	background-color: variables.$p-light;
 }
 
 .bg-s-light {
-    background-color: $s-light;
+	background-color: variables.$s-light;
 }
 
 .bg-s-dark {
-    background-color: $s-dark;
+	background-color: variables.$s-dark;
 }
 
 .br-primary {
-    border-color: $primary;
+	border-color: variables.$primary;
 }
 
 .br-secondary {
-    border-color: $secondary;
+	border-color: variables.$secondary;
 }
 
 .br-p-light {
-    border-color: $p-light;
+	border-color: variables.$p-light;
 }
 
 .br-p-dark {
-    border-color: $p-dark;
+	border-color: variables.$p-dark;
 }
 
 .br-s-light {
-    border-color: $s-light;
+	border-color: variables.$s-light;
 }
 
 .br-s-dark {
-    border-color: $s-dark;
+	border-color: variables.$s-dark;
 }
 
 textarea,
 textarea.mat-mdc-input-element {
-    height: 10em !important;
-    resize: none;
+	height: 10em !important;
+	resize: none;
 }
 
 .button {
-    padding: 15px 35px;
-    font-size: 16pt;
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 30px;
+	padding: 15px 35px;
+	font-size: 16pt;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 30px;
 }
 
 .p-btn {
-    border-color: $primary;
-    background-color: $primary;
-    color: $light;
+	border-color: variables.$primary;
+	background-color: variables.$primary;
+	color: variables.$light;
 }
 
 .l-btn {
-    border-color: $light;
-    background-color: $light;
-    color: $primary;
+	border-color: variables.$light;
+	background-color: variables.$light;
+	color: variables.$primary;
 }
 
 .mat-toolbar.mat-accent {
-    --mat-toolbar-container-background-color: $light;
-    --mat-toolbar-container-text-color: $dark;
+	--mat-toolbar-container-background-color: variables.$light;
+	--mat-toolbar-container-text-color: variables.$dark;
 }
 
 
 .dash-card {
-    margin: 30px 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 30px;
-    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
-    // border: 1px solid #d3d3d3;
+	margin: 30px 50px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 30px;
+	box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+	// border: 1px solid #d3d3d3;
 }
 
 .dash-card:hover {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .dash-card:active {
-    transform: scale(0.98);
-    border: none;
-    /* Scaling box to 0.98 to its original size */
-    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
-    /* Lowering the shadow */
+	transform: scale(0.98);
+	border: none;
+	/* Scaling box to 0.98 to its original size */
+	box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+	/* Lowering the shadow */
 }
 
 @media only screen and (max-width: 600px) {
 
-    //smaller mobile devices
-    .mobile {
-        display: block;
-    }
+	//smaller mobile devices
+	.mobile {
+		display: block;
+	}
 
-    .desktop {
-        display: none;
-    }
+	.desktop {
+		display: none;
+	}
 
-    .form-div, .sect {
-        width: 95%;
-    }
+	.form-div,
+	.sect {
+		width: 95%;
+	}
 }
 
 @media only screen and (min-width: 600px) {
 
-    //small mobile devices
-    .mobile {
-        display: block;
-    }
+	//small mobile devices
+	.mobile {
+		display: block;
+	}
 
-    .desktop {
-        display: none;
-    }
+	.desktop {
+		display: none;
+	}
 
-    .form-div, .sect {
-        width: 90%;
-    }
+	.form-div,
+	.sect {
+		width: 90%;
+	}
 }
 
 @media only screen and (min-width: 768px) {
 
-    //tablets
-    .mobile {
-        display: block;
-    }
+	//tablets
+	.mobile {
+		display: block;
+	}
 
-    .desktop {
-        display: none;
-    }
+	.desktop {
+		display: none;
+	}
 
-    .form-div, .sect {
-        width: 80%;
-    }
+	.form-div,
+	.sect {
+		width: 80%;
+	}
 }
 
 @media only screen and (min-width: 992px) {
 
-    //laptops and larger
-    .mobile {
-        display: none;
-    }
+	//laptops and larger
+	.mobile {
+		display: none;
+	}
 
-    .desktop {
-        display: block;
-    }
+	.desktop {
+		display: block;
+	}
 
-    .form-div, .sect {
-        width: 60%;
-    }
+	.form-div,
+	.sect {
+		width: 60%;
+	}
 }
 
 @media only screen and (min-width: 1200px) {
 
-    //laptops and larger
-    .mobile {
-        display: none;
-    }
+	//laptops and larger
+	.mobile {
+		display: none;
+	}
 
-    .desktop {
-        display: block;
-    }
+	.desktop {
+		display: block;
+	}
 
-    .form-div, .sect {
-        width: 50%;
-    }
+	.form-div,
+	.sect {
+		width: 50%;
+	}
 }

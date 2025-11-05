@@ -1,0 +1,474 @@
+@if (pageLoading) {
+<div>
+	<br><br><br><br>
+	<app-loading></app-loading>
+</div>
+}
+@if(pageLoaded) {
+<div class="page">
+	<div class="main-content">
+		<h2 class="center-text">Manage Training - {{training!.title}} | <span
+				class="{{training!.active ? 'primary' : 'grey'}}">Training {{training!.active ? "Active" :
+				"Inactive"}}</span></h2>
+		@if(training!.internal) {
+		<div class="content-div">
+			<h3 class="center-text primary">Training Content</h3>
+			<div class="right-text pad">
+				@if(editingContent){
+				<button (click)="closeAction()" mat-mini-fab color="primary"
+					aria-label="Icon Button with a close icon">
+					<mat-icon>close</mat-icon>
+				</button>
+				}
+				@else {
+				<button [disabled]="training!.active" (click)="editAction(true)" mat-mini-fab
+					color="primary" aria-label="Icon Button with an add icon">
+					<mat-icon>add</mat-icon>
+				</button>
+				}
+			</div>
+			<!-- @if(editingContent) { -->
+			<div class="content-editor-div center-text">
+				<mat-form-field class="h-input" appearance="fill" color="primary">
+					<mat-label>Content Heading</mat-label>
+					<input type="text" matInput [(ngModel)]="activeHeading">
+				</mat-form-field>
+				<div #editor></div>
+				<br><br>
+				<div>
+					@if(!saveLoading){
+					<button class="button" (click)="validate()" matButton="outlined"
+						color="primary">Save Training</button>
+					}
+					@else {
+					<app-loading></app-loading>
+					}
+				</div>
+			</div>
+			<!-- } -->
+			@if(!editingContent && training!.content.length === 0) {
+			<div class="center-text italic">
+				<br>
+				No Training Content
+			</div>
+			}
+			@if(!editingContent) {
+			<div class="content-pane">
+				@for(content of training!.content; track content.c_id) {
+				<div class="dash-card">
+					<div class="content-flex">
+						<span class="left-text">
+							<button matIconButton (click)="removeContent(content.c_id)">
+								<mat-icon color="primary">delete</mat-icon>
+							</button>
+						</span>
+						<span class="right-text">
+							<button matIconButton (click)="selectContent(content.c_id)">
+								<mat-icon color="primary">edit</mat-icon>
+							</button>
+						</span>
+					</div>
+					<span class="content-head">{{content.heading}}</span>
+				</div>
+			}
+			</div>
+			}
+		</div>
+		}
+		@else {
+		<div class="content-div">
+			<h3 class="center-text primary">Training Instructions</h3>
+			<div class="content-editor-div center-text">
+				<quill-editor [(ngModel)]="instructions"></quill-editor>
+				<br><br>
+				<div>
+					@if(!saveLoading){
+					<button class="button" (click)="saveInstructions()" matButton="outlined"
+						color="primary">Save Training Instructions</button>
+					}
+					@else {
+					<app-loading></app-loading>
+					}
+				</div>
+			</div>
+		</div>
+		}
+		<div class="tests-div">
+			<h3 class="center-text primary">Training Test Questions</h3>
+			<div class="right-text pad">
+				@if(editingQuestion){
+				<button (click)="closeQuestionAction()" mat-mini-fab color="primary"
+					aria-label="Icon Button with a close icon">
+					<mat-icon>close</mat-icon>
+				</button>
+				}
+				@else {
+				<button (click)="editQuestionAction(true)" mat-mini-fab color="primary"
+					aria-label="Icon Button with an add icon">
+					<mat-icon>add</mat-icon>
+				</button>
+				}
+			</div>
+			@if(editingQuestion) {
+			<div class="content-editor-div center-text">
+				<mat-form-field class="h-input" appearance="fill" color="primary">
+					<mat-label>Question</mat-label>
+					<textarea class="textarea" type="text" matInput [(ngModel)]="activeQuestion"></textarea>
+				</mat-form-field>
+				<br><br>
+				<h4>Options</h4>
+				<mat-radio-group [name]="'active_question_options'" [(ngModel)]="activeOptionKey">
+					@for (option of activeOptions; track option.index; let i = $index) {
+					<div>
+						<div class="o-input center">
+							<mat-radio-button [value]="i" [color]="'primary'"></mat-radio-button>
+							<mat-form-field class="o-q-input" appearance="fill" color="primary">
+								<mat-label>Option {{i + 1}}</mat-label>
+								<input type="text" matInput (focus)="selectText(i)" [(ngModel)]="option.text"
+									id="active_option_input_{{i}}">
+							</mat-form-field>
+							<button (click)="removeOption(i)" matIconButton
+								color="primary"><mat-icon>remove</mat-icon></button>
+						</div>
+						<br>
+					</div>
+					}
+				</mat-radio-group>
+				@if(activeOptions.length < 4) {
+					<div class="center-text">
+					<button matButton="outlined" (click)="addOption()" class="btn">
+						Add Option <mat-icon>add</mat-icon>
+					</button>
+					<br><br><br>
+			</div>
+			}
+			<div>
+				@if(!questionActionLoading){
+				<button class="button" (click)="validateQuestion()" matButton="outlined"
+					color="primary">{{creatingQuestion ? "Create" : "Update"}} Question</button>
+				}
+				@else {
+				<app-loading></app-loading>
+				}
+			</div>
+		</div>
+		}
+		@if(!editingQuestion && questions.length === 0) {
+		<div class="center-text italic">
+			<br>
+			No Test Questions
+		</div>
+		}
+		@if(!editingQuestion) {
+		<div class="questions-pane">
+			@for(question of questions; track question.q_id; let i = $index) {
+			<div class="dash-card">
+				<div class="content-flex">
+					<span class="left-text">
+						<button matIconButton (click)="removeQuestion(i)">
+							<mat-icon color="primary">delete</mat-icon>
+						</button>
+					</span>
+					<span class="right-text">
+						<button matIconButton (click)="selectQuestion(i)">
+							<mat-icon color="primary">edit</mat-icon>
+						</button>
+					</span>
+				</div>
+				<span class="question-head">{{question.question.length > 100 ? question.question.slice(0, 90)+ "..."
+					: question.question}}</span>
+			</div>
+			}
+		</div>
+		}
+	</div>
+</div>
+<div class="sidebar">
+	@if(training!.internal) {
+	<div>
+		<h3 class="center-text primary">Assets</h3>
+		<div class="assets-div">
+			@if(editingContent) {
+			<div>
+				{{activeAssets.length === 0 ? "No Assets for the selected Content. " : ""}} Use the button below to
+				upload Training Assets. Include Uploaded
+				Assets in selected Content using the plus (+) button beside the Uploaded Assets.
+				Included Assets are automatically saved along with Content.
+			</div>
+			}
+			@else {
+			<div>
+				{{available_assets.length === 0 ? "No Assets for this training! " : ""}} Use the button below to
+				upload
+				Training Assets. Include Uploaded
+				Assets in selected Content using the plus (+) button beside the Uploaded Assets.
+				Included Assets are automatically saved along with Content.
+			</div>
+			}
+			@if(activeAssets.length !== 0){
+			<h4 class="center-text">Included Assets</h4>
+			}
+			@for(asset of activeAssets; track asset.a_id) {
+			<div class="asset">
+				@if(asset.type === 1) {
+				<mat-icon>description</mat-icon>
+				}
+				@else if (asset.type === 2) {
+				<mat-icon>image</mat-icon>
+				}
+				@else if(asset.type === 3) {
+				<mat-icon>movie</mat-icon>
+				}
+				@else if(asset.type === 4) {
+				<mat-icon>music_note</mat-icon>
+				}
+				<div>
+					<span>{{asset.label}}</span>
+					<br><br>
+					Preview
+				</div>
+			</div>
+			}
+			@if(activeAssets.length !== 0 && available_assets.length !== 0) {
+			<hr>
+			}
+			@if(available_assets.length !== 0){
+			<h4 class="center-text">Uploaded Assets</h4>
+			}
+			@for(asset of available_assets; track asset.a_id) {
+			<div class="asset">
+				@if(asset.type === 1) {
+				<mat-icon>description</mat-icon>
+				}
+				@else if (asset.type === 2) {
+				<mat-icon>image</mat-icon>
+				}
+				@else if(asset.type === 3) {
+				<mat-icon>movie</mat-icon>
+				}
+				@else if(asset.type === 4) {
+				<mat-icon>music_note</mat-icon>
+				}
+				<span>{{asset.label}}</span>
+				@if(!editingContent) {
+				<button (click)="addAsset(asset.a_id)" matIconButton
+					color="primary"><mat-icon>add</mat-icon></button>
+				}
+			</div>
+			}
+			<div class="center-text">
+				<br><br>
+				@if(!selectingFile){
+				<div>
+					<button mat-flat-button color="primary" (click)="selectingFile = true">Upload New Asset
+						<mat-icon>add_box</mat-icon></button>
+				</div>
+				}
+				@else {
+				<div class="right-text">
+					<button (click)="selectingFile = false" mat-mini-fab color="primary"
+						aria-label="Icon Button with an add icon">
+						<mat-icon>close</mat-icon>
+					</button>
+				</div>
+				<div>
+					<br><br>
+					<h4 class="bold">
+						Only Multimedia Files
+						<br>
+						(Document, Image, Video & Audio files). Maximum size: 20MB
+					</h4>
+					<div class="upload-div center">
+						<input type="file" id="file-input"
+							accept=".pdf,audio/*,video/*,image/*,.doc,.ppt,.xls,.docx,.pptx,.xlsx"
+							(change)="validateFile($event)">
+						<button mat-button color="primary" (click)="selectFile()">{{fileSelected ? "Change" :
+							"Select"}}
+							Asset <mat-icon>add_box</mat-icon></button>
+						<br><br>
+						<span class="filename">{{fileName}}</span>
+					</div>
+				</div>
+				}
+				<br><br>
+				@if(fileSelected) {
+				<mat-form-field class="m-input" appearance="fill" color="primary">
+					<mat-label>Asset Label*</mat-label>
+					<input type="text" matInput [(ngModel)]="label">
+				</mat-form-field>
+				}
+				<br><br>
+				@if(fileSelected && !uploadLoading) {
+				<button (click)="uploadAsset()" mat-flat-button
+					color="primary">Upload Asset
+					<mat-icon>upload</mat-icon></button>
+				}
+				@if(uploadLoading) {
+				<app-loading></app-loading>
+				}
+			</div>
+		</div>
+	</div>
+	}
+	<div class="settings-div">
+		@if(!editingSettings && training!.internal) {
+		<div class="right-text">
+			<h4>
+				Edit Training Settings
+				<button matIconButton color="primary" (click)="editingSettings = true">
+					<mat-icon>edit</mat-icon>
+				</button>
+			</h4>
+		</div>
+		}
+		@if(editingSettings || !training!.internal) {
+		<div class="edit-settings-div center center-text">
+			@if(training!.internal) {
+			<div class="right-text">
+				<button matIconButton (click)="editingSettings = false">
+					<mat-icon color="primary">close</mat-icon>
+				</button>
+			</div>
+			}
+			<h4>Training Settings</h4>
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>Title of Training</mat-label>
+				<input type="text" matInput [(ngModel)]="training_title">
+			</mat-form-field>
+			<br><br>
+			<div class="toggle">
+				<label for="general" class="hov" (click)="general = !general">This is a {{general ? "General" :
+					"Department-specific"}} Training</label>
+				<mat-slide-toggle [disabled]="general" name="general" id="general" class="slide"
+					[(ngModel)]="general"></mat-slide-toggle>
+			</div>
+			<br><br>
+			<div class="toggle">
+				<label for="recurring" class="hov" (click)="recurring = !recurring">This is a {{recurring ?
+					"Recurring" : "One-Off"}} Training</label>
+				<mat-slide-toggle name="recurring" id="recurring" class="slide"
+					[(ngModel)]="recurring"></mat-slide-toggle>
+			</div>
+			<br><br>
+			@if(recurring) {
+			<div class="split-toggle m-input center">
+				<div>
+					<label for="annual" class="hov" (click)="annual = !annual">Recurs {{annual ? "Every Year" :
+						"Every Other Year"}}</label>
+					<mat-slide-toggle name="annual" id="annual" class="slide" [(ngModel)]="annual"></mat-slide-toggle>
+				</div>
+				<div>
+					<label for="even_years" class="hov"
+						(click)="annual ? even_years = even_years : even_years = !even_years">Recurs on {{even_years
+						? "Even-Numbered Years" : "Odd-Numbered Years"}}</label>
+					<mat-slide-toggle [disabled]="annual" name="even_years" id="even_years" class="slide"
+						[(ngModel)]="even_years"></mat-slide-toggle>
+				</div>
+			</div>
+			<br><br>
+			}
+			@else {
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>Training Duration (days)</mat-label>
+				<input type="number" matInput [(ngModel)]="duration" min="5" max="360">
+				<br><br>
+			</mat-form-field>
+			}
+			<mat-form-field class="m-input">
+				<mat-label>Deadline</mat-label>
+				<input matInput [matDatepicker]="picker" [value]="deadline" [min]="min_date" [max]="max_date"
+					(dateChange)="addEvent('input', $event)">
+				<mat-hint>DD/MM/YYYY</mat-hint>
+				<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+				<mat-datepicker #picker></mat-datepicker>
+			</mat-form-field>
+			<br><br>
+			@if(recurring) {
+			<div class="center m-input italic">
+				This Training is due every {{annual ? "year" : even_years ? "Even-Numbered year" : "Odd-Numbered year"}}
+				on
+				{{months[training_month]}} {{training_date}}
+				<br><br>
+			</div>
+			}
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>Deadline Warning (Days)</mat-label>
+				<input type="number" matInput [(ngModel)]="deadline_warning" min="5" max="90">
+			</mat-form-field>
+			<br><br>
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>Test Question Count</mat-label>
+				<input type="number" matInput [(ngModel)]="question_count" min="5" max="100">
+				<mat-hint>Questions are randomly selected from a pool. This value specifies the precise number to
+					curate for every test.</mat-hint>
+			</mat-form-field>
+			<br><br><br>
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>Test Duration (minutes)</mat-label>
+				<input type="number" matInput [(ngModel)]="test_duration" min="10" max="180">
+			</mat-form-field>
+			<br><br>
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>Passing Grade (%)</mat-label>
+				<input type="number" matInput [(ngModel)]="pass_percentage" min="50" max="100">
+				<mat-hint>What percentage of asked questions must be answered accurately to make a passing
+					grade?</mat-hint>
+			</mat-form-field>
+			<br><br>
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>Required Employees</mat-label>
+				<mat-select [multiple]="true" [(value)]="tiers">
+					@for (role of roles; track role) {
+					<mat-option [value]="role.tier">{{role.name}}</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+			<br><br>
+			<div class="toggle">
+				<label for="internal" class="hov" (click)="internal = !internal">This is an {{internal ? "Internal"
+					: "External"}} Training</label>
+				<mat-slide-toggle name="internal" id="internal" class="slide" [(ngModel)]="internal"></mat-slide-toggle>
+			</div>
+			<br><br>
+			@if(!internal) {
+			<div>
+				<mat-form-field class="m-input" appearance="fill" color="primary">
+					<mat-label>Training Link</mat-label>
+					<input type="url" matInput [(ngModel)]="url">
+				</mat-form-field>
+				<br><br>
+			</div>
+			}
+			@if(!updateLoading) {
+			<button [disabled]="training!.active" class="button p-btn hov"
+				(click)="validateSettings()" matButton="filled" color="primary">Update Training</button>
+			}
+			@else {
+			<app-loading></app-loading>
+			}
+		</div>
+		}
+	</div>
+	@if(!editingSettings && training!.content.length > 0 && questions.length >= training!.test_question_count) {
+	<div class="center-text">
+		@if(!training!.internal) {
+		<div>
+			<br><br><br><br>
+		</div>
+		}
+		@if(activationLoading) {
+		<app-loading></app-loading>
+		}
+		@if(!training!.active && !activationLoading) {
+		<button mat-flat-button color="primary"
+			(click)="activateTraining()">Activate Training</button>
+		}
+		@if (training!.active && !activationLoading) {
+		<button mat-flat-button color="primary"
+			(click)="deactivateTraining()">Deactivate Training</button>
+		}
+	</div>
+	}
+</div>
+</div>
+}

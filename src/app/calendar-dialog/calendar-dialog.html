@@ -1,0 +1,65 @@
+<div class="calendar-dialog">
+    <mat-dialog-content>
+        <mat-card-content class="card-content">
+            <div class="r-div">
+                <span class="primary">Start Date</span>
+                <br>
+                <div class="cal-div">
+                    {{data.event.start_date | date:'MMM'}}
+                    <br>
+                    {{data.event.start_date | date:'dd'}}
+                </div>
+            </div>
+            <div class="c-div">
+                <h2>{{data.event.name}}</h2>
+                <div class="left-text">
+                    @if(data.event.description.length > 0){
+                    <div>
+                        <h5 class="center-text primary">Description</h5>
+                        <div class="small-text italic">{{data.event.description}}</div>
+                    </div>
+                }
+                    <div>
+                        <h5 class="center-text primary">Invitees</h5>
+                        @if(data.event.group === 'g'){
+                        <p class="s-dark">Company-Wide</p>
+                        }
+                        @else {
+                        <p><span class="bold">{{data.event.group_name}}:</span>
+                            {{data.event.group_invitee_names.join(', ')}}</p>
+                        }
+                        @if(data.event.group === 'i'){
+                        <div>
+                            @if(data.event.access_levels.length === data.access_levels.length){
+                            <p><span
+                                    class="bold">Access
+                                    Levels:</span> <span class="s-dark"> All Access Levels</span></p>
+                            }
+                            @else {
+                            <p><span
+                                    class="bold">Access
+                                    Levels:</span> {{data.event.access_levels.join(', ')}}</p>
+                            }
+                        </div>
+                    }
+                    </div>
+                </div>
+            </div>
+            <div class="l-div">
+                <span class="primary">End Date</span>
+                <br>
+                <div class="cal-div">
+                    {{data.event.end_date | date:'MMM'}}
+                    <br>
+                    {{data.event.end_date | date:'dd'}}
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <div class="mat-dialog-actions center-text">
+            <button (click)="close();" mat-button mat-dialog-close>Close</button>
+            <br><br>
+        </div>
+    </mat-dialog-actions>
+</div>

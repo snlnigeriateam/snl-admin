@@ -1,0 +1,28 @@
+@if (!pageLoading) {
+<div>
+	<h2 class="center-text">SNL Nigeria Staff Access Levels</h2>
+	<div class="right-text pad">
+		<button [routerLink]="['/access-levels', 'create-access-level']" matFab color="primary"
+			aria-label="Icon Button with an add icon">
+			<mat-icon>add</mat-icon>
+		</button>
+	</div>
+	@if (access_levels.length === 0 && pageLoaded) {
+	<h4 class="center-text italic">No Access Levels</h4>
+	}
+	<div class="level-div">
+		@for (level of access_levels; track level.l_id) {
+		<div class="dash-card">
+			<span class="level-head">{{level.name}}</span>
+			<span class="level-sub primary">{{level.permissions.join(' ')}}</span>
+		</div>
+	}
+	</div>
+</div>
+}
+@else {
+<div>
+	<br><br>
+	<app-loading></app-loading>
+</div>
+}

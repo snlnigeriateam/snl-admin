@@ -102,16 +102,16 @@ $md-warn: (
     )
 );
 
-$my-theme-primary: mat.m2-define-palette($md-primary);
-$my-theme-accent: mat.m2-define-palette($md-accent);
-$my-theme-warn: mat.m2-define-palette($md-warn);
+// $my-theme-primary: mat.m3-define-palette($md-primary);
+// $my-theme-accent: mat.m3-define-palette($md-accent);
+// $my-theme-warn: mat.m3-define-palette($md-warn);
 
-$my-theme: mat.m2-define-light-theme((
-    color: (
-        primary: $my-theme-primary,
-        accent: $my-theme-accent,
-        warn: $my-theme-warn
-    ),
-    typography: mat.m2-define-typography-config(),
-    density: 0,
-));
+// $my-theme: mat.m3-define-light-theme((
+//     color: (
+//         primary: $my-theme-primary,
+//         accent: $my-theme-accent,
+//         warn: $my-theme-warn
+//     ),
+//     typography: mat.m3-define-typography-config(),
+//     density: 0,
+// ));

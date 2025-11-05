@@ -1,0 +1,31 @@
+@if(!pageLoading) {
+<div>
+	<h2 class="center-text">SNL Nigeria Staff Trainings</h2>
+	@if (trainings.length === 0) {
+	<div class="center-text empty-div italic">
+		No Available Trainings
+	</div>
+	}
+	<div class="training-div">
+		@for(training of trainings; track training.t_id) {
+		<div class="dash-card">
+			<span class="right-text">
+				<a matIconButton [routerLink]="['/trainings', 'manage-training', training.t_id]">
+					<mat-icon color="primary">settings</mat-icon>
+				</a>
+			</span>
+			<span class="training-head">{{training.title}}</span>
+			<br><br>
+			<span class="training-sub primary">{{training.recurring ? "Recurs " + training.annual ? "Every Year" :
+				"Every Other Year" : "One-Time Training"}}</span>
+		</div>
+		}
+	</div>
+</div>
+}
+@else {
+<div>
+	<br><br>
+	<app-loading></app-loading>
+</div>
+}

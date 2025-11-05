@@ -1,0 +1,44 @@
+<div>
+	@if(pageLoading){
+	<div class="margin">
+		<app-loading></app-loading>
+	</div>
+	}
+	@if(pageLoaded && trainingDeadlineWarnings.length > 0){
+	<div class="warnings-div">
+		@for(warning of trainingDeadlineWarnings; track warning.t_id){
+		<div class="{{warning.visible ? 'warning-block' : 'hidden-warning'}}">
+			<mat-icon color="warn">info</mat-icon>
+			<div class="flex">
+				<div class="hov" [routerLink]="['/trainings', 'take-training', warning.t_id]">{{warning.days_left}}
+					day{{warning.days_left === 1 ? '' : 's'}} left to complete {{warning.title}} Training</div>
+				<button matIconButton aria-label="Dismiss Warning" (click)="warning.visible = false">
+					<mat-icon color="warn">close</mat-icon>
+				</button>
+			</div>
+		</div>
+		}
+	</div>
+	}
+	@if(pageLoaded){
+	<div class="dash">
+		@for(item of displayItems; track item){
+		<div class="dash-card" (click)="nav(item.url)">
+			<div class="card-icon-div">
+				<!-- <mat-icon class="dash-icon" fontIcon="diversity_2">diversity_2</mat-icon> -->
+				<img src="/assets/dash/{{item.icon}}" alt="Icon showing {{item.title}}" class="dash-img">
+			</div>
+			<br>
+			<div class="card-heading">
+				{{item.title}}
+			</div>
+			<br>
+			<div class="card-subheading">
+				{{item.subtitle}}
+			</div>
+		</div>
+		}
+	</div>
+	}
+</div>
+<!-- Queries, Staff, Hiring: groups -->

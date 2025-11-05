@@ -1,0 +1,25 @@
+@if(!pageLoading){
+<div>
+	<h2 class="center-text">SNL Nigeria Staff Positions</h2>
+	<div class="right-text pad">
+		<button [routerLink]="['/hiring', 'create-position']" matFab color="primary"
+			aria-label="Icon Button with an add icon">
+			<mat-icon>add</mat-icon>
+		</button>
+	</div>
+	<div class="pos-div">
+		@for(pos of positions; track pos.p_id){
+		<div class="dash-card">
+			<span class="pos-head">{{pos.name}}</span>
+			<span class="pos-sub primary">{{pos.unique ? "Single" : "Multiple"}}</span>
+		</div>
+		}
+	</div>
+</div>
+}
+@else {
+<div>
+	<br><br>
+	<app-loading></app-loading>
+</div>
+}

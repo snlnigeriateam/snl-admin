@@ -1,0 +1,369 @@
+@if (pageLoading) {
+<div>
+	<br><br>
+	<app-loading></app-loading>
+	<br><br>
+</div>
+}
+@if(loaded) {
+<div>
+	<div class="banner">
+		<img src="{{user!.uri}}" alt="Photo of {{user!.f_name}} {{user!.l_name}}" class="avatar-img">
+		<h2>{{user!.f_name}} {{user!.l_name}}</h2>
+	</div>
+	<div class="sections">
+		<div class="section s1">
+			<h3 class="center-text primary">Account Activity</h3>
+			@for (activity of user!.trail; track activity.on) {
+			<div class="activity-info-item">
+				<span class="activity-info-label">{{activity.on | date}}</span>
+				<br>
+				<div class="margin-left">
+					<span class="activity-info-value"> {{activity.action}}</span>
+					@if(activity.by.length > 0){
+					<div>
+						<span class="activity-info-value activity-subhead">
+							Activity Taken By:
+						</span>
+						<span class=" activity-info-value italic">{{activity.by}}</span>
+					</div>
+					}
+					@if(activity.reason && activity.reason.length > 0){
+					<div>
+						<span class="activity-info-value activity-subhead">
+							Reason:
+						</span>
+						<span class=" activity-info-value italic">{{activity.reason}}</span>
+					</div>
+					}
+				</div>
+			</div>
+			}
+		</div>
+		<div class="section s2">
+			<h3 class="center-text primary">Trainings</h3>
+			<h4 class="center-text">Assign a Training</h4>
+			<div class="trainings-div center-text">
+				@if (!availableTrainingsLoaded && !availableTrainingsLoading) {
+				<button class="button hov" (click)="loadAvailableTrainings()" matButton="filled" color="primary">Load
+					Available
+					Trainings</button>
+				}
+				@if(availableTrainingsLoading) {
+				<app-loading></app-loading>
+				}
+				@if(availableTrainingsLoaded && !availableTrainingsLoading) {
+				<div>
+					@if(availableTrainings.length == 0) {
+					<div class="empty-div italic">
+						No Available Trainings
+					</div>
+					}
+					@for(training of availableTrainings; track training.t_id) {
+					<div class="training-card av-training-card">
+						<div class="av-training-head">{{training.title}}</div>
+						<span class="right-text">
+							<button mat-mini-fab color="primary" (click)="assignTraining(training.t_id)">
+								<mat-icon>add</mat-icon>
+							</button>
+						</span>
+					</div>
+					}
+				</div>
+				}
+			</div>
+			<br><br><br><br>
+			<h4 class="center-text">Training Activity</h4>
+			@if(selectedTrainingCategory == '') {
+			<h5 class="center-text">
+				Select a Training Category below to get started.
+			</h5>
+			}
+			<div class="center-text">
+				<mat-radio-group [(ngModel)]="selectedTrainingCategory" (change)="onTrainingCategoryChange($event)">
+					@for (category of trainingCategories; track category) {
+					<mat-radio-button [color]="'primary'" [value]="category.value">{{category.name}}</mat-radio-button>
+					}
+				</mat-radio-group>
+			</div>
+			@if (pendingTrainingsLoading || completedTrainingsLoading) {
+			<div class="center-text">
+				<br><br>
+				<app-loading></app-loading>
+				<br><br>
+			</div>
+			}
+			@if(selectedTrainingCategory == 'pending' && pendingTrainingsLoaded){
+			<div>
+				@if(user!.pendingTrainings.length > 0) {
+				<div class="center-text empty-div italic">
+					No Pending Trainings
+				</div>
+				}
+				@for (training of user!.pendingTrainings; track training.t_id) {
+				<div>
+					<mat-expansion-panel class="training-card">
+						<mat-expansion-panel-header>
+							<mat-panel-title class="training-head"> {{training.title}} </mat-panel-title>
+						</mat-expansion-panel-header>
+						<div class="training-info">
+							<div class="training-info-item">
+								<span class="training-info-label primary">Due Date:</span>
+								<span class="training-info-value"> {{training.progress.deadline | date}}</span>
+							</div>
+							<div class="training-info-item">
+								<span class="training-info-label primary">Assigned By:</span>
+								<span class="training-info-value"> {{training.progress.assigned_by}}</span>
+							</div>
+							<div class="training-info-item">
+								<span class="training-info-label primary">Assigned On:</span>
+								<span class="training-info-value"> {{training.progress.assigned_on | date}}</span>
+							</div>
+
+							<div class="training-info-item">
+								<span class="training-info-label primary">Status:</span>
+								<span class="training-info-value {{training.progress.started ? 'success' : 'warn'}}">
+									{{training.progress.started ? "Training Started" : "Not Started"}}</span>
+							</div>
+							@if (training.progress.started) {
+							<div class="training-info-item">
+								<span class="training-info-label primary">Started On:</span>
+								<span class="training-info-value"> {{training.progress.started_on| date}}</span>
+							</div>
+							<div class="training-info-item">
+								<span class="training-info-label primary">Progress:</span>
+								<span class="training-info-value"> {{training.progress.progress}}%</span>
+							</div>
+							}
+							@if (training.progress.activity.length > 0) {
+							<h4 class="center-text primary">Training
+								Activity</h4>
+							}
+							@for(activity of training.progress.activity; track activity.on) {
+							<div class="training-info-item">
+								<span class="training-info-label">{{activity.on | date}}:</span>
+								<span class="training-info-value"> {{activity.action}}</span>
+								@if (activity.id.length > 0) {
+								<span class="training-info-value"> |
+									{{activity.id}}</span>
+								}
+							</div>
+							}
+						</div>
+					</mat-expansion-panel>
+				</div>
+				}
+			</div>
+			}
+			@if(selectedTrainingCategory == 'completed' && completedTrainingsLoaded) {
+			<div>
+				@if(user!.completedTrainings.length == 0) {
+				<div class="center-text empty-div italic">
+					No Completed Trainings
+				</div>
+				}
+				@for (training of user!.completedTrainings; track training.t_id) {
+				<div>
+					<mat-expansion-panel class="training-card">
+						<mat-expansion-panel-header>
+							<mat-panel-title class="training-head"> {{training.title}} </mat-panel-title>
+						</mat-expansion-panel-header>
+						<div class="training-info">
+							<div class="training-info-item">
+								<span class="training-info-label primary">Due Date:</span>
+								<span class="training-info-value"> {{training.deadline | date}}</span>
+							</div>
+							<div class="training-info-item">
+								<span class="training-info-label primary">Started On:</span>
+								<span class="training-info-value"> {{training.progress.started_on| date}}</span>
+							</div>
+							<div class="training-info-item">
+								<span class="training-info-label primary">Date Completed:</span>
+								<span class="training-info-value"> {{training.progress.completed_on | date}}</span>
+							</div>
+							<div class="training-info-item">
+								<span class="training-info-label primary">Test Score:</span>
+								<span class="training-info-value"> {{training.progress.score}}%</span>
+							</div>
+							@if (training.progress.activity.length > 0) {
+							<h4 class="center-text primary">Training
+								Activity</h4>
+							}
+							@for(activity of training.progress.activity; track activity.on) {
+							<div class="training-info-item">
+								<span class="training-info-label">{{activity.on | date}}:</span>
+								<span class="training-info-value"> {{activity.action}}</span>
+								@if (activity.id.length > 0) {
+								<span class="training-info-value"> |
+									{{activity.id}}</span>
+								}
+							</div>
+							}
+						</div>
+					</mat-expansion-panel>
+				</div>
+				}
+			</div>
+			}
+		</div>
+		<div class="section s3 center-text">
+			<h3 class="center-text primary">Employee Information</h3>
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>Username</mat-label>
+				<input type="text" matInput [(ngModel)]="person!.username.prop"
+					disabled="{{!person!.username.editable}}">
+			</mat-form-field>
+			<br><br>
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>First Name</mat-label>
+				<input type="text" matInput autocomplete="given-name" [(ngModel)]="person!.f_name.prop"
+					disabled="{{!person!.f_name.editable}}">
+			</mat-form-field>
+			<br><br>
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>Last Name</mat-label>
+				<input type="text" matInput autocomplete="family-name" [(ngModel)]="person!.l_name.prop"
+					disabled="{{!person!.l_name.editable}}">
+			</mat-form-field>
+			<br><br>
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>Selected Email</mat-label>
+				<input type="email" matInput autocomplete="email" [(ngModel)]="person!.email.prop"
+					disabled="{{!person!.email.editable}}">
+			</mat-form-field>
+			<br><br>
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>Corporate Email</mat-label>
+				<input type="email" matInput autocomplete="email" [(ngModel)]="person!.c_email.prop"
+					disabled="{{!person!.c_email.editable}}">
+			</mat-form-field>
+			<br><br>
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>Phone Number</mat-label>
+				<input type="tel" matInput autocomplete="tel" [(ngModel)]="person!.phone.prop"
+					disabled="{{!person!.phone.editable}}">
+			</mat-form-field>
+			<br><br>
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>Position</mat-label>
+				<mat-select [(value)]="person!.p_id.prop">
+					@for (position of positions; track position) {
+					<mat-option [value]="position.p_id">{{position.name}}</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+			<br><br>
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>Access Level</mat-label>
+				<mat-select [(value)]="person!.tier.prop">
+					@for (role of roles; track role) {
+					<mat-option [value]="role.tier">{{role.name}}</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+			<br><br>
+			@if (!saveLoading) {
+			<button class="button p-btn hov" (click)="validate()" matButton="filled" color="primary">Save Changes to
+				Account</button>
+			}
+			@else {
+			<app-loading></app-loading>
+			}
+			<br><br>
+			<hr>
+			<h4>Employee Access</h4>
+			<h5>Account Status: <span class="{{user!.active ? 'success' : 'warn'}}">{{user!.active ? "Account Active" :
+					"Account Suspended"}}</span></h5>
+			@if(!user!.revoked && !suspending && !reinstating && !revoking) {
+			<div>
+				@if(user!.active) {
+				<button matButton="outlined" color="warn" (click)="initialiseSuspend()">Suspend
+					Account</button>
+				}
+				<br><br>
+				@if(!user!.active) {
+				<button matButton="outlined" color="warn" (click)="initialiseUnsuspend()">Reinstate
+					Account</button>
+				}
+				<br><br>
+				@if(user!.active) {
+				<button matButton="outlined" color="warn" (click)="initialiseRevoke()">Permanently
+					Suspend Account</button>
+				}
+			</div>
+			}
+			@if(suspending || reinstating || revoking) {
+			<div>
+				<div class="right-text">
+					<button matIconButton color="warn" (click)="cancelSuspendAction()">
+						<mat-icon>close</mat-icon>
+					</button>
+				</div>
+				<mat-form-field class="m-input" appearance="fill" color="primary">
+					<mat-label>Reason for Account {{suspending || revoking ? 'Suspension' :
+						'Reinstatement'}}</mat-label>
+					<textarea type="text" matInput [(ngModel)]="reason"></textarea>
+				</mat-form-field>
+				<br><br>
+				@if(suspending) {
+				<div>
+					<mat-form-field class="m-input" appearance="fill" color="primary">
+						<mat-label>Suspension Deadline</mat-label>
+						<input matInput [matDatepicker]="picker" [value]="suspensionDeadline" [min]="min_date"
+							[max]="max_date" (dateChange)="setSuspensionDeadline('input', $event)">
+						<mat-hint>DD/MM/YYYY</mat-hint>
+						<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+						<mat-datepicker #picker></mat-datepicker>
+					</mat-form-field>
+					<br><br>
+				</div>
+				}
+				@if(reinstating || revoking) {
+				<div>
+					<mat-form-field class="m-input" appearance="fill" color="primary">
+						<mat-label>Authorisation Code (Two-Factor Authentication Code)</mat-label>
+						<input type="text" matInput autocomplete="off" [(ngModel)]="authCode"
+							placeholder="Enter the code from your Authentication Method" minlength="6" maxlength="6">
+					</mat-form-field>
+					<br><br>
+				</div>
+				}
+				@if(suspending){
+				<div class="center-text">
+					@if(!suspendActionLoading) {
+					<button class="button p-btn hov" (click)="suspend()" matButton="filled" color="warn">Suspend
+						Account</button>
+					}
+					@else {
+					<app-loading></app-loading>
+					}
+				</div>
+				}
+				@if(reinstating){
+				<div class="center-text">
+					@if(!suspendActionLoading) {
+					<button class="button p-btn hov" (click)="reinstate()" matButton="filled" color="warn">Reinstate
+						Account</button>
+					}
+					@else {
+					<app-loading></app-loading>
+					}
+				</div>
+				}
+				@if(revoking){
+				<div class="center-text">
+					@if(!suspendActionLoading) {
+					<button class="button p-btn hov" (click)="revoke()" matButton="filled" color="warn">Permanently
+						Suspend Account</button>
+					}
+					@else {
+					<app-loading></app-loading>
+					}
+				</div>
+				}
+			</div>
+			}
+		</div>
+	</div>
+</div>
+}

@@ -1,0 +1,42 @@
+@if (!pageLoading) {
+<div>
+	@if(pageLoaded) {
+	<div class="center-text center sect">
+		<h2 class="h2">Manage Department - {{name}}</h2>
+		<br><br>
+		<div class="right-text center m-input">
+			<button matIconButton color="primary" (click)="remove()"><mat-icon>delete</mat-icon></button>
+		</div>
+		<br><br><br>
+		<mat-form-field class="m-input" appearance="fill" color="primary">
+			<mat-label>Name of Department</mat-label>
+			<input type="text" matInput [(ngModel)]="name">
+		</mat-form-field>
+		<br><br>
+		<mat-form-field class="m-input" appearance="fill" color="primary">
+			<mat-label>Department Head</mat-label>
+			<mat-select [(value)]="head">
+				@for (person of people; track person) {
+				<mat-option [value]="person.a_id">{{person.f_name}} {{person.l_name}}</mat-option>
+				}
+			</mat-select>
+		</mat-form-field>
+		<br><br>
+		@if (!actionLoading) {
+		<button class="button p-btn hov" (click)="validate()" matButton="filled" color="primary">Update
+			Department</button>
+		}
+		@else {
+		<app-loading></app-loading>
+		}
+		<br><br>
+	</div>
+	}
+</div>
+}
+@else {
+<div>
+	<br><br>
+	<app-loading></app-loading>
+</div>
+}

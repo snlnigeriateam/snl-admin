@@ -1,0 +1,41 @@
+@if(pageLoading) {
+<div>
+	<br><br>
+	<app-loading></app-loading>
+	<br><br>
+</div>
+}
+@if(loaded){
+<div>
+	<h2 class="center-text">Direct Reports</h2>
+	<div class="right-text pad">
+		<button [routerLink]="['/staff', 'add-personnel']" matFab color="primary"
+			aria-label="Icon Button with an add icon">
+			<mat-icon>add</mat-icon>
+		</button>
+	</div>
+	@if(users.length === 0) {
+	<div class="center-text empty-div italic">
+		No Direct Reports
+	</div>
+	}
+	<div class="staff-div">
+		@for(user of users; track user.a_id) {
+		<div class="dash-card">
+			<span class="right-text">
+				<a matIconButton [routerLink]="['/management', 'manage-direct-report', user.a_id]">
+					<mat-icon color="primary">settings</mat-icon>
+				</a>
+			</span>
+			<div class="avatar-div">
+				<img src="{{user.uri}}" alt="Profile Photo of {{user.f_name}} {{user.l_name}}" class="icon-img">
+			</div>
+			<br><br>
+			<span class="staff-head">{{user.f_name}} {{user.l_name}}</span>
+			<br><br>
+			<span class="staff-sub">{{user.role}}</span>
+		</div>
+		}
+	</div>
+</div>
+}

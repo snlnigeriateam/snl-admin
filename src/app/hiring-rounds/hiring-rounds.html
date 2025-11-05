@@ -1,0 +1,30 @@
+@if (pageLoading) {
+<div>
+	<br><br>
+	<app-loading></app-loading>
+</div>
+}
+@else {
+<div>
+	<h2 class="center-text">SNL Nigeria Hiring Rounds</h2>
+	<div class="right-text pad">
+		<button [routerLink]="['/hiring', 'start-hiring-round']" matFab color="primary"
+			aria-label="Icon Button with an add icon">
+			<mat-icon>add</mat-icon>
+		</button>
+	</div>
+	<div class="rounds-div">
+		@for (round of rounds; track round.r_id) {
+		<div class="dash-card" (click)="nav(round.r_id)">
+			<span class="round-content round-head">{{round.name}}</span>
+			<span class="round-content round-sub-head center-text italic">{{round.open ? "Available" :
+				"Unavailable"}}</span>
+			<span class="round-content round-foot"><span class="bold">Start Date</span>:
+				{{utilities.dateFn((round.start_date), false)}}</span>
+			<span class="round-content round-foot"><span class="bold">End Date</span>:
+				{{utilities.dateFn(round.end_date, false)}}</span>
+		</div>
+		}
+	</div>
+</div>
+}

@@ -1,0 +1,141 @@
+@if(!pageLoading){
+<div>
+	@if (!showingSegments) {
+	<div>
+		<div class="center-text center sect">
+			<h2 class="h2">Create Hiring Round</h2>
+			<br><br>
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>Name (Internal Use Only)</mat-label>
+				<input type="text" matInput [(ngModel)]="name">
+			</mat-form-field>
+			<br><br>
+			<mat-form-field class="m-input">
+				<mat-label>Start Date</mat-label>
+				<input matInput [matDatepicker]="picker" [value]="start_date" [min]="min_date"
+					(dateChange)="addEvent('input', $event)">
+				<mat-hint>DD/MM/YYYY</mat-hint>
+				<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+				<mat-datepicker #picker></mat-datepicker>
+			</mat-form-field>
+			<br><br>
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>Duration</mat-label>
+				<input type="number" matInput [(ngModel)]="duration">
+			</mat-form-field>
+			<br><br>
+			<mat-form-field class="m-input" appearance="fill" color="primary">
+				<mat-label>Open Positions</mat-label>
+				<mat-select [multiple]="true" [(value)]="sel_pos">
+					@for (position of positions; track position.p_id) {
+					<mat-option [value]="position.p_id">{{position.name}}</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+			<br><br>
+			@if(!createLoading){
+			<button class="button p-btn hov" (click)="validateNext()" matButton="filled" color="primary">Next</button>
+			}
+			@else {
+			<app-loading></app-loading>
+			}
+		</div>
+	</div>
+	}
+	@else {
+	<div>
+		<div class="flex-apart">
+			<div class="pad-l">
+				<button (click)="prev()" matFab color="primary" aria-label="Icon Button with a Back icon">
+					<mat-icon>arrow_back</mat-icon>
+				</button>
+			</div>
+			<div class="pad-r">
+				@if(c_seg !== segments.length - 1){
+				<button (click)="next()" matFab color="primary" aria-label="Icon Button with a Forward icon">
+					<mat-icon>arrow_forward</mat-icon>
+				</button>
+				}
+			</div>
+		</div>
+		<div class="page-view">
+			<div class="center-text l-sect builder">
+				<h2 class="h2">Compose Job Posting</h2>
+				<br><br>
+				<mat-form-field class="c-input" appearance="fill" color="primary">
+					<mat-label>Position</mat-label>
+					<input disabled="true" type="text" matInput [(ngModel)]="segments[c_seg].position.name">
+				</mat-form-field>
+				<br><br>
+				@for (comp of segments[c_seg].compartments; track $index) {
+				<div>
+					<mat-form-field class="c-input" appearance="fill" color="primary">
+						<mat-label>Style</mat-label>
+						<mat-select [(value)]="comp.format">
+							@for (style of styles; track style) {
+							<mat-option class="{{style.class}}" [value]="style.class">{{style.title}}</mat-option>
+							}
+						</mat-select>
+					</mat-form-field>
+					<mat-form-field class="c-input" appearance="fill" color="primary">
+						<mat-label>Content</mat-label>
+						<textarea (keyup)="updateComp($index)" type="text" matInput [(ngModel)]="comp.text"></textarea>
+					</mat-form-field>
+				</div>
+				}
+
+				<br><br>
+				<button class="button l-btn hov" (click)="addCompartment()" matButton="filled" color="primary">Add Text
+					Segment</button>
+				<br><br><br><br>
+				@if(c_seg !== segments.length - 1){
+				<div>
+					<button class="button p-btn hov" (click)="validateSegment()" matButton="filled"
+						color="primary">Next</button>
+				</div>
+			}
+			@else {
+				<div>
+					@if(!createLoading){
+					<button class="button p-btn hov" (click)="validate()" matButton="filled"
+						color="primary">Create Hiring Round</button>
+					}
+					@else {
+					<app-loading></app-loading>
+					}
+				</div>
+			}
+			</div>
+			<div class="r-sect viewer">
+				<h2 class="h2">Preview Job Posting</h2>
+				<hr>
+				<h3 class="center-text">Job Posting</h3>
+				<br><br>
+				<div class="f2">
+					{{segments[c_seg].position.name}}
+				</div>
+				<br>
+				<div class="c1">
+					SNL Nigeria is looking for {{segments[c_seg].position.unique ? 'an individual' : 'individuals'}} to
+					fill the position of {{segments[c_seg].position.name}}.
+					A career at SNL Nigeria is an exciting opportunity to work with some of the top minds in the country
+					collaborating on projects on large, medium and small
+					scales, each impacting society in multiple ways. SNL Nigeria is an equal-opportunity employer that
+					does not discriminate on any bases. Candidates who meet
+					the qualifications stated below are encouraged to fill out the Application Form.
+				</div>
+				@for(comp of segments[c_seg].compartments; track comp){
+				<div class="{{comp.format}}" innerHTML="{{comp.html}}"></div>
+				}
+			</div>
+		</div>
+	</div>
+	}
+</div>
+}
+@else {
+<div>
+	<br><br>
+	<app-loading></app-loading>
+</div>
+}

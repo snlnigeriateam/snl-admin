@@ -1,0 +1,277 @@
+@use "variables.scss";
+
+.nav-item {
+    padding-right: 40px;
+    font-size: 14pt;
+    // font-weight: 500;
+}
+
+.nav-mini-item {
+    margin-right: 10px;
+}
+
+.nav-item a {
+    color: variables.$grey;
+    padding-bottom: 3px;
+    transition: border-bottom 0.25s;
+}
+
+.nav-item a:hover {
+    // animation: uline 0.5s forwards;
+    border-bottom: 2px solid black;
+}
+
+.navbar {
+    border-bottom: 1px solid #9b9b9b;
+}
+
+mat-toolbar.mini-navbar {
+    height: 50px;
+}
+
+// @keyframes uline {
+//     from {
+//         border-bottom: none;
+//     }
+
+//     to {
+//         border-bottom: 2px solid black;
+//     }
+// }
+
+.mobile-nav-item {
+    margin: 40px 15px;
+    display: block;
+    font-size: 16pt;
+    font-weight: 500;
+}
+
+.mobile-nav-item>a {
+    color: variables.$light;
+}
+
+.mat-toolbar {
+    background-color: variables.$light;
+    height: 125px;
+}
+
+.s1 {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.img-div {
+    height: 30px;
+    width: 30px;
+    // margin-top: 20px;
+    margin-right: 5px;
+    border-radius: 50%;
+    padding: 10px;
+    background-color: variables.$primary;
+}
+
+.text-span {
+    margin-right: 30px;
+    font-size: 18pt;
+    font-weight: 600;
+    align-self: center;
+}
+
+.logo {
+    height: 100%;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mobile-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.right-flex {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.mobile-logo {
+    height: 100%;
+}
+
+.mobile-img-span {
+    height: 80%;
+    padding-right: 5px;
+}
+
+.logo-text {
+    font-size: 26pt;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.admin-toolbar {
+    background-color: #deb887;
+    justify-content: flex-end;
+
+    a {
+        color: black;
+    }
+}
+
+.nav-img {
+    height: 50px;
+    border-radius: 50%;
+}
+
+.side-logo {
+    font-size: 24pt;
+    color: variables.$primary;
+}
+
+.icon {
+    font-size: 18pt;
+}
+
+.sidenav {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: variables.$dark;
+    color: #ffffff;
+}
+
+.calendar-nav {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 90%;
+    background-color: #fff;
+}
+
+.event-card {
+    width: 90%;
+    margin: 20px auto;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.event-card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-content {
+    font-size: 16pt;
+    font-weight: 500;
+}
+
+.margin-left {
+    margin-left: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+
+    //smaller mobile devices
+    .mobile {
+        display: block;
+    }
+
+    .desktop {
+        display: none;
+    }
+
+    .calendar-nav {
+        width: 100%;
+    }
+
+    .event-card {
+        width: 90%;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+
+    //small mobile devices
+    .mobile {
+        display: block;
+    }
+
+    .desktop {
+        display: none;
+    }
+
+    .calendar-nav {
+        width: 80%;
+    }
+
+    .event-card {
+        width: 80%;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+
+    //tablets
+    .mobile {
+        display: block;
+    }
+
+    .desktop {
+        display: none;
+    }
+
+    .calendar-nav {
+        width: 60%;
+    }
+
+    .event-card {
+        width: 70%;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+
+    //laptops and larger
+    .mobile {
+        display: none;
+    }
+
+    .desktop {
+        display: block;
+    }
+
+    .calendar-nav {
+        width: 40%;
+    }
+
+    .event-card {
+        width: 70%;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+
+    //laptops and larger
+    .mobile {
+        display: none;
+    }
+
+    .desktop {
+        display: block;
+    }
+
+    .calendar-nav {
+        width: 40%;
+    }
+
+    .event-card {
+        width: 70%;
+    }
+}

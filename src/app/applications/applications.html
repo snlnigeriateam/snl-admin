@@ -1,0 +1,134 @@
+<h2 class="h2 center-text">{{round_name}} | Applications</h2>
+@if (pageLoading){
+<div>
+	<br><br>
+	<app-loading></app-loading>
+</div>
+}
+@if (loaded){
+<div class="{{viewing ? 'flex' : 'block'}}">
+	<div class="{{viewing ? 'apps-div' : 'applications-div'}}">
+		@for (application of applications; track application.a_id;){
+		<div class="dash-card" (click)="nav($index)">
+			<span class="application-content application-head">{{application.l_name}}, {{application.f_name}}
+				{{application.o_name}}</span>
+			<span class="application-content application-sub-head center-text italic">{{application.ref_id}}</span>
+			<span class="application-content application-foot"><span class="bold">Applied On</span>:
+				{{utilities.dateFn((application.applied_on), false)}}</span>
+		</div>
+		}
+	</div>
+	@if (viewing){
+	<div class="view-div">
+		<div class="right-text">
+			<button matIconButton aria-label="Close Icon button" (click)="viewing = false">
+				<mat-icon color="warn">close</mat-icon>
+			</button>
+		</div>
+		<div class="view-div-content">
+			<div class="btn-div center-text">
+				<button class="button p-btn hov" (click)="download()" matButton="filled" color="primary">Download
+					Application
+					Document</button>
+			</div>
+			<br><br>
+			<div class="view-head">{{selApp.l_name}}, {{selApp.f_name}} {{selApp.o_name}}</div>
+			<div class="view-content"><span class="bold">Position</span>: {{selApp.p_id}}</div>
+			<div class="view-content"><span class="bold">Applied On</span>: {{utilities.dateFn((selApp.applied_on),
+				false)}}</div>
+			<div class="view-content"><span class="bold">Email Address</span>: <span class="primary hov"
+					(click)="copyAdd()">{{selApp.email}}</span></div>
+			<div class="view-content"><span class="bold">Phone Number</span>: <span class="primary hov"
+					(click)="copyPhone()">{{selApp.phone}}</span></div>
+			<div class="view-content"><span class="bold">Reference Number</span>: {{selApp.ref_id}}</div>
+			<div class="view-content"><span class="bold">Address</span>: {{selApp.address}}</div>
+			<br><br>
+			@if (!selApp.invited && !selApp.rejected && !editing) {
+			<div class="flex">
+				<div class="btn-div center-text">
+					<button class="button s-btn hov" (click)="invite()" matButton="filled" color="primary">Invite to
+						Interview</button>
+				</div>
+				<div class="btn-div center-text">
+					<button class="button s-btn hov" (click)="reject()" matButton="filled" color="warn">Reject
+						Application</button>
+				</div>
+			</div>
+			}
+			@if(editing){
+			<div class="center-text">
+				<br><br>
+				<div class="right-text">
+					<button matIconButton aria-label="Close Icon button" (click)="stopEditing()">
+						<mat-icon color="warn">close</mat-icon>
+					</button>
+				</div>
+				@if (inviting) {
+				<div>
+					<mat-form-field class="m-input" appearance="fill" color="primary">
+						<mat-label>Interview Date</mat-label>
+						<input type="text" matInput [(ngModel)]="date">
+					</mat-form-field>
+					<br><br>
+					<mat-form-field class="m-input" appearance="fill" color="primary">
+						<mat-label>Interview Time (WAT)</mat-label>
+						<input type="text" matInput [(ngModel)]="time">
+					</mat-form-field>
+					<br><br>
+					<mat-form-field class="m-input" appearance="fill" color="primary">
+						<mat-label>Interview Platform</mat-label>
+						<mat-select [(value)]="platform">
+							<mat-option [value]="'Google Meet'">Google Meet</mat-option>
+							<mat-option [value]="'Zoom'">Zoom</mat-option>
+						</mat-select>
+					</mat-form-field>
+					<br><br>
+					<mat-form-field class="m-input" appearance="fill" color="primary">
+						<mat-label>Meeting Link</mat-label>
+						<input type="text" matInput [(ngModel)]="link">
+					</mat-form-field>
+					<br><br>
+					@if(!updateLoading){
+					<div class="btn-div center-text">
+						<button class="button p-btn hov" (click)="validateInvite()" matButton="filled"
+							color="primary">Invite to Interview</button>
+					</div>
+					}
+					@else {
+					<div>
+						<app-loading></app-loading>
+					</div>
+					}
+				</div>
+				}
+				@if(!inviting){
+				<div>
+					<mat-form-field class="m-input" appearance="fill" color="primary">
+						<mat-label>Provide a Reason for Rejection</mat-label>
+						<textarea type="text" matInput [(ngModel)]="reason"></textarea>
+						<mat-hint>The Email body is pre-filled. Only include essential information for why the Applicant
+							was rejected</mat-hint>
+					</mat-form-field>
+					<br><br><br><br>
+					@if(!updateLoading){
+					<div class="btn-div center-text">
+						<button class="button p-btn hov" (click)="validateRejection()" matButton="filled"
+							color="warn">Reject Application</button>
+					</div>
+					}
+					@else {
+					<div>
+						<app-loading></app-loading>
+					</div>
+					}
+				</div>
+				}
+			</div>
+			}
+
+		</div>
+	</div>
+	}
+
+</div>
+}

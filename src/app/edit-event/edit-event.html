@@ -1,0 +1,105 @@
+<div class="calendar-dialog">
+	<mat-dialog-content>
+		<mat-card-content class="card-content">
+			<div class="center form-div center-text">
+				<h3 class="primary">Create New Event</h3>
+				<mat-form-field class="m-input" appearance="fill" color="primary">
+					<mat-label>Title of Event*</mat-label>
+					<input type="text" matInput [(ngModel)]="data.event.name">
+				</mat-form-field>
+				<br><br>
+				<mat-form-field class="m-input" appearance="fill" color="primary">
+					<mat-label>Event Type*</mat-label>
+					<mat-select [(value)]="data.event.type">
+						@for (e_type of data.event_types; track e_type) {
+						<mat-option [value]="e_type">{{e_type}}</mat-option>
+						}
+					</mat-select>
+				</mat-form-field>
+				<br><br>
+				<mat-form-field class="m-input" appearance="fill" color="primary">
+					<mat-label>Start Date*</mat-label>
+					<input matInput [matDatepicker]="picker" [value]="data.event.start_date" [min]="min_date"
+						[max]="max_date" (dateChange)="setEventDate('input', $event, true)">
+					<mat-hint>DD/MM/YYYY</mat-hint>
+					<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+					<mat-datepicker #picker></mat-datepicker>
+				</mat-form-field>
+				<br><br>
+				<mat-form-field class="m-input" appearance="fill" color="primary">
+					<mat-label>End Date*</mat-label>
+					<input matInput [matDatepicker]="picker_two" [value]="data.event.end_date" [min]="min_date"
+						[max]="max_date" (dateChange)="setEventDate('input', $event, false)">
+					<mat-hint>DD/MM/YYYY</mat-hint>
+					<mat-datepicker-toggle matIconSuffix [for]="picker_two"></mat-datepicker-toggle>
+					<mat-datepicker #picker_two></mat-datepicker>
+				</mat-form-field>
+				<br><br>
+				<h5 class="center-text">
+					Applicable Groups*
+				</h5>
+				<mat-radio-group [(ngModel)]="event_invite_group">
+					@for (group of invite_groups; track group) {
+					<mat-radio-button [color]="'primary'" [value]="group">{{group.name}}</mat-radio-button>
+					}
+				</mat-radio-group>
+				<br><br>
+				@if (event_invite_group.value !== 'g') {
+				<div>
+					<mat-form-field class="m-input" appearance="fill" color="primary">
+						<mat-label>{{event_invite_group.name}}</mat-label>
+						@if(event_invite_group.value == 'd'){
+						<mat-select [(value)]="data.event.invitees" multiple>
+							@for (department of data.departments; track department) {
+							<mat-option [value]="department.d_id">{{department.name}}</mat-option>
+							}
+						</mat-select>
+					}
+						@if (event_invite_group.value === 'i') {
+						<mat-select [(value)]="data.event.invitees" multiple>
+							@for (admin of data.staff; track admin) {
+							<mat-option [value]="admin.a_id">{{admin.f_name}} {{admin.l_name}}</mat-option>
+							}
+						</mat-select>
+						}
+					</mat-form-field>
+					<br><br>
+				</div>
+				}
+
+				<mat-form-field class="m-input textarea" appearance="fill" color="primary">
+					<mat-label>Event Description</mat-label>
+					<textarea class="textarea" matInput [(ngModel)]="data.event.description"></textarea>
+				</mat-form-field>
+				<br><br>
+				@if (event_invite_group.value !== 'i') {
+				<mat-form-field class="m-input" appearance="fill" color="primary">
+					<mat-label>Applicable Access Levels*</mat-label>
+					<mat-select [(value)]="data.event.tiers" multiple>
+						@for (level of data.access_levels; track level) {
+						<mat-option [value]="level.tier">{{level.name}}</mat-option>
+						}
+					</mat-select>
+				</mat-form-field>
+				}
+				<div class="right-text m-input center">
+					<button mat-button color="primary" (click)="selectAllLevels()">Select All</button>
+				</div>
+				<br><br>
+				@if (!saveLoading) {
+				<button class="button p-btn hov" (click)="validate()" matButton="filled"
+					color="primary">Update Event</button>
+				}
+				@else {
+				<app-loading></app-loading>
+				}
+			</div>
+		</mat-card-content>
+	</mat-dialog-content>
+	<mat-dialog-actions>
+		<div class="mat-dialog-actions right-text">
+			<button (click)="close(false);" mat-button mat-dialog-close>Cancel</button>
+			<br><br>
+		</div>
+	</mat-dialog-actions>
+</div>

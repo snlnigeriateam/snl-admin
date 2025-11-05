@@ -1,0 +1,100 @@
+<div>
+	@if (!verifying) {
+	<div class="center-text center sect">
+		<h2 class="h2">Log In</h2>
+		<br><br>
+		<mat-form-field class="m-input" appearance="fill" color="primary">
+			<mat-label>Enter your Username</mat-label>
+			<input type="text" matInput [(ngModel)]="username" (keyup.enter)="searchForPasskeys()">
+		</mat-form-field>
+		<br><br>
+		@if(!usernameProvided && supportsPasskeys) {
+		<div>
+			@if(!passkeyLoading) {
+			<button class="button p-btn hov" (click)="searchForPasskeys()" matButton="filled"
+				color="primary">Next</button>
+			}
+			@else {
+			<app-loading></app-loading>
+			}
+		</div>
+		}
+		@if(usernameProvided || !supportsPasskeys) {
+		<div>
+			<mat-form-field class="m-input" appearance="fill">
+				<mat-label>Enter your Password</mat-label>
+				<input type="{{obscurePassword ? 'password' : 'text'}}" (keyup.enter)="login()" matInput
+					[(ngModel)]="password">
+				<button matIconButton matSuffix (click)="toggleObscurity()">
+					<mat-icon>{{obscurePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+				</button>
+			</mat-form-field>
+			<br><br>
+			@if(!loading){
+			<button class="button p-btn hov" (click)="login()" matButton="filled" color="primary">Log
+				In</button>
+			}
+			<br><br>
+			@if(!loading && supportsPasskeys && !hasPasskeys) {
+			<button class="button mini-button hov" (click)="login(true)" matButton="outlined" color="primary">
+				<mat-icon class="material-symbols-outlined">passkey</mat-icon>
+				Register a Passkey
+			</button>
+			}
+			@if(loading){
+			<app-loading></app-loading>
+			}
+		</div>
+		}
+	</div>
+	}
+	@if(verifying && !firstUse) {
+	<div class="center-text center sect">
+		<h2 class="h2">Multi-Factor Authentication</h2>
+		<br><br>
+		<mat-form-field class="m-input" appearance="fill">
+			<mat-label>Enter your MFA Code</mat-label>
+			<input type="string" matInput (keyup.enter)="verify()" [(ngModel)]="code" autofocus>
+		</mat-form-field>
+		<br><br>
+		@if(!loading) {
+		<button class="button p-btn hov" (click)="verify()" matButton="filled" color="primary">Verify
+			Code</button>
+		}
+		@else {
+		<app-loading></app-loading>
+		}
+	</div>
+	}
+	@if(verifying && firstUse) {
+	<div class="center-text center sect">
+		<h2 class="h2">Set up Authentication</h2>
+		<br><br>
+		<h3>
+			Scan the QR code with your preferred Authenticator App then fill in the code from your App in the field
+			provided below.
+		</h3>
+		<div class="blank">
+			<img src="{{qr_code}}" alt="QR Code" class="qrcode">
+		</div>
+		<div class="key-div">
+			Can't scan the code? Use this setup key:
+			<br>
+			<span (click)="copySetupKey()" class="hov primary">{{code_to_display}}</span>
+			<span class="primary">&nbsp;&nbsp;<mat-icon>content_copy</mat-icon></span>
+		</div>
+		<mat-form-field class="m-input" appearance="fill">
+			<mat-label>Enter the Code provided by your App</mat-label>
+			<input type="string" (keyup.enter)="validate()" matInput [(ngModel)]="code">
+		</mat-form-field>
+		<br><br>
+		@if(!loading) {
+		<button class="button p-btn hov" (click)="validate()" matButton="filled"
+			color="primary">Confirm</button>
+		}
+		@else {
+		<app-loading></app-loading>
+		}
+	</div>
+	}
+</div>

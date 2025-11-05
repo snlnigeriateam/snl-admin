@@ -1,0 +1,35 @@
+@if (!pageLoading){
+<div>
+	<h2 class="center-text">Available Trainings</h2>
+	@if(pending_trainings.length === 0){
+	<div class="center-text empty-div italic">
+		No Available Trainings
+	</div>
+	}
+	<div class="training-div">
+		@for (training of pending_trainings; track training.t_id){
+		<div class="dash-card" [routerLink]="['/trainings', 'take-training', training.t_id]">
+			<span class="training-head">{{training.title}}</span>
+			<br><br>
+			<div class="t-body">
+				<span class="t-head">Deadline: </span><span
+					class="t-content">{{this.utilities.dateMonthFn(training.deadline, false)}}</span>
+			</div>
+			<div class="t-body">
+				<span class="t-head">Status: </span><span
+					class="t-content {{training.progress.started ? 'success' : 'warn'}}">{{training.progress.started ?
+					"In Progress" : "Not Started"}}</span>
+			</div>
+			<br><br>
+			<!-- <span class="training-sub primary">{{training.recurring ? "Recurs " + training.annual ? "Every Year" : "Every Other Year" : "One-Time Training"}}</span> -->
+		</div>
+		}
+	</div>
+</div>
+}
+@else {
+<div>
+	<br><br>
+	<app-loading></app-loading>
+</div>
+}
