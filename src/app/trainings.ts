@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Api } from './api';
 import { Observable } from 'rxjs';
 import { TrainingAsset } from './interfaces';
+import { Delta } from 'quill';
 
 @Injectable({
 	providedIn: 'root'
@@ -62,7 +63,7 @@ export class Trainings {
 		return this.request.request('trainings/add-training-asset', 'post', fData);
 	}
 
-	addTrainingContent(t_id: string, content: string, heading: string, assets: Array<TrainingAsset>): Observable<any> {
+	addTrainingContent(t_id: string, content: Delta, heading: string, assets: Array<TrainingAsset>): Observable<any> {
 		return this.request.request('trainings/add-training-content', 'post', {
 			t_id,
 			content,
@@ -71,7 +72,7 @@ export class Trainings {
 		});
 	}
 
-	updateTrainingContent(t_id: string, c_id: string, content: string, heading: string, assets: Array<TrainingAsset>): Observable<any> {
+	updateTrainingContent(t_id: string, c_id: string, content: Delta, heading: string, assets: Array<TrainingAsset>): Observable<any> {
 		return this.request.request('trainings/update-training-content', 'post', {
 			t_id,
 			c_id,
@@ -131,7 +132,7 @@ export class Trainings {
 		});
 	}
 
-	updateTrainingInstructions(t_id: string, content: string): Observable<any> {
+	updateTrainingInstructions(t_id: string, content: Delta): Observable<any> {
 		return this.request.request('trainings/update-training-instructions', 'post', {
 			t_id,
 			content

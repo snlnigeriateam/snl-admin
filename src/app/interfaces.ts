@@ -1,3 +1,5 @@
+import { Delta } from "quill";
+
 export interface Property {
 	prop: any;
 	editable: boolean;
@@ -57,7 +59,7 @@ export interface TrainingAsset {
 export interface TrainingContent {
   c_id: string,
   heading: string,
-  content: string,
+  content: Delta,
   assets: Array<TrainingAsset>
 }
 

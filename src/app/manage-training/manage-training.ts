@@ -14,8 +14,9 @@ import { Loading } from '../loading/loading';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import "quill/dist/quill.snow.css";
 
-import Quill from 'quill';
+import Quill, { Delta } from 'quill';
 
 @Component({
 	selector: 'app-manage-training',
@@ -24,7 +25,7 @@ import Quill from 'quill';
 	styleUrl: './manage-training.scss',
 })
 export class ManageTraining {
-	@ViewChild('editor') editorContainer?: ElementRef;
+	editorContainer?: HTMLElement;
 
 	pageLoading: boolean = false;
 	pageLoaded: boolean = false;
@@ -37,6 +38,7 @@ export class ManageTraining {
 	editingSettings: boolean = false;
 	editingQuestion: boolean = false;
 	creatingQuestion: boolean = false;
+	contentLoading: boolean = false;
 
 	t_id: string;
 
@@ -46,12 +48,9 @@ export class ManageTraining {
 	questions: Array<TestQuestion> = [];
 
 	selectedContent?: TrainingContent;
-	activeContent: string = "";
+	activeContentIndex: number = -1;
 	activeHeading: string = "";
 	activeAssets: Array<TrainingAsset> = [];//assets available in active content
-
-	//external trainings
-	instructions: string = "";
 
 	//questions
 	defaultOptions: Array<QuestionOption> = [
@@ -99,6 +98,7 @@ export class ManageTraining {
 	deadline_warning: number = 10;
 	url: string = "";
 	quill?: Quill;
+	quill_instructions_editor?: Quill;
 
 	roles: Array<Role> = [
 		{
@@ -142,6 +142,28 @@ export class ManageTraining {
 		"December"
 	];
 
+	protected toolbarOptions = [
+		['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+		['blockquote', 'code-block'],
+		// ['link', 'image', 'video', 'formula'],
+		['link', 'image', 'formula'],
+
+		[{ 'header': 1 }, { 'header': 2 }],               // custom button values
+		[{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
+		[{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+		[{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+		// [{ 'direction': 'rtl' }],                         // text direction
+
+		[{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+		[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+		[{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+		[{ 'font': [] }],
+		[{ 'align': [] }],
+
+		['clean']                                         // remove formatting button
+	];
+
 	constructor(
 		private title: Title,
 		private router: Router,
@@ -182,7 +204,7 @@ export class ManageTraining {
 					this.training_month = this.training!.deadline.getMonth();
 
 					if (!this.training!.internal) {
-						this.instructions = this.training!.content.length > 0 ? this.training!.content[0].content : "";
+						this.setInstructions();
 					}
 
 					this.min_date.setMonth(this.min_date.getMonth() + 1);
@@ -194,13 +216,6 @@ export class ManageTraining {
 					this.available_assets = data.training_assets;
 
 					this.questions = data.questions;
-					// this.quill = new Quill('#editor', {
-					// 	theme: 'snow'
-					// });
-
-					this.quill = new Quill(this.editorContainer!.nativeElement, {
-						theme: 'snow'
-					});
 				}
 				else {
 					this.alerts.alert(data.reason, true);
@@ -213,21 +228,66 @@ export class ManageTraining {
 		});
 	}
 
+	setContent(empty: boolean, index?: number) {
+		this.contentLoading = true;
+		setTimeout(() => {
+			this.editorContainer = document.getElementById('quill-editor')!;
+			this.quill = new Quill(this.editorContainer!, {
+				theme: 'snow',
+				modules: {
+					toolbar: this.toolbarOptions
+				}
+			});
+
+			if (!empty) {
+				this.activeContentIndex = index!;
+				this.quill.setContents(this.training!.content[index!].content);
+			}
+			else {
+				this.activeContentIndex = this.training!.content.length;
+			}
+			this.contentLoading = false;
+		}, 1000);
+	}
+
+	setInstructions() {
+		this.contentLoading = true;
+		setTimeout(() => {
+			this.quill_instructions_editor = new Quill('#quill-instructions-editor', {
+				theme: 'snow',
+				modules: {
+					toolbar: this.toolbarOptions
+				}
+			});
+
+			if (this.training!.content.length > 0) {
+				this.quill_instructions_editor!.setContents(this.training!.content[0].content);
+			}
+			else {
+				this.quill_instructions_editor.setContents(new Delta());
+			}
+
+			this.contentLoading = false;
+		}, 1000);
+	}
+
 	editAction(create: boolean, c_id?: string, index?: number) {
 		if (create) {
 			this.editingContent = true;
 			this.creatingContent = true;
+			this.setContent(true);
 		}
 		else {
 			this.editingContent = true;
 			this.creatingContent = false;
-
 			this.selectedContent = this.training!.content[index!];
+
+			this.setContent(false, index!);
 		}
 	}
 
 	closeAction() {
-		this.activeContent = "";
+		this.quill!.setText("");
 		this.activeHeading = "";
 		this.activeAssets = [];
 		this.available_assets = JSON.parse(JSON.stringify(this.training_assets));
@@ -342,7 +402,6 @@ export class ManageTraining {
 		else {
 			let content = this.training!.content[index];
 
-			this.activeContent = content.content;
 			this.activeHeading = content.heading;
 			this.activeAssets = content.assets;
 			this.editAction(false, c_id, index);
@@ -369,10 +428,10 @@ export class ManageTraining {
 	validate() {
 		let wsp = /^\s*$/;
 
-		if ((!this.activeContent || wsp.test(this.activeContent)) && this.activeAssets.length === 0) {
+		if ((!this.quill!.getText() || wsp.test(this.quill!.getText())) && this.activeAssets.length === 0) {
 			this.alerts.alert("No Training Content Provided", true);
 		}
-		else if ((!this.activeContent || wsp.test(this.activeContent)) && this.activeAssets.length > 0) {
+		else if ((!this.quill!.getText() || this.quill!.getText()) && this.activeAssets.length > 0) {
 			this.alerts.alert(`No Training Content Provided. Please include instructions for the asset${this.activeAssets.length === 1 ? '' : 's'} provided`, true);
 		}
 		else if (!this.activeHeading || wsp.test(this.activeHeading)) {
@@ -393,7 +452,7 @@ export class ManageTraining {
 	saveContent() {
 		this.saveLoading = true;
 
-		this.tService.addTrainingContent(this.t_id, this.activeContent, this.activeHeading, this.activeAssets).subscribe({
+		this.tService.addTrainingContent(this.t_id, this.quill!.getContents(), this.activeHeading, this.activeAssets).subscribe({
 			next: (data) => {
 				this.saveLoading = false;
 				if (data.success) {
@@ -416,13 +475,13 @@ export class ManageTraining {
 	}
 
 	saveInstructions() {
-		if (!this.instructions || this.instructions.trim().length === 0) {
+		if (!this.quill_instructions_editor!.getText() || this.quill_instructions_editor!.getText().trim().length === 0) {
 			this.alerts.alert("Please provide instructions for this Training", true);
 		}
 		else {
 			this.saveLoading = true;
 
-			this.tService.updateTrainingInstructions(this.t_id, this.instructions).subscribe({
+			this.tService.updateTrainingInstructions(this.t_id, this.quill_instructions_editor!.getContents()).subscribe({
 				next: (data) => {
 					this.saveLoading = false;
 					if (data.success) {
@@ -430,13 +489,13 @@ export class ManageTraining {
 						if (this.training!.content.length === 0) {
 							this.training!.content.push({
 								c_id: "",
-								content: this.instructions,
+								content: this.quill_instructions_editor!.getContents(),
 								heading: "",
 								assets: []
-							})
+							});
 						}
 						else {
-							this.training!.content[0].content = this.instructions;
+							this.training!.content[0].content = this.quill_instructions_editor!.getContents();
 						}
 					}
 					else if (data.login) {
@@ -457,7 +516,7 @@ export class ManageTraining {
 	updateContent() {
 		this.saveLoading = true;
 
-		this.tService.updateTrainingContent(this.t_id, this.selectedContent!.c_id, this.activeContent, this.activeHeading, this.activeAssets).subscribe({
+		this.tService.updateTrainingContent(this.t_id, this.training!.content[this.activeContentIndex].c_id, this.quill!.getContents(), this.activeHeading, this.activeAssets).subscribe({
 			next: (data) => {
 				this.saveLoading = false;
 				if (data.success) {

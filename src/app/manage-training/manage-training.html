@@ -27,13 +27,18 @@
 				</button>
 				}
 			</div>
-			<!-- @if(editingContent) { -->
+			@if(editingContent) {
 			<div class="content-editor-div center-text">
 				<mat-form-field class="h-input" appearance="fill" color="primary">
 					<mat-label>Content Heading</mat-label>
 					<input type="text" matInput [(ngModel)]="activeHeading">
 				</mat-form-field>
-				<div #editor></div>
+				@if(contentLoading){
+					<app-loading></app-loading>
+				}
+				<div class="quill-div">
+					<div id="quill-editor" class="center"></div>
+				</div>
 				<br><br>
 				<div>
 					@if(!saveLoading){
@@ -45,7 +50,7 @@
 					}
 				</div>
 			</div>
-			<!-- } -->
+			}
 			@if(!editingContent && training!.content.length === 0) {
 			<div class="center-text italic">
 				<br>
@@ -79,7 +84,12 @@
 		<div class="content-div">
 			<h3 class="center-text primary">Training Instructions</h3>
 			<div class="content-editor-div center-text">
-				<quill-editor [(ngModel)]="instructions"></quill-editor>
+				@if(contentLoading){
+					<app-loading></app-loading>
+				}
+				<div class="quill-div">
+					<div id="quill-instructions-editor" class="center"></div>
+				</div>
 				<br><br>
 				<div>
 					@if(!saveLoading){

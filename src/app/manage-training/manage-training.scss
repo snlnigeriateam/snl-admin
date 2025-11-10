@@ -28,9 +28,13 @@
     padding-right: 50px;
 }
 
-quill-editor {
+#quill-editor, #quill-instructions-editor {
     height: 50vh;
+}
+
+.quill-div {
     width: 80%;
+    margin: 0 auto;
 }
 
 //training content
