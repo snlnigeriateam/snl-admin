@@ -55,6 +55,10 @@ mat-toolbar.mini-navbar {
     height: 125px;
 }
 
+:host-context(.dark-theme) .mat-toolbar {
+    background-color: unset;
+}
+
 .s1 {
     display: flex;
     justify-content: flex-start;

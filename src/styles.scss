@@ -14,12 +14,9 @@
 
 html {
 	color-scheme: light dark;
-	@include mat.theme((
-		color: (
-			primary: snl-theme.$primary-palette,
-			tertiary: snl-theme.$tertiary-palette,
-		)
-	));
+	@include mat.theme((color: (primary: snl-theme.$primary-palette,
+				tertiary: snl-theme.$tertiary-palette,
+			)));
 }
 
 html,
@@ -50,10 +47,9 @@ $danger: #ff0000;
 $links: #ce423a;
 
 :root {
-	@include mat.icon-overrides((
-		color: $primary,
+	@include mat.icon-overrides((color: $primary,
 		));
-	@include mat.form-field-overrides((filled-container-color: #e9e9e9,
+	@include mat.form-field-overrides((filled-container-color: light-dark(#e9e9e9, #070303),
 		));
 }
 

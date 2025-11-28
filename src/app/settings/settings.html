@@ -155,6 +155,33 @@
 			</div>
 			}
 		</mat-tab>
+		<mat-tab label="Passkeys">
+			@if(pageLoaded){
+			<div class="center-text center sect">
+				<h2 class="h2">Settings | Review Passkeys</h2>
+				<br><br>
+				<div class="grid">
+					@for(passkey of person.passkeys.prop; track passkey){
+						<mat-card>
+							<h4>
+								{{passkey.device}}
+							</h4>
+							<mat-card-actions align="end">
+								<button matButton (click)="removePasskey($index)">Remove Passkey</button>
+							</mat-card-actions>
+						</mat-card>
+					}
+				</div>
+				<br><br><br>
+				@if(!updateLoading){
+				<button class="button p-btn hov" (click)="resetMFA()" matButton="filled" color="primary">Reset</button>
+				}
+				@else {
+				<app-loading></app-loading>
+				}
+			</div>
+			}
+		</mat-tab>
 	</mat-tab-group>
 	<div class="margin">
 		@if(pageLoading){

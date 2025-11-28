@@ -23,6 +23,10 @@
     background-color: variables.$light;
 }
 
+:host-context(.dark-theme) .blank {
+    background-color: unset;
+}
+
 .h2 {
     font-size: 32px;
 }

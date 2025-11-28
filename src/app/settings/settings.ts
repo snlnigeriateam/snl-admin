@@ -13,6 +13,7 @@ import { Loading } from '../loading/loading';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCardModule } from '@angular/material/card';
 
 interface Person {
 	f_name: Property;
@@ -22,13 +23,14 @@ interface Person {
 	phone: Property;
 	p_email: Property;
 	c_email: Property;
+	passkeys: Property;
 	role: Property;
 	uri: Property;
 }
 
 @Component({
 	selector: 'app-settings',
-	imports: [ImageCropperComponent, MatIconModule, MatTabsModule, MatFormFieldModule, FormsModule, MatInputModule, MatProgressSpinnerModule, Loading, MatButtonModule, MatSlideToggleModule],
+	imports: [ImageCropperComponent, MatIconModule, MatTabsModule, MatFormFieldModule, FormsModule, MatInputModule, MatProgressSpinnerModule, Loading, MatButtonModule, MatSlideToggleModule, MatCardModule],
 	templateUrl: './settings.html',
 	styleUrl: './settings.scss',
 })
@@ -108,6 +110,10 @@ export class Settings {
 							prop: a_data.uri,
 							editable: true,
 						},
+						passkeys: {
+							prop: a_data.passkeys,
+							editable: true
+						}
 					}
 
 					this.c_email_preferred = this.person.email.prop === this.person.c_email.prop;
@@ -327,5 +333,9 @@ export class Settings {
 	}
 	loadImageFailed() {
 		// show message
+	}
+
+	removePasskey(index: number){
+		this.alerts.alert("Feature Coming Soon", false);
 	}
 }
